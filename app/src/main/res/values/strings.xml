@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Memerize</string>
+    <string name="loading_failed">Failed to load</string>
+    <string name="placeholder_result">Placeholder result text</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading</string>
+    <string name="meme_photo">Meme Photo</string>
+    <string name="settings">Settings</string>
+</resources>
