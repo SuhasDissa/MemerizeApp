@@ -7,6 +7,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.backend.ImageViewModel
 import app.suhasdissa.memerize.ui.screens.*
 
 @Composable
@@ -39,8 +40,20 @@ fun AppNavHost(
         composable(route = MemeView.route) {
             val memeViewModel: ImageViewModel = viewModel()
             MemeViewScreen(
-                memeUiState = memeViewModel.memeUiState
+                memeUiState = memeViewModel.memeUiState,
+                onClickMeme = {url ->
+                    navController.navigateToMeme(url)
+                }
             )
+        }
+        composable(
+            route = OneMemeView.routeWithArgs,
+            arguments = OneMemeView.arguments
+        ) {
+                val imgurl = it.arguments?.getString("url")
+            if (imgurl != null) {
+                MemeScreen(imgurl)
+            }
         }
     }
 }
@@ -58,3 +71,7 @@ fun NavHostController.navigateSingleTopTo(route: String) =
         launchSingleTop = true
         restoreState = true
     }
+
+private fun NavHostController.navigateToMeme(url: String) {
+    this.navigateSingleTopTo("${OneMemeView.route}/$url")
+}

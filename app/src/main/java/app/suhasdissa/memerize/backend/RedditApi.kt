@@ -8,12 +8,11 @@ import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
-private val BASE_URL = "https://www.reddit.com/"
+private const val BASE_URL = "https://www.reddit.com/"
 @OptIn(ExperimentalSerializationApi::class)
 private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .addConverterFactory(Json{ignoreUnknownKeys = true}.asConverterFactory("application/json".toMediaType()))
-    //.addConverterFactory(ScalarsConverterFactory.create())
     .build()
 
 interface ApiService{
@@ -21,7 +20,7 @@ interface ApiService{
     @GET("r/tkasylum/top/.json")
     suspend fun getPhotos(): Reddit
 }
-object MemeApi{
+object RedditApi{
     val retrofitService: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }

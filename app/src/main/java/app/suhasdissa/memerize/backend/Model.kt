@@ -1,8 +1,7 @@
 package app.suhasdissa.memerize.backend
 
-import androidx.compose.ui.res.stringResource
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Serializable
 data class Reddit(

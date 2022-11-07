@@ -12,7 +12,8 @@ fun MemeWebViewScreen(modifier: Modifier = Modifier) {
     AndroidView(modifier = Modifier.fillMaxSize(), factory = {
         WebView(it).apply {
             webViewClient = WebViewClient()
-            loadUrl("https://memerize.netlify.app/memes_new.html")
+            loadUrl("https://memerize.glitch.me/")
+            settings.javaScriptEnabled = true
         }
     })
 }

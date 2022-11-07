@@ -18,13 +18,16 @@ fun HomeScreen(modifier: Modifier = Modifier,
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        Column() {
+        Column {
             Button(onClick = {onClickMemeView() }) {
-                Text(text = "MemeView")
+                Text(text = "Memes")
             }
             Button(onClick = {onClickMemeWebView() }) {
-                Text(text = "MemeWebView")
+                Text(text = "Meme Videos")
             }
+            /*Button(onClick = {onClickMemeWebView() }) {
+                Text(text = "Funny Videos")
+            }*/
         }
     }
 }
