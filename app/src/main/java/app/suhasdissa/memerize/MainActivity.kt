@@ -41,17 +41,24 @@ fun MemerizeApp(modifier: Modifier = Modifier) {
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text(stringResource(R.string.app_name)) },actions = {
-            IconButton(onClick = { navController.navigateSingleTopTo(Settings.route) }) {
-                Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.settings))
-            }
-        }) }
-    ) {innerPadding->
+        topBar = {
+            TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
+                IconButton(onClick = { navController.navigateTo(Settings.route) }) {
+                    Icon(
+                        Icons.Filled.Settings,
+                        contentDescription = stringResource(R.string.settings)
+                    )
+                }
+            })
+        }
+    ) { innerPadding ->
         Surface(
-            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
             color = MaterialTheme.colorScheme.background
         ) {
-            AppNavHost(navController = navController,modifier=Modifier)
+            AppNavHost(navController = navController, modifier = Modifier)
         }
     }
 }

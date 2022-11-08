@@ -8,6 +8,7 @@ data class Reddit(
     @SerialName("data") var data: Data
 
 )
+
 @Serializable
 data class Data(
     @SerialName("children") var children: ArrayList<Children>
@@ -20,7 +21,9 @@ data class Children(
 
 @Serializable
 data class ChildData(
-    @SerialName("url") var url: String
+    @SerialName("url") var url: String,
+    @SerialName("permalink") var permalink: String? = null,
+    @SerialName("preview") var preview: Preview? = Preview()
     /*@SerialName("title") var title: String? = null,
     @SerialName("preview") var preview: Preview? = Preview(),
     @SerialName("thumbnail") var thumbnail: String? = null,
@@ -30,31 +33,18 @@ data class ChildData(
     @SerialName("is_video") var isVideo: Boolean? = null*/
 
 )
-/*
-@Serializable
-data class Source(
-    @SerialName("url") var url: String? = null,
-    @SerialName("width") var width: Int? = null,
-    @SerialName("height") var height: Int? = null
-
-)
 
 @Serializable
 data class Preview(
-    @SerialName("images") var images: ArrayList<Images> = arrayListOf(),
-    @SerialName("enabled") var enabled: Boolean? = null
-
+    @SerialName("images") var images: ArrayList<Images> = arrayListOf()
 )
 
 @Serializable
 data class Images(
-    @SerialName("source") var source: Source? = Source(),
-    @SerialName("resolutions") var resolutions: ArrayList<Resolutions> = arrayListOf()
-
+    @SerialName("source") var source: Source? = Source()
 )
 
 @Serializable
-data class Resolutions(
-    @SerialName("url") var url: String? = null,
+data class Source(
+    @SerialName("url") var url: String? = null
 )
-*/

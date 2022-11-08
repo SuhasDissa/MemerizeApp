@@ -3,9 +3,8 @@ package app.suhasdissa.memerize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.suhasdissa.memerize.backend.ImageViewModel
 import app.suhasdissa.memerize.ui.screens.*
@@ -23,26 +22,23 @@ fun AppNavHost(
         composable(route = Home.route) {
             HomeScreen(
                 onClickMemeView = {
-                    navController.navigateSingleTopTo(MemeView.route)
-                },
-                onClickMemeWebView = {
-                    navController.navigateSingleTopTo(MemeWebView.route)
+                    navController.navigateTo(MemeView.route)
                 }
             )
         }
-        composable(route = MemeWebView.route) {
-            MemeWebViewScreen()
-        }
-
         composable(route = Settings.route) {
             SettingsScreen()
         }
         composable(route = MemeView.route) {
             val memeViewModel: ImageViewModel = viewModel()
             MemeViewScreen(
+                refresh = memeViewModel::getMemePhotos,
                 memeUiState = memeViewModel.memeUiState,
-                onClickMeme = {url ->
+                onClickMeme = { url ->
                     navController.navigateToMeme(url)
+                },
+                onClickVideo = { url ->
+                    navController.navigateToVideo(url)
                 }
             )
         }
@@ -50,28 +46,37 @@ fun AppNavHost(
             route = OneMemeView.routeWithArgs,
             arguments = OneMemeView.arguments
         ) {
-                val imgurl = it.arguments?.getString("url")
+            val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
                 MemeScreen(imgurl)
+            }
+        }
+        composable(
+            route =WebVideoPlayer.routeWithArgs,
+            arguments = WebVideoPlayer.arguments
+        ) {
+            val url = it.arguments?.getString("url")
+            if (url != null) {
+                WebVideoScreen(url)
             }
         }
     }
 }
 
-fun NavHostController.navigateSingleTopTo(route: String) =
+fun NavHostController.navigateTo(route: String) =
     this.navigate(route) {
-        /* Pop up to the start destination of the graph to
-         avoid building up a large stack of destinations
-         on the back stack as users select items*/
-        popUpTo(
-            this@navigateSingleTopTo.graph.findStartDestination().id
+        /*popUpTo(
+            this@navigateTo.graph.findStartDestination().id
         ) {
             saveState = true
-        }
+        }*/
         launchSingleTop = true
         restoreState = true
     }
 
 private fun NavHostController.navigateToMeme(url: String) {
-    this.navigateSingleTopTo("${OneMemeView.route}/$url")
+    this.navigateTo("${OneMemeView.route}/$url")
+}
+private fun NavHostController.navigateToVideo(url: String) {
+    this.navigateTo("${WebVideoPlayer.route}/$url")
 }

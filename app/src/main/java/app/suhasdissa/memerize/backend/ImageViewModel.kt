@@ -19,14 +19,23 @@ class ImageViewModel : ViewModel() {
         private set
 
     init {
-        getMemePhotos()
+        getMemePhotos("tkasylum", "today")
     }
 
-    private fun getMemePhotos() {
+    fun getMemePhotos(
+        subreddit: String,
+        time: String
+    ) {
         viewModelScope.launch {
+            memeUiState = UiState.Loading
             memeUiState = try {
-                UiState.Success(RedditApi.retrofitService.getPhotos().data.children)
-            }catch (e: Exception){
+                UiState.Success(
+                    RedditApi.retrofitService.getRedditData(
+                        subreddit,
+                        time
+                    ).data.children
+                )
+            } catch (e: Exception) {
                 UiState.Error(e.toString())
             }
         }

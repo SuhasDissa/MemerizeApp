@@ -11,8 +11,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier,
-    onClickMemeView:() -> Unit = {},
-    onClickMemeWebView:() -> Unit = {}
+    onClickMemeView:() -> Unit = {}
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -21,9 +20,6 @@ fun HomeScreen(modifier: Modifier = Modifier,
         Column {
             Button(onClick = {onClickMemeView() }) {
                 Text(text = "Memes")
-            }
-            Button(onClick = {onClickMemeWebView() }) {
-                Text(text = "Meme Videos")
             }
             /*Button(onClick = {onClickMemeWebView() }) {
                 Text(text = "Funny Videos")

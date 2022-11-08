@@ -11,10 +11,6 @@ object Home : Destination {
     override val route = "home"
 }
 
-object MemeWebView : Destination {
-    override val route = "memewebview"
-}
-
 object MemeView : Destination {
     override val route = "memeview"
 }
@@ -25,6 +21,13 @@ object Settings : Destination {
 
 object OneMemeView : Destination {
     override val route = "memescreen"
+    val routeWithArgs = "$route/{url}"
+    val arguments = listOf(
+        navArgument("url") { type = NavType.StringType }
+    )
+}
+object WebVideoPlayer : Destination {
+    override val route = "webvideo"
     val routeWithArgs = "$route/{url}"
     val arguments = listOf(
         navArgument("url") { type = NavType.StringType }

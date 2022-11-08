@@ -16,6 +16,6 @@ fun SettingsScreen(modifier: Modifier = Modifier,
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-                Text(text = "Settings Screen (Empty for now)")
+                Text(text = "No settings")
     }
 }
