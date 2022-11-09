@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Reddit(
     @SerialName("data") var data: Data
-
 )
 
 @Serializable

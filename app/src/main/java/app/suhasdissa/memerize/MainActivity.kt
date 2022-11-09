@@ -6,14 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -44,10 +43,7 @@ fun MemerizeApp(modifier: Modifier = Modifier) {
         topBar = {
             TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
                 IconButton(onClick = { navController.navigateTo(Settings.route) }) {
-                    Icon(
-                        Icons.Filled.Settings,
-                        contentDescription = stringResource(R.string.settings)
-                    )
+                    Icon(painter = painterResource(R.drawable.ic_settings), contentDescription = "Settings")
                 }
             })
         }

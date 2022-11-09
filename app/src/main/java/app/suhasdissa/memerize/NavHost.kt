@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.suhasdissa.memerize.backend.ImageViewModel
+import app.suhasdissa.memerize.ui.components.PhotoView
+import app.suhasdissa.memerize.ui.components.WebViewer
 import app.suhasdissa.memerize.ui.screens.*
 
 @Composable
@@ -48,7 +50,7 @@ fun AppNavHost(
         ) {
             val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
-                MemeScreen(imgurl)
+                PhotoView(imgurl)
             }
         }
         composable(
@@ -57,7 +59,7 @@ fun AppNavHost(
         ) {
             val url = it.arguments?.getString("url")
             if (url != null) {
-                WebVideoScreen(url)
+                WebViewer(url)
             }
         }
     }
