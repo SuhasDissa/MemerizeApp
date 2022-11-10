@@ -13,8 +13,8 @@ android {
         applicationId "app.suhasdissa.memerize"
         minSdk 29
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 11
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -24,11 +24,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -72,7 +73,7 @@ dependencies {
     //Material
     implementation 'androidx.compose.material3:material3:1.1.0-alpha01'
     //implementation "com.google.android.material:material:1.7.0"
-    implementation "androidx.compose.material:material:$compose_version"
+    //implementation "androidx.compose.material:material:$compose_version"
 
     implementation "com.google.android.exoplayer:exoplayer:2.18.1"
   //  implementation 'com.google.firebase:firebase-bom:31.0.2'

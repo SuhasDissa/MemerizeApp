@@ -10,9 +10,7 @@
 <div align="center">
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/SuhasDissa/MemerizeApp?include_prereleases)
-
 ![GitHub](https://img.shields.io/github/license/Suhasdissa/MemerizeApp)
-
 ![GitHub Repo stars](https://img.shields.io/github/stars/Suhasdissa/memerizeapp)
 
 </div>

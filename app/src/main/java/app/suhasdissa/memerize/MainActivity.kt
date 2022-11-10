@@ -7,14 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import app.suhasdissa.memerize.ui.theme.MemerizeTheme
 
@@ -34,17 +30,23 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MemerizeApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val currentBackStack by navController.currentBackStackEntryAsState()
-    val currentDestination = currentBackStack?.destination
-    val currentScreen: Destination by remember { mutableStateOf(Home) }
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
+            var showMenu by remember { mutableStateOf(false) }
             TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
-                IconButton(onClick = { navController.navigateTo(Settings.route) }) {
-                    Icon(painter = painterResource(R.drawable.ic_settings), contentDescription = "Settings")
+                IconButton(onClick = { showMenu = !showMenu }) {
+                    Icon(painter = painterResource(R.drawable.ic_more_vert), contentDescription = "More")
                 }
+                DropdownMenu(
+                    expanded = showMenu,
+                    onDismissRequest = { showMenu = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Settings") },
+                        onClick = { navController.navigateTo(Settings.route) })
+                }
+
             })
         }
     ) { innerPadding ->

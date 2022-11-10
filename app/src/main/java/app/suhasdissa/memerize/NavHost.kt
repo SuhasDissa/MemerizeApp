@@ -7,9 +7,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.suhasdissa.memerize.backend.ImageViewModel
+import app.suhasdissa.memerize.backend.MemerizeViewModel
 import app.suhasdissa.memerize.ui.components.PhotoView
 import app.suhasdissa.memerize.ui.components.WebViewer
-import app.suhasdissa.memerize.ui.screens.*
+import app.suhasdissa.memerize.ui.components.VideoView
+import app.suhasdissa.memerize.ui.screens.FunnyVideoScreen
+import app.suhasdissa.memerize.ui.screens.HomeScreen
+import app.suhasdissa.memerize.ui.screens.MemeViewScreen
+import app.suhasdissa.memerize.ui.screens.SettingsScreen
 
 @Composable
 fun AppNavHost(
@@ -25,6 +30,9 @@ fun AppNavHost(
             HomeScreen(
                 onClickMemeView = {
                     navController.navigateTo(MemeView.route)
+                },
+                onClickFunnyVideo ={
+                    navController.navigateTo(FunnyVideoView.route)
                 }
             )
         }
@@ -41,6 +49,15 @@ fun AppNavHost(
                 },
                 onClickVideo = { url ->
                     navController.navigateToVideo(url)
+                }
+            )
+        }
+        composable(route = FunnyVideoView.route) {
+            val memerizeViewModel: MemerizeViewModel = viewModel()
+            FunnyVideoScreen(
+                memerizeUiState = memerizeViewModel.memerizeUiState,
+                onClickTextCard = { url ->
+                    navController.navigateToVideoPlayer(url)
                 }
             )
         }
@@ -62,6 +79,15 @@ fun AppNavHost(
                 WebViewer(url)
             }
         }
+        composable(
+            route =VideoPlayer.routeWithArgs,
+            arguments = VideoPlayer.arguments
+        ) {
+            val url = it.arguments?.getString("url")
+            if (url != null) {
+                VideoView(url)
+            }
+        }
     }
 }
 
@@ -81,4 +107,7 @@ private fun NavHostController.navigateToMeme(url: String) {
 }
 private fun NavHostController.navigateToVideo(url: String) {
     this.navigateTo("${WebVideoPlayer.route}/$url")
+}
+private fun NavHostController.navigateToVideoPlayer(url: String) {
+    this.navigateTo("${VideoPlayer.route}/$url")
 }

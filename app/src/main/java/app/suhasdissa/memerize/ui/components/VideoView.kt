@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +18,7 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Composable
-private fun VideoView(url: String, modifier: Modifier = Modifier) {
+fun VideoView(url: String, modifier: Modifier = Modifier) {
     val decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8.toString())
     Column(
         modifier.fillMaxSize(),
@@ -28,18 +29,22 @@ private fun VideoView(url: String, modifier: Modifier = Modifier) {
         val mContext = LocalContext.current
         val mExoPlayer = remember(mContext) {
             ExoPlayer.Builder(mContext).build().apply {
-                val mediaItem = MediaItem.Builder()
-                    .setUri(Uri.parse(decodedUrl))
-                    .build()
+                val mediaItem = MediaItem.Builder().setUri(Uri.parse(decodedUrl)).build()
                 setMediaItem(mediaItem)
                 playWhenReady = true
                 prepare()
             }
         }
-        AndroidView(factory = { context ->
-            StyledPlayerView(context).apply {
-                player = mExoPlayer
+        DisposableEffect(
+            AndroidView(factory = { context ->
+                StyledPlayerView(context).apply {
+                    player = mExoPlayer
+                }
+            })
+        ) {
+            onDispose {
+                mExoPlayer.release()
             }
-        })
+        }
     }
 }

@@ -18,7 +18,12 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun CardImage(modifier:Modifier =Modifier, clickAction:(url:String)->Unit,clickUrl:String,photoUrl:String){
+fun CardImage(
+    modifier: Modifier = Modifier,
+    clickAction: (url: String) -> Unit,
+    clickUrl: String,
+    photoUrl: String
+) {
     ElevatedCard(modifier = modifier
         .padding(4.dp)
         .fillMaxWidth()
