@@ -1,6 +1,5 @@
 package app.suhasdissa.memerize.ui.screens
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -13,28 +12,46 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onClickMemeView: () -> Unit,
-    onClickFunnyVideo: () -> Unit
+    onClickFunnyVideo: () -> Unit,
+    onClickFeed: () -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
         ElevatedCard(
-            onClick = { onClickMemeView() },
-            modifier
-                .fillMaxWidth(.98f)
+            onClick = { onClickMemeView() }, modifier.fillMaxWidth(.98f)
 
         ) {
-            Box(modifier.padding(horizontal = 10.dp ,vertical = 6.dp).height(IntrinsicSize.Min))  {
+            Box(
+                modifier
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                    .height(IntrinsicSize.Min)
+            ) {
                 Text(text = "Memes", style = MaterialTheme.typography.headlineMedium)
             }
         }
 
         ElevatedCard(
-            onClick = { onClickFunnyVideo() },
-            modifier
-                .fillMaxWidth(.98f)
+            onClick = { onClickFunnyVideo() }, modifier.fillMaxWidth(.98f)
 
         ) {
-            Box(modifier.padding(horizontal = 10.dp ,vertical = 6.dp).height(IntrinsicSize.Min))  {
+            Box(
+                modifier
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                    .height(IntrinsicSize.Min)
+            ) {
                 Text(text = "Funny Videos", style = MaterialTheme.typography.headlineMedium)
+            }
+        }
+
+        ElevatedCard(
+            onClick = { onClickFeed() }, modifier.fillMaxWidth(.98f)
+
+        ) {
+            Box(
+                modifier
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                    .height(IntrinsicSize.Min)
+            ) {
+                Text(text = "Funny Posts", style = MaterialTheme.typography.headlineMedium)
             }
         }
     }

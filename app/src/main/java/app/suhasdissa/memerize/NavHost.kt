@@ -6,15 +6,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.backend.FeedViewModel
 import app.suhasdissa.memerize.backend.ImageViewModel
-import app.suhasdissa.memerize.backend.MemerizeViewModel
+import app.suhasdissa.memerize.backend.VideoViewModel
 import app.suhasdissa.memerize.ui.components.PhotoView
-import app.suhasdissa.memerize.ui.components.WebViewer
 import app.suhasdissa.memerize.ui.components.VideoView
-import app.suhasdissa.memerize.ui.screens.FunnyVideoScreen
-import app.suhasdissa.memerize.ui.screens.HomeScreen
-import app.suhasdissa.memerize.ui.screens.MemeViewScreen
-import app.suhasdissa.memerize.ui.screens.SettingsScreen
+import app.suhasdissa.memerize.ui.components.WebViewer
+import app.suhasdissa.memerize.ui.screens.*
 
 @Composable
 fun AppNavHost(
@@ -31,8 +29,11 @@ fun AppNavHost(
                 onClickMemeView = {
                     navController.navigateTo(MemeView.route)
                 },
-                onClickFunnyVideo ={
+                onClickFunnyVideo = {
                     navController.navigateTo(FunnyVideoView.route)
+                },
+                onClickFeed = {
+                    navController.navigateTo(FeedView.route)
                 }
             )
         }
@@ -53,12 +54,18 @@ fun AppNavHost(
             )
         }
         composable(route = FunnyVideoView.route) {
-            val memerizeViewModel: MemerizeViewModel = viewModel()
+            val videoViewModel: VideoViewModel = viewModel()
             FunnyVideoScreen(
-                memerizeUiState = memerizeViewModel.memerizeUiState,
+                funnyVideoState = videoViewModel.state,
                 onClickTextCard = { url ->
                     navController.navigateToVideoPlayer(url)
                 }
+            )
+        }
+        composable(route = FeedView.route) {
+            val feedViewModel: FeedViewModel = viewModel()
+            FeedScreen(
+                postsState = feedViewModel.state
             )
         }
         composable(
@@ -71,7 +78,7 @@ fun AppNavHost(
             }
         }
         composable(
-            route =WebVideoPlayer.routeWithArgs,
+            route = WebVideoPlayer.routeWithArgs,
             arguments = WebVideoPlayer.arguments
         ) {
             val url = it.arguments?.getString("url")
@@ -80,7 +87,7 @@ fun AppNavHost(
             }
         }
         composable(
-            route =VideoPlayer.routeWithArgs,
+            route = VideoPlayer.routeWithArgs,
             arguments = VideoPlayer.arguments
         ) {
             val url = it.arguments?.getString("url")
@@ -105,9 +112,11 @@ fun NavHostController.navigateTo(route: String) =
 private fun NavHostController.navigateToMeme(url: String) {
     this.navigateTo("${OneMemeView.route}/$url")
 }
+
 private fun NavHostController.navigateToVideo(url: String) {
     this.navigateTo("${WebVideoPlayer.route}/$url")
 }
+
 private fun NavHostController.navigateToVideoPlayer(url: String) {
     this.navigateTo("${VideoPlayer.route}/$url")
 }

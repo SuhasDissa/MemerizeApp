@@ -7,30 +7,57 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-sealed interface MemerizeUiState{
-    data class Success(val children: List<MemerizeModel>) : MemerizeUiState
-    data class Error(val error: String) : MemerizeUiState
-    object Loading : MemerizeUiState
+sealed interface FunnyVideoState {
+    data class Success(val children: List<MemerizeModel>) : FunnyVideoState
+    data class Error(val error: String) : FunnyVideoState
+    object Loading : FunnyVideoState
 }
 
-class MemerizeViewModel : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
-    var memerizeUiState: MemerizeUiState by mutableStateOf(MemerizeUiState.Loading)
+class VideoViewModel : ViewModel() {
+    var state: FunnyVideoState by mutableStateOf(FunnyVideoState.Loading)
         private set
 
     init {
-        getData()
+        getData("videos")
     }
 
-    fun getData() {
+    fun getData(collection: String) {
         viewModelScope.launch {
-            memerizeUiState = MemerizeUiState.Loading
-            memerizeUiState = try {
-                MemerizeUiState.Success(
-                    MemerizeApi.retrofitService.getData()
+            state = FunnyVideoState.Loading
+            state = try {
+                FunnyVideoState.Success(
+                    MemerizeApi.retrofitService.getData(collection)
                 )
             } catch (e: Exception) {
-                MemerizeUiState.Error(e.toString())
+                FunnyVideoState.Error(e.toString())
+            }
+        }
+    }
+}
+
+sealed interface PostsState {
+    data class Success(val children: List<MemerizeModel>) : PostsState
+    data class Error(val error: String) : PostsState
+    object Loading : PostsState
+}
+
+class FeedViewModel : ViewModel() {
+    var state: PostsState by mutableStateOf(PostsState.Loading)
+        private set
+
+    init {
+        getData("posts")
+    }
+
+    fun getData(collection: String) {
+        viewModelScope.launch {
+            state = PostsState.Loading
+            state = try {
+                PostsState.Success(
+                    MemerizeApi.retrofitService.getData(collection)
+                )
+            } catch (e: Exception) {
+                PostsState.Error(e.toString())
             }
         }
     }
