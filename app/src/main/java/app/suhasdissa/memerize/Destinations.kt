@@ -24,6 +24,10 @@ object Settings : Destination {
     override val route = "settings"
 }
 
+object About : Destination {
+    override val route = "about"
+}
+
 object OneMemeView : Destination {
     override val route = "memescreen"
     val routeWithArgs = "$route/{url}"

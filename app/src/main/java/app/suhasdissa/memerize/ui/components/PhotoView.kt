@@ -1,6 +1,5 @@
 package app.suhasdissa.memerize.ui.components
 
-import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -14,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.ui.utils.DownloadUtil
+import app.suhasdissa.memerize.ui.utils.ShareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.net.URLDecoder
@@ -31,21 +31,14 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
         ) {
             Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
 
-                IconButton(onClick = { DownloadUtil(context,photoUrl)}, modifier) {
+                IconButton(onClick = { DownloadUtil(context, photoUrl) }, modifier) {
                     Icon(
                         painter = painterResource(R.drawable.ic_download),
                         contentDescription = "Download Photo"
                     )
                 }
                 IconButton(onClick = {
-                    val sendIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, photoUrl)
-                        type = "text/plain"
-                    }
-                    val shareIntent = Intent.createChooser(sendIntent, "Send Photo to..")
-                    context.startActivity(shareIntent)
-
+                    ShareUrl(context, photoUrl)
                 }, modifier) {
                     Icon(
                         painter = painterResource(R.drawable.ic_share),

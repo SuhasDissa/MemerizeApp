@@ -40,6 +40,9 @@ fun AppNavHost(
         composable(route = Settings.route) {
             SettingsScreen()
         }
+        composable(route = About.route) {
+            AboutScreen()
+        }
         composable(route = MemeView.route) {
             val memeViewModel: ImageViewModel = viewModel()
             MemeViewScreen(

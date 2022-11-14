@@ -1,13 +1,16 @@
 package app.suhasdissa.memerize.ui.screens
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.ui.components.HighlightCard
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -15,45 +18,35 @@ fun HomeScreen(
     onClickFunnyVideo: () -> Unit,
     onClickFeed: () -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        ElevatedCard(
-            onClick = { onClickMemeView() }, modifier.fillMaxWidth(.98f)
 
-        ) {
-            Box(
-                modifier
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-                    .height(IntrinsicSize.Min)
-            ) {
-                Text(text = "Memes", style = MaterialTheme.typography.headlineMedium)
-            }
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(375.dp),
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(4.dp)
+    ) {
+        item {
+            HighlightCard(
+                onClickMemeView,
+                modifier,
+                R.drawable.ic_launcher_foreground,
+                "Memes"
+            )
         }
-
-        ElevatedCard(
-            onClick = { onClickFunnyVideo() }, modifier.fillMaxWidth(.98f)
-
-        ) {
-            Box(
-                modifier
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-                    .height(IntrinsicSize.Min)
-            ) {
-                Text(text = "Funny Videos", style = MaterialTheme.typography.headlineMedium)
-            }
+        item {
+            HighlightCard(
+                onClickFunnyVideo,
+                modifier,
+                R.drawable.ic_launcher_foreground,
+                "Funny Videos"
+            )
         }
-
-        ElevatedCard(
-            onClick = { onClickFeed() }, modifier.fillMaxWidth(.98f)
-
-        ) {
-            Box(
-                modifier
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-                    .height(IntrinsicSize.Min)
-            ) {
-                Text(text = "Funny Posts", style = MaterialTheme.typography.headlineMedium)
-            }
+        item {
+            HighlightCard(
+                onClickFeed,
+                modifier,
+                R.drawable.ic_launcher_foreground,
+                "Funny Posts"
+            )
         }
     }
-
 }

@@ -45,6 +45,9 @@ fun MemerizeApp(modifier: Modifier = Modifier) {
                     DropdownMenuItem(
                         text = { Text("Settings") },
                         onClick = { navController.navigateTo(Settings.route) })
+                    DropdownMenuItem(
+                        text = { Text("About") },
+                        onClick = { navController.navigateTo(About.route) })
                 }
 
             })
