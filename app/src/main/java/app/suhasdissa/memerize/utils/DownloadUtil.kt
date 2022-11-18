@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.ui.utils
+package app.suhasdissa.memerize.utils
 
 import android.app.DownloadManager
 import android.content.Context
@@ -15,7 +15,7 @@ fun DownloadUtil(context: Context, url: String) {
         .setRequiresCharging(false)
         .setAllowedOverMetered(true)
         .setAllowedOverRoaming(true)
-        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
 
 
     val downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager

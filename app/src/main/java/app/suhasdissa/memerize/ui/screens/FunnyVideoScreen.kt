@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.backend.FunnyVideoState
+import app.suhasdissa.memerize.backend.VideoViewModel
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.TextCard
@@ -17,11 +19,11 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun FunnyVideoScreen(
-    funnyVideoState: FunnyVideoState,
-    onClickTextCard: (url: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier, videoViewModel: VideoViewModel = viewModel(),
+    onClickTextCard: (url: String) -> Unit
 ) {
-    when (funnyVideoState) {
+
+    when (val funnyVideoState = videoViewModel.state) {
         is FunnyVideoState.Loading -> LoadingScreen(modifier)
         is FunnyVideoState.Error -> ErrorScreen(funnyVideoState.error, modifier)
         is FunnyVideoState.Success -> TextCardGrid(
@@ -32,7 +34,7 @@ fun FunnyVideoScreen(
 }
 
 @Composable
-fun TextCardGrid(
+private fun TextCardGrid(
     funnyVideoState: FunnyVideoState.Success,
     onClickTextCard: (url: String) -> Unit,
     modifier: Modifier = Modifier

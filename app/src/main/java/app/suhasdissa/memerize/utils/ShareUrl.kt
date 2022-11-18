@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.ui.utils
+package app.suhasdissa.memerize.utils
 
 import android.content.Context
 import android.content.Intent

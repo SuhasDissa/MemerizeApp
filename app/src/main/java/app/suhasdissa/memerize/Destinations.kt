@@ -14,6 +14,10 @@ object Home : Destination {
 object MemeView : Destination {
     override val route = "memeview"
 }
+
+object TGMemeView : Destination {
+    override val route = "tgmemeview"
+}
 object FunnyVideoView : Destination {
     override val route = "funvidview"
 }

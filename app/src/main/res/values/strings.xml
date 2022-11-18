@@ -2,5 +2,4 @@
     <string name="app_name">Memerize</string>
     <string name="loading_failed">Failed to load</string>
     <string name="meme_photo">Meme Photo</string>
-    <string name="settings">Settings</string>
 </resources>

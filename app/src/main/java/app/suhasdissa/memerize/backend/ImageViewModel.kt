@@ -7,14 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-sealed interface UiState{
+sealed interface UiState {
     data class Success(val children: List<Children>) : UiState
     data class Error(val error: String) : UiState
     object Loading : UiState
 }
 
 class ImageViewModel : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
     var memeUiState: UiState by mutableStateOf(UiState.Loading)
         private set
 
@@ -23,16 +22,14 @@ class ImageViewModel : ViewModel() {
     }
 
     fun getMemePhotos(
-        subreddit: String,
-        time: String
+        subreddit: String, time: String
     ) {
         viewModelScope.launch {
             memeUiState = UiState.Loading
             memeUiState = try {
                 UiState.Success(
                     RedditApi.retrofitService.getRedditData(
-                        subreddit,
-                        time
+                        subreddit, time
                     ).data.children
                 )
             } catch (e: Exception) {

@@ -2,7 +2,6 @@ package app.suhasdissa.memerize.ui.screens
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -16,7 +15,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onClickMemeView: () -> Unit,
     onClickFunnyVideo: () -> Unit,
-    onClickFeed: () -> Unit
+    onClickFeed: () -> Unit,
+    onClickTG: () -> Unit
 ) {
 
     LazyVerticalGrid(
@@ -46,6 +46,14 @@ fun HomeScreen(
                 modifier,
                 R.drawable.ic_launcher_foreground,
                 "Funny Posts"
+            )
+        }
+        item {
+            HighlightCard(
+                onClickTG,
+                modifier,
+                R.drawable.ic_launcher_foreground,
+                "Telegram Memes"
             )
         }
     }

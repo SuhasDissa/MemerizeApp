@@ -16,7 +16,7 @@ fun ErrorScreen(memeUiState: String, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()
     ) {
-        Column() {
+        Column {
             Text(
                 stringResource(R.string.loading_failed),
                 style = MaterialTheme.typography.bodyLarge

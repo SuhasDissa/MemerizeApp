@@ -13,7 +13,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.backend.ChildData
+import app.suhasdissa.memerize.backend.ImageViewModel
 import app.suhasdissa.memerize.backend.UiState
 import app.suhasdissa.memerize.ui.components.CardImage
 import app.suhasdissa.memerize.ui.components.ErrorScreen
@@ -24,23 +26,28 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun MemeViewScreen(
-    refresh: (subreddit: String, time: String) -> Unit,
-    memeUiState: UiState,
+    modifier: Modifier = Modifier,
+    viewModel: ImageViewModel = viewModel(),
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit,
-    modifier: Modifier = Modifier
+    onClickVideo: (url: String) -> Unit
 ) {
-    when (memeUiState) {
+    when (val memeUiState = viewModel.memeUiState) {
         is UiState.Loading -> LoadingScreen(modifier)
         is UiState.Error -> ErrorScreen(memeUiState.error, modifier)
-        is UiState.Success -> MemeGrid(memeUiState, onClickMeme, onClickVideo, refresh, modifier)
+        is UiState.Success -> MemeGrid(
+            memeUiState,
+            onClickMeme,
+            onClickVideo,
+            viewModel::getMemePhotos,
+            modifier
+        )
     }
 
 }
 
 
 @Composable
-fun MemeGrid(
+private fun MemeGrid(
     memeUiState: UiState.Success,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
@@ -86,13 +93,17 @@ fun MemeGrid(
 }
 
 @Composable
-fun MemeCard(onClickMeme: (url: String) -> Unit, photo: ChildData, modifier: Modifier = Modifier) {
+private fun MemeCard(
+    onClickMeme: (url: String) -> Unit,
+    photo: ChildData,
+    modifier: Modifier = Modifier
+) {
     val encodedImg = URLEncoder.encode(photo.url, StandardCharsets.UTF_8.toString())
     CardImage(modifier, onClickMeme, encodedImg, photo.url)
 }
 
 @Composable
-fun VideoCard(
+private fun VideoCard(
     onClickVideo: (url: String) -> Unit, photo: ChildData, modifier: Modifier = Modifier
 ) {
     val vidid = photo.permalink?.split("/")?.slice(4..5)?.joinToString("/") ?: return

@@ -11,20 +11,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.ui.utils.CheckUpdate
-import app.suhasdissa.memerize.ui.utils.OpenBrowser
+import app.suhasdissa.memerize.utils.CheckUpdate
+import app.suhasdissa.memerize.utils.OpenBrowser
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
 fun AboutScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    Column(modifier.fillMaxWidth().padding(horizontal = 10.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+    Column(
+        modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
 
         Text("Developer:", style = MaterialTheme.typography.headlineLarge)
         Card(modifier.fillMaxWidth()) {
             Row(
-                modifier.fillMaxWidth().padding(20.dp),
+                modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -78,10 +85,13 @@ fun AboutScreen(modifier: Modifier = Modifier) {
         }
         Card(
             modifier
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+        ) {
             val context = LocalContext.current
             Row(
-                modifier.fillMaxWidth().padding(20.dp),
+                modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -93,6 +103,5 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
-
     }
 }

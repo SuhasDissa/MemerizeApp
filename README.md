@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="150" src="/logo.svg" alt="Memerize Logo"></a>
+  <img width="150" src="/logo.svg" alt="Memerize Logo">
 </p>
 
 <h1 align="center">Memerize App</h1>

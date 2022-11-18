@@ -21,7 +21,7 @@ class VideoViewModel : ViewModel() {
         getData("videos")
     }
 
-    fun getData(collection: String) {
+    private fun getData(collection: String) {
         viewModelScope.launch {
             state = FunnyVideoState.Loading
             state = try {
@@ -49,7 +49,7 @@ class FeedViewModel : ViewModel() {
         getData("posts")
     }
 
-    fun getData(collection: String) {
+    private fun getData(collection: String) {
         viewModelScope.launch {
             state = PostsState.Loading
             state = try {

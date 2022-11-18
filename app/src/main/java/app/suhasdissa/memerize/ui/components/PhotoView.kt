@@ -12,8 +12,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.ui.utils.DownloadUtil
-import app.suhasdissa.memerize.ui.utils.ShareUrl
+import app.suhasdissa.memerize.utils.DownloadUtil
+import app.suhasdissa.memerize.utils.ShareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.net.URLDecoder
