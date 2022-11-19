@@ -15,9 +15,9 @@ jobs:
         with:
           java-version: 18
       - name: Build APK
-        run: bash ./gradlew assemble --stacktrace
+        run: bash ./gradlew assembleRelease --stacktrace
       - name: Upload APK
         uses: actions/upload-artifact@v1
         with:
           name: apk
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          path: app/build/outputs/apk/release/app-release-signed.apk

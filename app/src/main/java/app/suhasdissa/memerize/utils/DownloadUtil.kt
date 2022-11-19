@@ -17,7 +17,6 @@ fun DownloadUtil(context: Context, url: String) {
         .setAllowedOverRoaming(true)
         .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename)
 
-
     val downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager
     downloadManager.enqueue(request)
 
