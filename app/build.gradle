@@ -22,7 +22,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("./memerize-key.jks")
+            storeFile file("../memerize-key.jks")
             storePassword "lolcat"
             keyAlias "key0"
             keyPassword "lolcat"
