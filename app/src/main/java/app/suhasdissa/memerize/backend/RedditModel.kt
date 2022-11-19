@@ -20,17 +20,21 @@ data class Children(
 
 @Serializable
 data class ChildData(
+    @SerialName("secure_media") var secure_media: SecureMedia? = SecureMedia(),
     @SerialName("url") var url: String,
     @SerialName("permalink") var permalink: String? = null,
     @SerialName("preview") var preview: Preview? = Preview()
-    /*@SerialName("title") var title: String? = null,
-    @SerialName("preview") var preview: Preview? = Preview(),
-    @SerialName("thumbnail") var thumbnail: String? = null,
-    @SerialName("media_only") var mediaOnly: Boolean? = null,
-    @SerialName("permalink") var permalink: String? = null,
-    @SerialName("media") var media: String? = null,
-    @SerialName("is_video") var isVideo: Boolean? = null*/
 
+)
+
+@Serializable
+data class SecureMedia(
+    @SerialName("reddit_video") var reddit_video: RedditVideo? = RedditVideo()
+)
+
+@Serializable
+data class RedditVideo(
+    @SerialName("dash_url") var dash_url: String? = null
 )
 
 @Serializable

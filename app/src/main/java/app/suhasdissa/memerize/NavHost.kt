@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.navigation.NavHostController
 import app.suhasdissa.memerize.ui.components.PhotoView
 import app.suhasdissa.memerize.ui.components.VideoView
-import app.suhasdissa.memerize.ui.components.WebViewer
 import app.suhasdissa.memerize.ui.screens.*
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -37,22 +36,22 @@ fun AppNavHost(
         }
         composable(route = Settings.route, enterTransition = {
             scaleIn(
-                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(700)
+                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(200)
             )
         }, exitTransition = {
             scaleOut(
-                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(700)
+                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(200)
             )
         }) {
             SettingsScreen()
         }
         composable(route = About.route, enterTransition = {
             scaleIn(
-                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(700)
+                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(200)
             )
         }, exitTransition = {
             scaleOut(
-                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(700)
+                transformOrigin = TransformOrigin(1f, 0f), animationSpec = tween(200)
             )
         }) {
             AboutScreen()
@@ -60,58 +59,58 @@ fun AppNavHost(
         composable(route = MemeView.route, enterTransition = {
             when (initialState.destination.route) {
                 Home.route -> slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(200)
                 )
                 else -> null
             }
         }, exitTransition = {
             when (targetState.destination.route) {
                 Home.route -> slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(200)
                 )
                 else -> null
             }
 
         }) {
             MemeViewScreen(onClickMeme = { url ->
-                navController.navigateToMeme(url)
+                navController.navigateToPhotoViewer(url)
             }, onClickVideo = { url ->
-                navController.navigateToVideo(url)
+                navController.navigateToVideoPlayer(url)
             })
         }
         composable(route = TGMemeView.route, enterTransition = {
             when (initialState.destination.route) {
                 Home.route -> slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(200)
                 )
                 else -> null
             }
         }, exitTransition = {
             when (targetState.destination.route) {
                 Home.route -> slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(200)
                 )
                 else -> null
             }
 
         }) {
             TelegramMemeScreen(onClickMeme = { url ->
-                navController.navigateToMeme(url)
+                navController.navigateToPhotoViewer(url)
             }, onClickVideo = { url ->
-                navController.navigateToVideo(url)
+                navController.navigateToVideoPlayer(url)
             })
         }
         composable(route = FunnyVideoView.route, enterTransition = {
             when (initialState.destination.route) {
                 Home.route -> slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(200)
                 )
                 else -> null
             }
         }, exitTransition = {
             when (targetState.destination.route) {
                 Home.route -> slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(200)
                 )
                 else -> null
             }
@@ -124,14 +123,14 @@ fun AppNavHost(
         composable(route = FeedView.route, enterTransition = {
             when (initialState.destination.route) {
                 Home.route -> slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Up, animationSpec = tween(200)
                 )
                 else -> null
             }
         }, exitTransition = {
             when (targetState.destination.route) {
                 Home.route -> slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(700)
+                    AnimatedContentScope.SlideDirection.Down, animationSpec = tween(200)
                 )
                 else -> null
             }
@@ -139,29 +138,21 @@ fun AppNavHost(
         }) {
             FeedScreen()
         }
-        composable(route = OneMemeView.routeWithArgs,
-            arguments = OneMemeView.arguments,
-            enterTransition = { scaleIn(initialScale = .8f, animationSpec = tween(700)) },
-            exitTransition = { scaleOut(targetScale = .8f, animationSpec = tween(700)) }) {
+        composable(route = PhotoView.routeWithArgs,
+            arguments = PhotoView.arguments,
+            enterTransition = { scaleIn(initialScale = .8f, animationSpec = tween(200)) },
+            exitTransition = { scaleOut(targetScale = .8f, animationSpec = tween(200)) }) {
 
             val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
                 PhotoView(imgurl)
             }
         }
-        composable(route = WebVideoPlayer.routeWithArgs,
-            arguments = WebVideoPlayer.arguments,
-            enterTransition = { scaleIn(initialScale = .8f, animationSpec = tween(700)) },
-            exitTransition = { scaleOut(targetScale = .8f, animationSpec = tween(700)) }) {
-            val url = it.arguments?.getString("url")
-            if (url != null) {
-                WebViewer(url)
-            }
-        }
+
         composable(route = VideoPlayer.routeWithArgs,
             arguments = VideoPlayer.arguments,
-            enterTransition = { scaleIn(initialScale = .8f, animationSpec = tween(700)) },
-            exitTransition = { scaleOut(targetScale = .8f, animationSpec = tween(700)) }) {
+            enterTransition = { scaleIn(initialScale = .8f, animationSpec = tween(200)) },
+            exitTransition = { scaleOut(targetScale = .8f, animationSpec = tween(200)) }) {
             val url = it.arguments?.getString("url")
             if (url != null) {
                 VideoView(url)
@@ -175,12 +166,8 @@ fun NavHostController.navigateTo(route: String) = this.navigate(route) {
     restoreState = true
 }
 
-private fun NavHostController.navigateToMeme(url: String) {
-    this.navigateTo("${OneMemeView.route}/$url")
-}
-
-private fun NavHostController.navigateToVideo(url: String) {
-    this.navigateTo("${WebVideoPlayer.route}/$url")
+private fun NavHostController.navigateToPhotoViewer(url: String) {
+    this.navigateTo("${PhotoView.route}/$url")
 }
 
 private fun NavHostController.navigateToVideoPlayer(url: String) {

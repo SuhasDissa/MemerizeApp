@@ -106,10 +106,14 @@ private fun MemeCard(
 private fun VideoCard(
     onClickVideo: (url: String) -> Unit, photo: ChildData, modifier: Modifier = Modifier
 ) {
-    val vidid = photo.permalink?.split("/")?.slice(4..5)?.joinToString("/") ?: return
-    val vidlink = "https://www.redditmedia.com/mediaembed/$vidid"
-    val encodedLink = URLEncoder.encode(vidlink, StandardCharsets.UTF_8.toString())
+    /*val vidid = photo.permalink?.split("/")?.slice(4..5)?.joinToString("/") ?: return
+    val vidlink = "https://www.redditmedia.com/mediaembed/$vidid"*/
+
+    val vidlink = photo.secure_media?.reddit_video?.dash_url ?: return
+    val encodedLink = URLEncoder.encode(vidlink.replace("&amp;", "&"), StandardCharsets.UTF_8.toString())
     val preview = photo.preview?.images?.get(0)?.source?.url ?: return
+
+
     Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
         CardImage(modifier, onClickVideo, encodedLink, preview.replace("&amp;", "&"))
         Icon(
