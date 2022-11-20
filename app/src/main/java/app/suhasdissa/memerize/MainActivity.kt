@@ -35,18 +35,27 @@ fun MemerizeApp(modifier: Modifier = Modifier) {
             var showMenu by remember { mutableStateOf(false) }
             TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
                 IconButton(onClick = { showMenu = !showMenu }) {
-                    Icon(painter = painterResource(R.drawable.ic_more_vert), contentDescription = "More")
+                    Icon(
+                        painter = painterResource(R.drawable.ic_more_vert),
+                        contentDescription = "More"
+                    )
                 }
                 DropdownMenu(
                     expanded = showMenu,
                     onDismissRequest = { showMenu = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Settings") },
-                        onClick = { navController.navigateTo(Settings.route) })
+                        text = { Text(stringResource(R.string.settings), style = MaterialTheme.typography.bodyMedium) },
+                        onClick = {
+                            navController.navigateTo(Settings.route)
+                            showMenu = false
+                        })
                     DropdownMenuItem(
-                        text = { Text("About") },
-                        onClick = { navController.navigateTo(About.route) })
+                        text = { Text(stringResource(R.string.about), style = MaterialTheme.typography.bodyMedium) },
+                        onClick = {
+                            navController.navigateTo(About.route)
+                            showMenu = false
+                        })
                 }
 
             })

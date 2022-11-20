@@ -32,50 +32,36 @@ fun AppNavHost(
                 navController.navigateTo(TGMemeView.route)
             })
         }
-        composable(route = Settings.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = Settings.route) {
             SettingsScreen()
         }
-        composable(route = About.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = About.route) {
             AboutScreen()
         }
-        composable(route = MemeView.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = MemeView.route) {
             MemeViewScreen(onClickMeme = { url ->
                 navController.navigateToPhotoViewer(url)
             }, onClickVideo = { url ->
                 navController.navigateToVideoPlayer(url)
             })
         }
-        composable(route = TGMemeView.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = TGMemeView.route) {
             TelegramMemeScreen(onClickMeme = { url ->
                 navController.navigateToPhotoViewer(url)
             }, onClickVideo = { url ->
                 navController.navigateToVideoPlayer(url)
             })
         }
-        composable(route = FunnyVideoView.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = FunnyVideoView.route) {
             FunnyVideoScreen(onClickTextCard = { url ->
                 navController.navigateToVideoPlayer(url)
             })
         }
-        composable(route = FeedView.route,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+        composable(route = FeedView.route) {
             FeedScreen()
         }
         composable(route = PhotoView.routeWithArgs,
-            arguments = PhotoView.arguments,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+            arguments = PhotoView.arguments) {
 
             val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
@@ -84,9 +70,7 @@ fun AppNavHost(
         }
 
         composable(route = VideoPlayer.routeWithArgs,
-            arguments = VideoPlayer.arguments,
-            enterTransition = { scaleIn(initialScale = .9f, animationSpec = tween(200)) },
-            exitTransition = { scaleOut(targetScale = .9f, animationSpec = tween(200)) }) {
+            arguments = VideoPlayer.arguments) {
             val url = it.arguments?.getString("url")
             if (url != null) {
                 VideoView(url)

@@ -87,7 +87,6 @@ fun AboutScreen(modifier: Modifier = Modifier) {
             modifier
                 .fillMaxWidth()
         ) {
-            val context = LocalContext.current
             Row(
                 modifier
                     .fillMaxWidth()
@@ -98,7 +97,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 Text(
                     text = "Check For Updates:", style = MaterialTheme.typography.headlineSmall
                 )
-                Button(onClick = { CheckUpdate(context) }) {
+                Button(onClick = { CheckUpdate(context) }, enabled = false) {
                     Text("UPDATE", style = MaterialTheme.typography.headlineSmall)
                 }
             }

@@ -7,6 +7,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 private val json = Json { ignoreUnknownKeys = true }
 
@@ -18,10 +20,10 @@ private val retrofitTG = Retrofit.Builder()
 
 interface TelegramApiService {
     @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-    @GET("json/eplussl?limit=2")
+    @GET("json/{channel}")
     suspend fun getChannelData(
-        //@Path("channel") channel: String,
-        //@Query("limit") limit: String
+        @Path("channel") channel: String,
+        @Query("limit") limit: String
     ): TelegramModel
 }
 

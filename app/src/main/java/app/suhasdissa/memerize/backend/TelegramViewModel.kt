@@ -20,15 +20,15 @@ class TelegramViewModel : ViewModel() {
         private set
 
     init {
-        getMemePhotos()
+        getMemePhotos("chap_lin_sl","20")
     }
 
-    private fun getMemePhotos() {
+    fun getMemePhotos(channel:String,limit:String) {
         viewModelScope.launch {
             state = TelegramUiState.Loading
             state = try {
                 TelegramUiState.Success(
-                    TelegramApi.retrofitService.getChannelData().messages
+                    TelegramApi.retrofitService.getChannelData(channel,limit).messages
                 )
             } catch (e: Exception) {
                 TelegramUiState.Error(e.toString())

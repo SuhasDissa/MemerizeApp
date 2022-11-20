@@ -54,7 +54,7 @@ private fun MemeGrid(
             modifier = modifier.fillMaxWidth(),
             contentPadding = PaddingValues(4.dp)
         ) {
-          /*  val photos = memeUiState.messages.filter { it.media?.type?.contains("messageMediaPhoto")
+            val photos = memeUiState.messages.filter { it.media?.type?.contains("messageMediaPhoto")
                 ?: false }
             val videos = memeUiState.messages.filter { it.media?.type?.contains("messageMediaDocument")
                 ?: false }
@@ -63,7 +63,7 @@ private fun MemeGrid(
             }
             items(items = videos) { video ->
                 VideoCard(onClickVideo, video.id, modifier)
-            }*/
+            }
         }
 
 
@@ -73,7 +73,7 @@ private fun MemeGrid(
 
 @Composable
 private fun MemeCard(onClickMeme: (url: String) -> Unit, photoid: Int, modifier: Modifier = Modifier) {
-    val url="https://tg.i-c-a.su/media/eplussl/$photoid"
+    val url="https://tg.i-c-a.su/media/chap_lin_sl/$photoid"
     val encodedImg = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
     CardImage(modifier, onClickMeme, encodedImg, url)
 }
@@ -82,9 +82,9 @@ private fun MemeCard(onClickMeme: (url: String) -> Unit, photoid: Int, modifier:
 private fun VideoCard(
     onClickVideo: (url: String) -> Unit, videoid: Int, modifier: Modifier = Modifier
 ) {
-    val url="https://tg.i-c-a.su/media/eplussl/$videoid"
+    val url="https://tg.i-c-a.su/media/chap_lin_sl/$videoid"
     val encodedLink = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-    val preview = "https://tg.i-c-a.su/media/eplussl/$videoid/preview"
+    val preview = "https://tg.i-c-a.su/media/chap_lin_sl/$videoid/preview"
     Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
         CardImage(modifier, onClickVideo, encodedLink, preview)
         Icon(

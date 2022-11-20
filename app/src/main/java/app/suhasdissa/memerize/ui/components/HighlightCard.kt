@@ -3,7 +3,7 @@ package app.suhasdissa.memerize.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,39 +23,31 @@ fun HighlightCard(
 ) {
     ElevatedCard(
         modifier = modifier
-            .size(
-                width = 200.dp, height = 250.dp
-            )
+            .width(200.dp)
             .padding(16.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .clickable(onClick = { onClick() })
-                .fillMaxSize()
+                .fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
+
+            Image(
+                painter = painterResource(image),
+                contentDescription = null,
                 modifier = Modifier
-                    .height(160.dp)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    painter = painterResource(image),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(120.dp)
-                        .align(Alignment.BottomCenter)
-                        .clip(CircleShape)
-                )
-            }
-            Spacer(modifier = Modifier.height(8.dp))
+                    .size(150.dp)
+                    .clip(RoundedCornerShape(5.dp))
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = name,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
