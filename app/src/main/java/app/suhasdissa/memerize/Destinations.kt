@@ -18,12 +18,15 @@ object MemeView : Destination {
 object TGMemeView : Destination {
     override val route = "tgmemeview"
 }
+
 object FunnyVideoView : Destination {
     override val route = "funvidview"
 }
+
 object FeedView : Destination {
     override val route = "feedview"
 }
+
 object Settings : Destination {
     override val route = "settings"
 }
@@ -35,15 +38,11 @@ object About : Destination {
 object PhotoView : Destination {
     override val route = "memescreen"
     val routeWithArgs = "$route/{url}"
-    val arguments = listOf(
-        navArgument("url") { type = NavType.StringType }
-    )
+    val arguments = listOf(navArgument("url") { type = NavType.StringType })
 }
 
 object VideoPlayer : Destination {
     override val route = "video"
     val routeWithArgs = "$route/{url}"
-    val arguments = listOf(
-        navArgument("url") { type = NavType.StringType }
-    )
+    val arguments = listOf(navArgument("url") { type = NavType.StringType })
 }

@@ -20,7 +20,7 @@ private val retrofit = Retrofit.Builder()
 
 interface ApiService {
     @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-    @GET("r/{subreddit}/top/.json?sort=top&limit=100")
+    @GET("r/{subreddit}.json?sort=top")
     suspend fun getRedditData(
         @Path("subreddit") subreddit: String,
         @Query("t") time: String

@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.utils.CheckUpdate
-import app.suhasdissa.memerize.utils.OpenBrowser
+import app.suhasdissa.memerize.utils.checkUpdate
+import app.suhasdissa.memerize.utils.openBrowser
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -26,7 +27,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
 
-        Text("Developer:", style = MaterialTheme.typography.headlineLarge)
+        Text(stringResource(R.string.developer_heading), style = MaterialTheme.typography.headlineLarge)
         Card(modifier.fillMaxWidth()) {
             Row(
                 modifier
@@ -40,43 +41,43 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                         .size(120.dp)
                         .clip(CircleShape),
                     model = ImageRequest.Builder(context = LocalContext.current)
-                        .data("https://avatars.githubusercontent.com/SuhasDissa").crossfade(true)
-                        .build(),
-                    contentDescription = "SuhasDissa"
+                        .data(stringResource(R.string.github_avatar)).crossfade(true).build(),
+                    contentDescription = stringResource(R.string.avatar_description)
                 )
                 Column(
-                    modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Suhas Dissanayake", style = MaterialTheme.typography.headlineMedium
+                        text = stringResource(R.string.developer_name),
+                        style = MaterialTheme.typography.headlineMedium
                     )
                     Text(
-                        text = "@SuhasDissa", style = MaterialTheme.typography.headlineSmall
+                        text = stringResource(R.string.developer_username),
+                        style = MaterialTheme.typography.headlineSmall
                     )
                     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                         IconButton(onClick = {
-                            OpenBrowser(
-                                context,
-                                "https://github.com/SuhasDissa"
+                            openBrowser(
+                                context, "https://github.com/SuhasDissa"
                             )
                         }) {
 
                             Icon(
                                 painterResource(R.drawable.ic_github),
-                                contentDescription = "Github", modifier.size(40.dp)
+                                contentDescription = stringResource(R.string.github_icon_hint),
+                                modifier.size(40.dp)
                             )
                         }
                         IconButton(onClick = {
-                            OpenBrowser(
-                                context,
-                                "https://twitter.com/SuhasDissa"
+                            openBrowser(
+                                context, "https://twitter.com/SuhasDissa"
                             )
                         }) {
 
                             Icon(
                                 painterResource(R.drawable.ic_twitter),
-                                contentDescription = "Twitter", modifier.size(40.dp)
+                                contentDescription = stringResource(R.string.twitter_icon_hint),
+                                modifier.size(40.dp)
                             )
                         }
                     }
@@ -84,8 +85,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
             }
         }
         Card(
-            modifier
-                .fillMaxWidth()
+            modifier.fillMaxWidth()
         ) {
             Row(
                 modifier
@@ -95,10 +95,14 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Check For Updates:", style = MaterialTheme.typography.headlineSmall
+                    text = stringResource(R.string.update_description),
+                    style = MaterialTheme.typography.headlineSmall
                 )
-                Button(onClick = { CheckUpdate(context) }, enabled = false) {
-                    Text("UPDATE", style = MaterialTheme.typography.headlineSmall)
+                Button(onClick = { checkUpdate(context) }, enabled = false) {
+                    Text(
+                        stringResource(R.string.update_btn),
+                        style = MaterialTheme.typography.headlineSmall
+                    )
                 }
             }
         }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.ui.components.HighlightCard
@@ -29,7 +30,7 @@ fun HomeScreen(
                 onClickMemeView,
                 modifier,
                 R.drawable.ic_launcher_foreground,
-                "Memes"
+                stringResource(R.string.reddit_memes)
             )
         }
         item {
@@ -37,7 +38,7 @@ fun HomeScreen(
                 onClickFunnyVideo,
                 modifier,
                 R.drawable.ic_launcher_foreground,
-                "Funny Videos"
+                stringResource(R.string.funny_videos)
             )
         }
         item {
@@ -45,7 +46,7 @@ fun HomeScreen(
                 onClickFeed,
                 modifier,
                 R.drawable.ic_launcher_foreground,
-                "Funny Posts"
+                stringResource(R.string.funny_posts)
             )
         }
         item {
@@ -53,7 +54,7 @@ fun HomeScreen(
                 onClickTG,
                 modifier,
                 R.drawable.ic_launcher_foreground,
-                "Telegram Memes"
+                stringResource(R.string.telegram_memes)
             )
         }
     }

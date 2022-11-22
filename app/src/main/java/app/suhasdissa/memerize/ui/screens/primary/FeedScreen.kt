@@ -25,6 +25,7 @@ fun FeedScreen(
         is PostsState.Success -> FeedGrid(
             postsState, modifier
         )
+        else -> {}
     }
 
 }

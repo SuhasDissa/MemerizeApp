@@ -6,7 +6,7 @@ import android.content.Context.DOWNLOAD_SERVICE
 import android.net.Uri
 import android.os.Environment
 
-fun DownloadUtil(context: Context, url: String) {
+fun downloadUtil(context: Context, url: String) {
     val filename = url.split("/").last()
     val request = DownloadManager.Request(Uri.parse(url))
         .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)

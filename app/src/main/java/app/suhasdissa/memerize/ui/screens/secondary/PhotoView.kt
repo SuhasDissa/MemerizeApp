@@ -11,8 +11,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.utils.DownloadUtil
-import app.suhasdissa.memerize.utils.ShareUrl
+import app.suhasdissa.memerize.utils.downloadUtil
+import app.suhasdissa.memerize.utils.shareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.net.URLDecoder
@@ -29,7 +29,9 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                 .crossfade(true).build(),
             contentDescription = stringResource(R.string.meme_photo),
             contentScale = ContentScale.Fit,
-            modifier = modifier.weight(1f).fillMaxWidth(),
+            modifier = modifier
+                .weight(1f)
+                .fillMaxWidth(),
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img)
         )
@@ -41,7 +43,7 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            IconButton(onClick = { DownloadUtil(context, photoUrl) }, modifier) {
+            IconButton(onClick = { downloadUtil(context, photoUrl) }, modifier) {
                 Icon(
                     painter = painterResource(R.drawable.ic_download),
                     contentDescription = "Download Photo",
@@ -49,7 +51,7 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                 )
             }
             IconButton(onClick = {
-                ShareUrl(context, photoUrl)
+                shareUrl(context, photoUrl)
             }, modifier) {
                 Icon(
                     painter = painterResource(R.drawable.ic_share),

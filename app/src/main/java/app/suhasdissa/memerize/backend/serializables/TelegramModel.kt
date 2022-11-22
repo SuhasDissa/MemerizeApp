@@ -8,6 +8,7 @@ data class TelegramModel(
     @SerialName("messages") var messages: ArrayList<Messages> = arrayListOf()
 
 )
+
 @Serializable
 data class Messages(
 
@@ -15,6 +16,7 @@ data class Messages(
     @SerialName("media") var media: Media? = Media()
 
 )
+
 @Serializable
 data class Media(
     @SerialName("_") var type: String? = null

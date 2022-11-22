@@ -1,7 +1,30 @@
 <resources>
-    <string name="app_name">Memerize</string>
+    <string name="app_name" translatable="false">Memerize</string>
     <string name="loading_failed">Failed to load</string>
     <string name="meme_photo">Meme Photo</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="reddit_memes">Reddit Memes</string>
+    <string name="funny_videos">Funny Videos</string>
+    <string name="funny_posts">Funny Posts</string>
+    <string name="telegram_memes">Telegram Memes</string>
+    <string name="github_avatar" translatable="false">https://avatars.githubusercontent.com/SuhasDissa</string>
+    <string name="avatar_description">Profile Picture</string>
+    <string name="developer_name" translatable="false">Suhas Dissanayake</string>
+    <string name="developer_username" translatable="false">\@SuhasDissa</string>
+    <string name="update_btn">UPDATE</string>
+    <string name="update_description">Check For Updates:</string>
+    <string name="developer_heading">Developer:</string>
+    <string name="github_icon_hint">Github</string>
+    <string name="twitter_icon_hint">Twitter</string>
+    <string name="reddit_today_btn">Today</string>
+    <string name="reddit_week_btn">This Week</string>
+    <string name="reddit_month_btn">This Month</string>
+    <string name="play_video_hint">Play Video</string>
+    <string name="reddit_settings">Reddit Settings:</string>
+    <string name="subreddit_section">Subreddit:</string>
+    <string name="save_btn">Save</string>
+    <string name="meme_limit">Meme Limit:</string>
+    <string name="telegram_settings">Telegram Settings:</string>
+    <string name="telegram_channel_section">Channel:</string>
 </resources>

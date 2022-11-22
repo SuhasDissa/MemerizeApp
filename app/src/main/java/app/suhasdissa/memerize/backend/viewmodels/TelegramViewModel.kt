@@ -17,18 +17,17 @@ sealed interface TelegramUiState {
 class TelegramViewModel : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
     var state: TelegramUiState by mutableStateOf(TelegramUiState.Loading)
-        private set
 
     init {
-        getMemePhotos("chap_lin_sl","20")
+        getMemePhotos("chap_lin_sl", "20")
     }
 
-    fun getMemePhotos(channel:String,limit:String) {
+    private fun getMemePhotos(channel: String, limit: String) {
         viewModelScope.launch {
             state = TelegramUiState.Loading
             state = try {
                 TelegramUiState.Success(
-                    TelegramApi.retrofitService.getChannelData(channel,limit).messages
+                    TelegramApi.retrofitService.getChannelData(channel, limit).messages
                 )
             } catch (e: Exception) {
                 TelegramUiState.Error(e.toString())

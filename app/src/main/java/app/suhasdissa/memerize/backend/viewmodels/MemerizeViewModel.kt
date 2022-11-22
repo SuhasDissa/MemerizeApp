@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.suhasdissa.memerize.backend.serializables.MemerizeModel
 import kotlinx.coroutines.launch
 
 sealed interface FunnyVideoState {
@@ -15,18 +16,17 @@ sealed interface FunnyVideoState {
 
 class VideoViewModel : ViewModel() {
     var state: FunnyVideoState by mutableStateOf(FunnyVideoState.Loading)
-        private set
 
     init {
-        getData("videos")
+        getData()
     }
 
-    private fun getData(collection: String) {
+    private fun getData() {
         viewModelScope.launch {
             state = FunnyVideoState.Loading
             state = try {
                 FunnyVideoState.Success(
-                    MemerizeApi.retrofitService.getData(collection)
+                    MemerizeApi.retrofitService.getData("videos")
                 )
             } catch (e: Exception) {
                 FunnyVideoState.Error(e.toString())
@@ -43,18 +43,17 @@ sealed interface PostsState {
 
 class FeedViewModel : ViewModel() {
     var state: PostsState by mutableStateOf(PostsState.Loading)
-        private set
 
     init {
-        getData("posts")
+        getData()
     }
 
-    private fun getData(collection: String) {
+    private fun getData() {
         viewModelScope.launch {
             state = PostsState.Loading
             state = try {
                 PostsState.Success(
-                    MemerizeApi.retrofitService.getData(collection)
+                    MemerizeApi.retrofitService.getData("posts")
                 )
             } catch (e: Exception) {
                 PostsState.Error(e.toString())

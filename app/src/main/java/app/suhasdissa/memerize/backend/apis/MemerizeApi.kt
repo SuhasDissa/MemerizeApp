@@ -1,5 +1,6 @@
 package app.suhasdissa.memerize.backend
 
+import app.suhasdissa.memerize.backend.serializables.MemerizeModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json

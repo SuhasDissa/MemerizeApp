@@ -29,38 +29,38 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MemerizeApp(modifier: Modifier = Modifier) {
     val navController = rememberAnimatedNavController()
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = {
-            var showMenu by remember { mutableStateOf(false) }
-            TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
-                IconButton(onClick = { showMenu = !showMenu }) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_more_vert),
-                        contentDescription = "More"
+    Scaffold(modifier = modifier.fillMaxSize(), topBar = {
+        var showMenu by remember { mutableStateOf(false) }
+        TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
+            IconButton(onClick = { showMenu = !showMenu }) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_more_vert),
+                    contentDescription = "More"
+                )
+            }
+            DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+                DropdownMenuItem(text = {
+                    Text(
+                        stringResource(R.string.settings),
+                        style = MaterialTheme.typography.bodyLarge
                     )
-                }
-                DropdownMenu(
-                    expanded = showMenu,
-                    onDismissRequest = { showMenu = false }
-                ) {
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.settings), style = MaterialTheme.typography.bodyMedium) },
-                        onClick = {
-                            navController.navigateTo(Settings.route)
-                            showMenu = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(stringResource(R.string.about), style = MaterialTheme.typography.bodyMedium) },
-                        onClick = {
-                            navController.navigateTo(About.route)
-                            showMenu = false
-                        })
-                }
+                }, onClick = {
+                    navController.navigateTo(Settings.route)
+                    showMenu = false
+                })
+                DropdownMenuItem(text = {
+                    Text(
+                        stringResource(R.string.about),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }, onClick = {
+                    navController.navigateTo(About.route)
+                    showMenu = false
+                })
+            }
 
-            })
-        }
-    ) { innerPadding ->
+        })
+    }) { innerPadding ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()

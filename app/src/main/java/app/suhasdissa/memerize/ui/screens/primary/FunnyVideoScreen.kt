@@ -29,6 +29,7 @@ fun FunnyVideoScreen(
         is FunnyVideoState.Success -> TextCardGrid(
             funnyVideoState, onClickTextCard, modifier
         )
+        else -> {}
     }
 
 }

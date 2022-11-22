@@ -14,8 +14,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.utils.DownloadUtil
-import app.suhasdissa.memerize.utils.ShareUrl
+import app.suhasdissa.memerize.utils.downloadUtil
+import app.suhasdissa.memerize.utils.shareUrl
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
@@ -35,7 +35,6 @@ fun VideoView(url: String, modifier: Modifier = Modifier, download: String? = nu
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
 
 
-
         val mExoPlayer = remember(context) {
             ExoPlayer.Builder(context).build().apply {
                 val mediaItem = MediaItem.Builder().setUri(Uri.parse(decodedUrl)).build()
@@ -44,7 +43,9 @@ fun VideoView(url: String, modifier: Modifier = Modifier, download: String? = nu
                 prepare()
             }
         }
-        Box(modifier = modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(modifier = modifier
+            .weight(1f)
+            .fillMaxWidth(), contentAlignment = Alignment.Center) {
             DisposableEffect(
                 AndroidView(factory = { context ->
                     StyledPlayerView(context).apply {
@@ -64,7 +65,7 @@ fun VideoView(url: String, modifier: Modifier = Modifier, download: String? = nu
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            IconButton(onClick = { DownloadUtil(context, downloadUrl) }, modifier) {
+            IconButton(onClick = { downloadUtil(context, downloadUrl) }, modifier) {
                 Icon(
                     painter = painterResource(R.drawable.ic_download),
                     contentDescription = "Download Photo",
@@ -72,7 +73,7 @@ fun VideoView(url: String, modifier: Modifier = Modifier, download: String? = nu
                 )
             }
             IconButton(onClick = {
-                ShareUrl(context, downloadUrl)
+                shareUrl(context, downloadUrl)
             }, modifier) {
                 Icon(
                     painter = painterResource(R.drawable.ic_share),

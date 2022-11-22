@@ -13,9 +13,8 @@ sealed interface UiState {
     object Loading : UiState
 }
 
-class ImageViewModel : ViewModel() {
+class RedditViewModel : ViewModel() {
     var memeUiState: UiState by mutableStateOf(UiState.Loading)
-        private set
 
     init {
         getMemePhotos("tkasylum", "today")
