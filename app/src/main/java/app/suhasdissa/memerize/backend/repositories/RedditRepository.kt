@@ -1,7 +1,7 @@
 package app.suhasdissa.memerize.backend.repositories
 
-import app.suhasdissa.memerize.backend.serializables.Children
 import app.suhasdissa.memerize.backend.RedditApi
+import app.suhasdissa.memerize.backend.serializables.Children
 
 interface RedditRepository {
     suspend fun getData(subreddit: String, time: String): ArrayList<Children>

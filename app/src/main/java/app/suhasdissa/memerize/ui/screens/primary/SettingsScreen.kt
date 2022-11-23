@@ -23,8 +23,14 @@ fun SettingsScreen(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         val context = LocalContext.current
-        Text(text = stringResource(R.string.reddit_settings), style = MaterialTheme.typography.headlineLarge)
-        Text(text = stringResource(R.string.subreddit_section), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(R.string.reddit_settings),
+            style = MaterialTheme.typography.headlineLarge
+        )
+        Text(
+            text = stringResource(R.string.subreddit_section),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Row(
             modifier
                 .fillMaxWidth()
@@ -46,7 +52,10 @@ fun SettingsScreen(
                 Text(stringResource(R.string.save_btn))
             }
         }
-        Text(text = stringResource(R.string.meme_limit), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(R.string.meme_limit),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Row(
             modifier
                 .fillMaxWidth()
@@ -72,8 +81,14 @@ fun SettingsScreen(
             }
         }
 
-        Text(text = stringResource(R.string.telegram_settings), style = MaterialTheme.typography.headlineLarge)
-        Text(text = stringResource(R.string.telegram_channel_section), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(R.string.telegram_settings),
+            style = MaterialTheme.typography.headlineLarge
+        )
+        Text(
+            text = stringResource(R.string.telegram_channel_section),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Row(
             modifier
                 .fillMaxWidth()
@@ -95,7 +110,10 @@ fun SettingsScreen(
                 Text(stringResource(R.string.save_btn))
             }
         }
-        Text(text = stringResource(R.string.meme_limit), style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = stringResource(R.string.meme_limit),
+            style = MaterialTheme.typography.headlineSmall
+        )
         Row(
             modifier
                 .fillMaxWidth()

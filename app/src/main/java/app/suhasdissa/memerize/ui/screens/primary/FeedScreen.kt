@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.ui.screens
+package app.suhasdissa.memerize.ui.screens.primary
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,27 +12,32 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.backend.viewmodels.FeedViewModel
 import app.suhasdissa.memerize.backend.viewmodels.PostsState
 import app.suhasdissa.memerize.ui.components.ErrorScreen
-import app.suhasdissa.memerize.ui.components.FeedCard
 import app.suhasdissa.memerize.ui.components.LoadingScreen
+import app.suhasdissa.memerize.ui.components.TextCard
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun FeedScreen(
-    modifier: Modifier = Modifier, feedViewModel: FeedViewModel = viewModel()
+    modifier: Modifier = Modifier,
+    feedViewModel: FeedViewModel = viewModel(),
+    onClickTextCard: (url: String) -> Unit
 ) {
     when (val postsState = feedViewModel.state) {
         is PostsState.Loading -> LoadingScreen(modifier)
         is PostsState.Error -> ErrorScreen(postsState.error, modifier)
         is PostsState.Success -> FeedGrid(
-            postsState, modifier
+            postsState, modifier, onClickTextCard
         )
-        else -> {}
     }
 
 }
 
 @Composable
 private fun FeedGrid(
-    postsState: PostsState.Success, modifier: Modifier = Modifier
+    postsState: PostsState.Success,
+    modifier: Modifier = Modifier,
+    onClickTextCard: (url: String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(375.dp),
@@ -40,7 +45,11 @@ private fun FeedGrid(
         contentPadding = PaddingValues(4.dp)
     ) {
         items(items = postsState.children) { item ->
-            FeedCard(topic = item.title, content = item.content.replace("<br>", "\n"))
+            val encodedText = URLEncoder.encode(
+                item.content.replace("<br>", "\n"),
+                StandardCharsets.UTF_8.toString()
+            )
+            TextCard(clickAction = { onClickTextCard(encodedText) }, text = item.title)
         }
 
     }

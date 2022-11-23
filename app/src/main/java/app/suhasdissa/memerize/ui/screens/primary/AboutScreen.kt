@@ -27,7 +27,10 @@ fun AboutScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
 
-        Text(stringResource(R.string.developer_heading), style = MaterialTheme.typography.headlineLarge)
+        Text(
+            stringResource(R.string.developer_heading),
+            style = MaterialTheme.typography.headlineLarge
+        )
         Card(modifier.fillMaxWidth()) {
             Row(
                 modifier

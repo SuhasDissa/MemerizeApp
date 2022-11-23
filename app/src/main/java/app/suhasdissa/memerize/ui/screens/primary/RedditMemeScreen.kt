@@ -1,5 +1,4 @@
 package app.suhasdissa.memerize.ui.screens.primary
-
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -26,17 +25,17 @@ import java.nio.charset.StandardCharsets
 
 
 @Composable
-fun MemeViewScreen(
+fun RedditMemeScreen(
     modifier: Modifier = Modifier,
     viewModel: RedditViewModel = viewModel(),
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
-    subreddit:String
+    subreddit: String
 ) {
     fun refresh(time: String) {
         viewModel.getMemePhotos(subreddit, time)
     }
-    LaunchedEffect(Unit) {
+    LaunchedEffect(subreddit) {
         refresh("today")
     }
     when (val memeUiState = viewModel.memeUiState) {
@@ -45,7 +44,6 @@ fun MemeViewScreen(
         is UiState.Success -> MemeGrid(
             memeUiState, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
         )
-        else -> {}
     }
 }
 
@@ -76,21 +74,31 @@ private fun MemeGrid(
                 }
             }
         }
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(375.dp),
-            modifier = modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(4.dp)
-        ) {
-            val photos = memeUiState.children.filter { it.Childdata.url.contains("i.redd.it") }
-            val videos = memeUiState.children.filter { it.Childdata.url.contains("v.redd.it") }
-            items(items = photos) { photo ->
-                MemeCard(onClickMeme, photo.Childdata, modifier)
+        val photos = memeUiState.children.filter { it.Childdata.url.contains("i.redd.it") }
+        val videos = memeUiState.children.filter { it.Childdata.url.contains("v.redd.it") }
+        if (photos.isNotEmpty() || videos.isNotEmpty()) {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(375.dp),
+                modifier = modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(4.dp)
+            ) {
+
+                items(items = photos) { photo ->
+                    MemeCard(onClickMeme, photo.Childdata, modifier)
+                }
+                items(items = videos) { video ->
+                    VideoCard(onClickVideo, video.Childdata, modifier)
+                }
             }
-            items(items = videos) { video ->
-                VideoCard(onClickVideo, video.Childdata, modifier)
+        } else {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(
+                    "No Memes Here",
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.tertiary
+                )
             }
         }
-
 
     }
 

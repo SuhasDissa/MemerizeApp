@@ -5,11 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import app.suhasdissa.memerize.ui.components.PhotoView
-import app.suhasdissa.memerize.ui.components.VideoView
 import app.suhasdissa.memerize.ui.screens.*
-import app.suhasdissa.memerize.ui.screens.primary.HomeScreen
-import app.suhasdissa.memerize.ui.screens.primary.MemeViewScreen
-import app.suhasdissa.memerize.ui.screens.primary.TelegramMemeScreen
+import app.suhasdissa.memerize.ui.screens.primary.*
+import app.suhasdissa.memerize.ui.screens.secondary.TextView
+import app.suhasdissa.memerize.ui.screens.secondary.VideoView
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -22,13 +21,13 @@ fun AppNavHost(
         navController = navController, startDestination = Home.route, modifier = modifier
     ) {
         composable(route = Home.route) {
-            HomeScreen(onClickMemeView = { subreddit->
-                navController.navigateTo("${MemeView.route}/$subreddit")
+            HomeScreen(onClickMemeView = { subreddit ->
+                navController.navigateTo("${RedditMemeView.route}/$subreddit")
             }, onClickFunnyVideo = {
                 navController.navigateTo(FunnyVideoView.route)
             }, onClickFeed = {
                 navController.navigateTo(FeedView.route)
-            }, onClickTG = {channel->
+            }, onClickTG = { channel ->
                 navController.navigateTo("${TGMemeView.route}/$channel")
             })
         }
@@ -38,14 +37,18 @@ fun AppNavHost(
         composable(route = About.route) {
             AboutScreen()
         }
-        composable(route = MemeView.routeWithArgs, arguments = MemeView.arguments) {
+        composable(route = RedditMemeView.routeWithArgs, arguments = RedditMemeView.arguments) {
             val subreddit = it.arguments?.getString("category")
             if (subreddit != null) {
-                MemeViewScreen(onClickMeme = { url ->
-                    navController.navigateTo("${PhotoView.route}/$url")
-                }, onClickVideo = { url ->
-                    navController.navigateTo("${VideoPlayer.route}/$url")
-                },subreddit=subreddit)
+                RedditMemeScreen(
+                    onClickMeme = { url ->
+                        navController.navigateTo("${PhotoView.route}/$url")
+                    },
+                    onClickVideo = { url ->
+                        navController.navigateTo("${VideoPlayer.route}/$url")
+                    },
+                    subreddit = subreddit
+                )
             }
         }
         composable(route = TGMemeView.routeWithArgs, arguments = TGMemeView.arguments) {
@@ -55,7 +58,7 @@ fun AppNavHost(
                     navController.navigateTo("${PhotoView.route}/$url")
                 }, onClickVideo = { url ->
                     navController.navigateTo("${VideoPlayer.route}/$url")
-                },channel=channel)
+                }, channel = channel)
             }
         }
         composable(route = FunnyVideoView.route) {
@@ -64,7 +67,9 @@ fun AppNavHost(
             })
         }
         composable(route = FeedView.route) {
-            FeedScreen()
+            FeedScreen(onClickTextCard = { text ->
+                navController.navigateTo("${TextViewer.route}/$text")
+            })
         }
         composable(
             route = PhotoView.routeWithArgs, arguments = PhotoView.arguments
@@ -73,6 +78,7 @@ fun AppNavHost(
             if (imgurl != null) {
                 PhotoView(imgurl)
             }
+
         }
 
         composable(
@@ -81,6 +87,14 @@ fun AppNavHost(
             val url = it.arguments?.getString("url")
             if (url != null) {
                 VideoView(url)
+            }
+        }
+        composable(
+            route = TextViewer.routeWithArgs, arguments = TextViewer.arguments
+        ) {
+            val text = it.arguments?.getString("text")
+            if (text != null) {
+                TextView(text)
             }
         }
     }

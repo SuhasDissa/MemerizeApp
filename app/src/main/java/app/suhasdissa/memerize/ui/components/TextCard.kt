@@ -13,12 +13,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun TextCard(
     modifier: Modifier = Modifier,
-    clickAction: (url: String) -> Unit,
-    text: String,
-    clickUrl: String
+    clickAction: () -> Unit,
+    text: String
 ) {
     ElevatedCard(
-        onClick = { clickAction(clickUrl) },
+        onClick = { clickAction() },
         modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
@@ -27,7 +26,8 @@ fun TextCard(
         Box(
             modifier
                 .padding(horizontal = 10.dp, vertical = 6.dp)
-                .height(IntrinsicSize.Min)) {
+                .height(IntrinsicSize.Min)
+        ) {
             Text(text = text, style = MaterialTheme.typography.headlineSmall)
         }
     }

@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.ui.screens
+package app.suhasdissa.memerize.ui.screens.primary
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +29,6 @@ fun FunnyVideoScreen(
         is FunnyVideoState.Success -> TextCardGrid(
             funnyVideoState, onClickTextCard, modifier
         )
-        else -> {}
     }
 
 }
@@ -47,7 +46,7 @@ private fun TextCardGrid(
     ) {
         items(items = funnyVideoState.children) { item ->
             val encodedURl = URLEncoder.encode(item.content, StandardCharsets.UTF_8.toString())
-            TextCard(clickAction = onClickTextCard, text = item.title, clickUrl = encodedURl)
+            TextCard(clickAction = { onClickTextCard(encodedURl) }, text = item.title)
         }
 
     }
