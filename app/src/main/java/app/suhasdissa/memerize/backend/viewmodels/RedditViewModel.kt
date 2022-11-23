@@ -1,10 +1,12 @@
-package app.suhasdissa.memerize.backend
+package app.suhasdissa.memerize.backend.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.suhasdissa.memerize.backend.repositories.DefaultRedditRepository
+import app.suhasdissa.memerize.backend.serializables.Children
 import kotlinx.coroutines.launch
 
 sealed interface UiState {
@@ -15,21 +17,14 @@ sealed interface UiState {
 
 class RedditViewModel : ViewModel() {
     var memeUiState: UiState by mutableStateOf(UiState.Loading)
+        private set
 
-    init {
-        getMemePhotos("tkasylum", "today")
-    }
-
-    fun getMemePhotos(
-        subreddit: String, time: String
-    ) {
+    fun getMemePhotos(subreddit: String, time: String) {
         viewModelScope.launch {
             memeUiState = UiState.Loading
             memeUiState = try {
                 UiState.Success(
-                    RedditApi.retrofitService.getRedditData(
-                        subreddit, time
-                    ).data.children
+                    DefaultRedditRepository().getData(subreddit, time)
                 )
             } catch (e: Exception) {
                 UiState.Error(e.toString())

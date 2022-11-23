@@ -13,10 +13,14 @@ object Home : Destination {
 
 object MemeView : Destination {
     override val route = "memeview"
+    val routeWithArgs = "$route/{category}"
+    val arguments = listOf(navArgument("category") { type = NavType.StringType })
 }
 
 object TGMemeView : Destination {
     override val route = "tgmemeview"
+    val routeWithArgs = "$route/{category}"
+    val arguments = listOf(navArgument("category") { type = NavType.StringType })
 }
 
 object FunnyVideoView : Destination {

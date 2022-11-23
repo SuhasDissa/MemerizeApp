@@ -27,4 +27,14 @@
     <string name="meme_limit">Meme Limit:</string>
     <string name="telegram_settings">Telegram Settings:</string>
     <string name="telegram_channel_section">Channel:</string>
+    <string name="meme_category">Memes</string>
+    <string name="funny_video_category">Funny Videos</string>
+    <string name="funny_stuff_category">Funny Stuff</string>
+    <string name="reddit_tkasylum">THE KOTA</string>
+    <string name="telegram_chaplin">Chaplin SL</string>
+    <string name="reddit_piefm">PIE FM</string>
+    <string name="reddit_meemes">Memes</string>
+    <string name="telegram_eplussl">MemeXE SL</string>
+    <string name="reddit_dankmemes">Dank Memes</string>
+    <string name="reddit_rmemes">r/Memes</string>
 </resources>

@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.suhasdissa.memerize.backend.FeedViewModel
-import app.suhasdissa.memerize.backend.PostsState
+import app.suhasdissa.memerize.backend.viewmodels.FeedViewModel
+import app.suhasdissa.memerize.backend.viewmodels.PostsState
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.FeedCard
 import app.suhasdissa.memerize.ui.components.LoadingScreen

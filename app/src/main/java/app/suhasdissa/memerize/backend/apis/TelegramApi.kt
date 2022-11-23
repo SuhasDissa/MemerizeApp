@@ -1,5 +1,6 @@
 package app.suhasdissa.memerize.backend
 
+import app.suhasdissa.memerize.backend.serializables.TelegramModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -8,7 +9,6 @@ import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 private val json = Json { ignoreUnknownKeys = true }
 
@@ -20,10 +20,9 @@ private val retrofitTG = Retrofit.Builder()
 
 interface TelegramApiService {
     @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-    @GET("json/{channel}")
+    @GET("json/{channel}?limit=20")
     suspend fun getChannelData(
-        @Path("channel") channel: String,
-        @Query("limit") limit: String
+        @Path("channel") channel: String
     ): TelegramModel
 }
 

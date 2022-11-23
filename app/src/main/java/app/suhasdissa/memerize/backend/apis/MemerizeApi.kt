@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.backend
+package app.suhasdissa.memerize.backend.apis
 
 import app.suhasdissa.memerize.backend.serializables.MemerizeModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

@@ -1,5 +1,6 @@
 package app.suhasdissa.memerize.backend
 
+import app.suhasdissa.memerize.backend.serializables.Reddit
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -20,7 +21,7 @@ private val retrofit = Retrofit.Builder()
 
 interface ApiService {
     @Headers("User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36")
-    @GET("r/{subreddit}.json?sort=top")
+    @GET("r/{subreddit}/top.json?sort=top&limit=100")
     suspend fun getRedditData(
         @Path("subreddit") subreddit: String,
         @Query("t") time: String

@@ -1,10 +1,11 @@
-package app.suhasdissa.memerize.backend
+package app.suhasdissa.memerize.backend.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.suhasdissa.memerize.backend.apis.MemerizeApi
 import app.suhasdissa.memerize.backend.serializables.MemerizeModel
 import kotlinx.coroutines.launch
 
@@ -43,6 +44,7 @@ sealed interface PostsState {
 
 class FeedViewModel : ViewModel() {
     var state: PostsState by mutableStateOf(PostsState.Loading)
+        private set
 
     init {
         getData()

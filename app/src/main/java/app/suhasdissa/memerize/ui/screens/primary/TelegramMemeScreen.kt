@@ -1,4 +1,4 @@
-package app.suhasdissa.memerize.ui.screens
+package app.suhasdissa.memerize.ui.screens.primary
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.TelegramUiState
-import app.suhasdissa.memerize.backend.TelegramViewModel
+import app.suhasdissa.memerize.backend.viewmodels.TelegramUiState
+import app.suhasdissa.memerize.backend.viewmodels.TelegramViewModel
 import app.suhasdissa.memerize.ui.components.CardImage
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
@@ -29,8 +30,12 @@ fun TelegramMemeScreen(
     modifier: Modifier = Modifier,
     viewModel: TelegramViewModel = viewModel(),
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit
+    onClickVideo: (url: String) -> Unit,
+    channel: String
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getMemePhotos(channel)
+    }
     when (val memeUiState = viewModel.state) {
         is TelegramUiState.Loading -> LoadingScreen(modifier)
         is TelegramUiState.Error -> ErrorScreen(memeUiState.error, modifier)

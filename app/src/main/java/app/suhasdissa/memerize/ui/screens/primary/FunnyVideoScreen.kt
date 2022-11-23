@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.suhasdissa.memerize.backend.FunnyVideoState
-import app.suhasdissa.memerize.backend.VideoViewModel
+import app.suhasdissa.memerize.backend.viewmodels.FunnyVideoState
+import app.suhasdissa.memerize.backend.viewmodels.VideoViewModel
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.TextCard

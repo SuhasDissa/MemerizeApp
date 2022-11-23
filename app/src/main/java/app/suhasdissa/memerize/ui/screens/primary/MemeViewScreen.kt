@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -14,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.ChildData
-import app.suhasdissa.memerize.backend.RedditViewModel
-import app.suhasdissa.memerize.backend.UiState
+import app.suhasdissa.memerize.backend.serializables.ChildData
+import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
+import app.suhasdissa.memerize.backend.viewmodels.UiState
 import app.suhasdissa.memerize.ui.components.CardImage
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
@@ -29,17 +30,23 @@ fun MemeViewScreen(
     modifier: Modifier = Modifier,
     viewModel: RedditViewModel = viewModel(),
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit
+    onClickVideo: (url: String) -> Unit,
+    subreddit:String
 ) {
+    fun refresh(time: String) {
+        viewModel.getMemePhotos(subreddit, time)
+    }
+    LaunchedEffect(Unit) {
+        refresh("today")
+    }
     when (val memeUiState = viewModel.memeUiState) {
         is UiState.Loading -> LoadingScreen(modifier)
         is UiState.Error -> ErrorScreen(memeUiState.error, modifier)
         is UiState.Success -> MemeGrid(
-            memeUiState, onClickMeme, onClickVideo, viewModel::getMemePhotos, modifier
+            memeUiState, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
         )
         else -> {}
     }
-
 }
 
 
@@ -48,7 +55,7 @@ private fun MemeGrid(
     memeUiState: UiState.Success,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
-    refresh: (subreddit: String, time: String) -> Unit,
+    refresh: (time: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -58,13 +65,13 @@ private fun MemeGrid(
                 .padding(10.dp)
         ) {
             Row(modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
-                OutlinedButton(onClick = { refresh("tkasylum", "today") }) {
+                OutlinedButton(onClick = { refresh("today") }) {
                     Text(stringResource(R.string.reddit_today_btn))
                 }
-                OutlinedButton(onClick = { refresh("tkasylum", "week") }) {
+                OutlinedButton(onClick = { refresh("week") }) {
                     Text(stringResource(R.string.reddit_week_btn))
                 }
-                OutlinedButton(onClick = { refresh("tkasylum", "month") }) {
+                OutlinedButton(onClick = { refresh("month") }) {
                     Text(stringResource(R.string.reddit_month_btn))
                 }
             }

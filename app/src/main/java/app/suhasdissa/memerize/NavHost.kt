@@ -7,7 +7,9 @@ import androidx.navigation.NavHostController
 import app.suhasdissa.memerize.ui.components.PhotoView
 import app.suhasdissa.memerize.ui.components.VideoView
 import app.suhasdissa.memerize.ui.screens.*
+import app.suhasdissa.memerize.ui.screens.primary.HomeScreen
 import app.suhasdissa.memerize.ui.screens.primary.MemeViewScreen
+import app.suhasdissa.memerize.ui.screens.primary.TelegramMemeScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -20,14 +22,14 @@ fun AppNavHost(
         navController = navController, startDestination = Home.route, modifier = modifier
     ) {
         composable(route = Home.route) {
-            HomeScreen(onClickMemeView = {
-                navController.navigateTo(MemeView.route)
+            HomeScreen(onClickMemeView = { subreddit->
+                navController.navigateTo("${MemeView.route}/$subreddit")
             }, onClickFunnyVideo = {
                 navController.navigateTo(FunnyVideoView.route)
             }, onClickFeed = {
                 navController.navigateTo(FeedView.route)
-            }, onClickTG = {
-                navController.navigateTo(TGMemeView.route)
+            }, onClickTG = {channel->
+                navController.navigateTo("${TGMemeView.route}/$channel")
             })
         }
         composable(route = Settings.route) {
@@ -36,19 +38,25 @@ fun AppNavHost(
         composable(route = About.route) {
             AboutScreen()
         }
-        composable(route = MemeView.route) {
-            MemeViewScreen(onClickMeme = { url ->
-                navController.navigateTo("${PhotoView.route}/$url")
-            }, onClickVideo = { url ->
-                navController.navigateTo("${VideoPlayer.route}/$url")
-            })
+        composable(route = MemeView.routeWithArgs, arguments = MemeView.arguments) {
+            val subreddit = it.arguments?.getString("category")
+            if (subreddit != null) {
+                MemeViewScreen(onClickMeme = { url ->
+                    navController.navigateTo("${PhotoView.route}/$url")
+                }, onClickVideo = { url ->
+                    navController.navigateTo("${VideoPlayer.route}/$url")
+                },subreddit=subreddit)
+            }
         }
-        composable(route = TGMemeView.route) {
-            TelegramMemeScreen(onClickMeme = { url ->
-                navController.navigateTo("${PhotoView.route}/$url")
-            }, onClickVideo = { url ->
-                navController.navigateTo("${VideoPlayer.route}/$url")
-            })
+        composable(route = TGMemeView.routeWithArgs, arguments = TGMemeView.arguments) {
+            val channel = it.arguments?.getString("category")
+            if (channel != null) {
+                TelegramMemeScreen(onClickMeme = { url ->
+                    navController.navigateTo("${PhotoView.route}/$url")
+                }, onClickVideo = { url ->
+                    navController.navigateTo("${VideoPlayer.route}/$url")
+                },channel=channel)
+            }
         }
         composable(route = FunnyVideoView.route) {
             FunnyVideoScreen(onClickTextCard = { url ->
