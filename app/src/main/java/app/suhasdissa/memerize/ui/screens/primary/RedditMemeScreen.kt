@@ -1,19 +1,20 @@
 /*******************************************************************************
- Created By Suhas Dissanayake on 11/23/22, 4:16 PM
- Copyright (c) 2022
- https://github.com/SuhasDissa/
- All Rights Reserved
+Created By Suhas Dissanayake on 11/23/22, 4:16 PM
+Copyright (c) 2022
+https://github.com/SuhasDissa/
+All Rights Reserved
  ******************************************************************************/
 
 package app.suhasdissa.memerize.ui.screens.primary
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -21,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.serializables.ChildData
+import app.suhasdissa.memerize.backend.repositories.Meme
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.backend.viewmodels.UiState
 import app.suhasdissa.memerize.ui.components.CardImage
@@ -42,14 +43,20 @@ fun RedditMemeScreen(
     fun refresh(time: String) {
         viewModel.getMemePhotos(subreddit, time)
     }
-    LaunchedEffect(subreddit) {
-        refresh("today")
+
+    var _subreddit: String by rememberSaveable { mutableStateOf("") }
+
+    if (_subreddit != subreddit) {
+        LaunchedEffect(Unit) {
+            refresh("today")
+            _subreddit = subreddit
+        }
     }
     when (val memeUiState = viewModel.memeUiState) {
         is UiState.Loading -> LoadingScreen(modifier)
         is UiState.Error -> ErrorScreen(memeUiState.error, modifier)
         is UiState.Success -> MemeGrid(
-            memeUiState, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
+            memeUiState.memes, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
         )
     }
 }
@@ -57,7 +64,7 @@ fun RedditMemeScreen(
 
 @Composable
 private fun MemeGrid(
-    memeUiState: UiState.Success,
+    memes: List<Meme>,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     refresh: (time: String) -> Unit,
@@ -81,20 +88,19 @@ private fun MemeGrid(
                 }
             }
         }
-        val photos = memeUiState.children.filter { it.Childdata.url.contains("i.redd.it") }
-        val videos = memeUiState.children.filter { it.Childdata.url.contains("v.redd.it") }
-        if (photos.isNotEmpty() || videos.isNotEmpty()) {
+        if (memes.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(375.dp),
                 modifier = modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(4.dp)
             ) {
 
-                items(items = photos) { photo ->
-                    MemeCard(onClickMeme, photo.Childdata, modifier)
-                }
-                items(items = videos) { video ->
-                    VideoCard(onClickVideo, video.Childdata, modifier)
+                items(items = memes) { meme ->
+                    if (meme.isVideo) {
+                        VideoCard(onClickVideo, meme.url, meme.preview, modifier)
+                    } else {
+                        MemeCard(onClickMeme, meme.url, modifier)
+                    }
                 }
             }
         } else {
@@ -112,25 +118,25 @@ private fun MemeGrid(
 }
 
 @Composable
-private fun MemeCard(
-    onClickMeme: (url: String) -> Unit, photo: ChildData, modifier: Modifier = Modifier
+fun MemeCard(
+    onClickMeme: (url: String) -> Unit, photo: String, modifier: Modifier = Modifier
 ) {
-    val encodedImg = URLEncoder.encode(photo.url, StandardCharsets.UTF_8.toString())
-    CardImage(modifier, onClickMeme, encodedImg, photo.url)
+    val encodedImg = URLEncoder.encode(photo, StandardCharsets.UTF_8.toString())
+    CardImage(modifier, { onClickMeme(encodedImg) }, photo)
 }
 
 @Composable
-private fun VideoCard(
-    onClickVideo: (url: String) -> Unit, photo: ChildData, modifier: Modifier = Modifier
+fun VideoCard(
+    onClickVideo: (url: String) -> Unit,
+    vidlink: String,
+    preview: String,
+    modifier: Modifier = Modifier
 ) {
-    val vidlink = photo.secure_media?.reddit_video?.dash_url ?: return
-    val encodedLink =
-        URLEncoder.encode(vidlink.replace("&amp;", "&"), StandardCharsets.UTF_8.toString())
-    val preview = photo.preview?.images?.get(0)?.source?.url ?: return
 
+    val encodedLink = URLEncoder.encode(vidlink, StandardCharsets.UTF_8.toString())
 
     Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
-        CardImage(modifier, onClickVideo, encodedLink, preview.replace("&amp;", "&"))
+        CardImage(modifier, { onClickVideo(encodedLink) }, preview)
         Card(shape = CircleShape) {
             Icon(
                 modifier = modifier.size(70.dp),

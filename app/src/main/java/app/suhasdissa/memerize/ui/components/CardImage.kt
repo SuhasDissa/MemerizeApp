@@ -1,8 +1,8 @@
 /*******************************************************************************
- Created By Suhas Dissanayake on 11/23/22, 4:16 PM
- Copyright (c) 2022
- https://github.com/SuhasDissa/
- All Rights Reserved
+Created By Suhas Dissanayake on 11/23/22, 4:16 PM
+Copyright (c) 2022
+https://github.com/SuhasDissa/
+All Rights Reserved
  ******************************************************************************/
 
 package app.suhasdissa.memerize.ui.components
@@ -26,16 +26,14 @@ import coil.request.ImageRequest
 
 @Composable
 fun CardImage(
-    modifier: Modifier = Modifier,
-    clickAction: (url: String) -> Unit,
-    clickUrl: String,
-    photoUrl: String
+    modifier: Modifier = Modifier, clickAction: () -> Unit, photoUrl: String
 ) {
-    ElevatedCard(modifier = modifier
-        .padding(4.dp)
-        .fillMaxWidth()
-        .aspectRatio(1f)
-        .clickable { clickAction(clickUrl) }) {
+    ElevatedCard(
+        modifier = modifier
+            .padding(4.dp)
+            .fillMaxWidth()
+            .aspectRatio(1f)
+            .clickable { clickAction() }) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
                 .crossfade(true).build(),

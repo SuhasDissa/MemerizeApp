@@ -1,8 +1,8 @@
 /*******************************************************************************
- Created By Suhas Dissanayake on 11/23/22, 4:16 PM
- Copyright (c) 2022
- https://github.com/SuhasDissa/
- All Rights Reserved
+Created By Suhas Dissanayake on 11/23/22, 4:16 PM
+Copyright (c) 2022
+https://github.com/SuhasDissa/
+All Rights Reserved
  ******************************************************************************/
 
 package app.suhasdissa.memerize.backend.viewmodels
@@ -13,11 +13,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.suhasdissa.memerize.backend.repositories.DefaultRedditRepository
-import app.suhasdissa.memerize.backend.serializables.Children
+import app.suhasdissa.memerize.backend.repositories.Meme
 import kotlinx.coroutines.launch
 
 sealed interface UiState {
-    data class Success(val children: List<Children>) : UiState
+    data class Success(val memes: List<Meme>) : UiState
     data class Error(val error: String) : UiState
     object Loading : UiState
 }
