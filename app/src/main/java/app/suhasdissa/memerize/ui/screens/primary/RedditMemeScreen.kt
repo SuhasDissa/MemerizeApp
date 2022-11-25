@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun RedditMemeScreen(
     modifier: Modifier = Modifier,
-    viewModel: RedditViewModel = viewModel(),
+    viewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory),
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     subreddit: String

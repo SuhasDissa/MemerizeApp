@@ -14,26 +14,23 @@ interface TelegramRepository {
 }
 
 private var MemeList: ArrayList<Meme> = arrayListOf()
-private var oldchannel = ""
 
-class DefaultTelegramRepository : TelegramRepository {
+class NetworkTelegramRepository : TelegramRepository {
     override suspend fun getData(channel: String): ArrayList<Meme> {
-        if (oldchannel != channel) {
-            MemeList = arrayListOf()
-            val telegramData = TelegramApi.retrofitService.getChannelData(channel).messages
-            telegramData.forEach { post ->
+        MemeList = arrayListOf()
+        val telegramData = TelegramApi.retrofitService.getChannelData(channel).messages
+        telegramData.forEach { post ->
 
-                if (post.media?.type?.contains("messageMediaPhoto") == true) {
-                    val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
-                    MemeList.add(Meme(false, url, url))
+            if (post.media?.type?.contains("messageMediaPhoto") == true) {
+                val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
+                MemeList.add(Meme(url, false, url))
 
-                } else if (post.media?.type?.contains("messageMediaDocument") == true) {
-                    val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
-                    val preview = "https://tg.i-c-a.su/media/$channel/${post.id}/preview"
-                    MemeList.add(Meme(true, url, preview))
-                }
+            } else if (post.media?.type?.contains("messageMediaDocument") == true) {
+                val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
+                val preview = "https://tg.i-c-a.su/media/$channel/${post.id}/preview"
+                MemeList.add(Meme(url, true, preview))
             }
-            oldchannel = channel
+
         }
         return MemeList
     }

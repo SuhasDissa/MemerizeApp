@@ -11,18 +11,23 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import app.suhasdissa.memerize.backend.repositories.DefaultRedditRepository
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.repositories.Meme
+import app.suhasdissa.memerize.backend.repositories.RedditRepository
 import kotlinx.coroutines.launch
 
 sealed interface UiState {
-    data class Success(val memes: List<Meme>) : UiState
+    data class Success(val memes: ArrayList<Meme>) : UiState
     data class Error(val error: String) : UiState
     object Loading : UiState
 }
 
-class RedditViewModel : ViewModel() {
+class RedditViewModel(private val redditRepository: RedditRepository) : ViewModel() {
     var memeUiState: UiState by mutableStateOf(UiState.Loading)
         private set
 
@@ -31,10 +36,20 @@ class RedditViewModel : ViewModel() {
             memeUiState = UiState.Loading
             memeUiState = try {
                 UiState.Success(
-                    DefaultRedditRepository().getData(subreddit, time)
+                    redditRepository.getData(subreddit, time)
                 )
             } catch (e: Exception) {
                 UiState.Error(e.toString())
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as MemerizeApplication)
+                val redditRepository = application.container.redditRepository
+                RedditViewModel(redditRepository = redditRepository)
             }
         }
     }

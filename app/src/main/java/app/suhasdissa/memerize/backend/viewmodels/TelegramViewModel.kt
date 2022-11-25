@@ -12,9 +12,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
-import app.suhasdissa.memerize.backend.repositories.DefaultTelegramRepository
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.repositories.Meme
+import app.suhasdissa.memerize.backend.repositories.TelegramRepository
 import kotlinx.coroutines.launch
 
 sealed interface TelegramUiState {
@@ -23,7 +28,7 @@ sealed interface TelegramUiState {
     object Loading : TelegramUiState
 }
 
-class TelegramViewModel : ViewModel() {
+class TelegramViewModel(private val telegramRepository: TelegramRepository) : ViewModel() {
     var state: TelegramUiState by mutableStateOf(TelegramUiState.Loading)
         private set
 
@@ -32,10 +37,20 @@ class TelegramViewModel : ViewModel() {
             state = TelegramUiState.Loading
             state = try {
                 TelegramUiState.Success(
-                    DefaultTelegramRepository().getData(channel)
+                    telegramRepository.getData(channel)
                 )
             } catch (e: Exception) {
                 TelegramUiState.Error(e.toString())
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as MemerizeApplication)
+                val telegramRepository = application.container.telegramRepository
+                TelegramViewModel(telegramRepository = telegramRepository)
             }
         }
     }

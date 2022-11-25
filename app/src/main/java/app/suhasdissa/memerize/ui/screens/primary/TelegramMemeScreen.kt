@@ -29,7 +29,7 @@ import app.suhasdissa.memerize.ui.components.LoadingScreen
 @Composable
 fun TelegramMemeScreen(
     modifier: Modifier = Modifier,
-    viewModel: TelegramViewModel = viewModel(),
+    viewModel: TelegramViewModel = viewModel(factory = TelegramViewModel.Factory),
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     channel: String
@@ -55,7 +55,7 @@ fun TelegramMemeScreen(
 
 @Composable
 private fun MemeGrid(
-    memes:List<Meme>,
+    memes: List<Meme>,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     modifier: Modifier = Modifier

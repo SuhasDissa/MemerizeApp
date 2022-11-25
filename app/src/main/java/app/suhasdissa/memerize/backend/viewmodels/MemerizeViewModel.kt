@@ -1,8 +1,8 @@
 /*******************************************************************************
- Created By Suhas Dissanayake on 11/23/22, 4:16 PM
- Copyright (c) 2022
- https://github.com/SuhasDissa/
- All Rights Reserved
+Created By Suhas Dissanayake on 11/23/22, 4:16 PM
+Copyright (c) 2022
+https://github.com/SuhasDissa/
+All Rights Reserved
  ******************************************************************************/
 
 package app.suhasdissa.memerize.backend.viewmodels
