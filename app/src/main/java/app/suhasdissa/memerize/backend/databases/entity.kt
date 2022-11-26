@@ -11,9 +11,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
-data class Meme(
+@Entity(tableName ="reddit_table")
+data class RedditMeme(
     @PrimaryKey val url: String,
-    @ColumnInfo(name = "isVideo") val isVideo: Boolean,
-    @ColumnInfo(name = "preview") val preview: String?
+    @ColumnInfo(name = "is_video") val isVideo: Boolean,
+    @ColumnInfo(name = "preview", defaultValue = "") val preview: String
+)
+
+@Entity(tableName ="telegram_table")
+data class TelegramMeme(
+    @PrimaryKey val url: String,
+    @ColumnInfo(name = "is_video") val isVideo: Boolean,
+    @ColumnInfo(name = "preview",defaultValue = "") val preview: String
 )

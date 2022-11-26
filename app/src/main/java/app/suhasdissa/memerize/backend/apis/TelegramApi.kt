@@ -5,7 +5,7 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.backend
+package app.suhasdissa.memerize.backend.apis
 
 import app.suhasdissa.memerize.backend.serializables.TelegramModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory

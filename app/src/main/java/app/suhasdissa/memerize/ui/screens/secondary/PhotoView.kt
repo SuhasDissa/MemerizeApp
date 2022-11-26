@@ -5,7 +5,7 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.ui.components
+package app.suhasdissa.memerize.ui.screens.secondary
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon

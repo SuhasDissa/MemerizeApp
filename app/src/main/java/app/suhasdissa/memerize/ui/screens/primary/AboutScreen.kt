@@ -5,7 +5,7 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.ui.screens
+package app.suhasdissa.memerize.ui.screens.primary
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape

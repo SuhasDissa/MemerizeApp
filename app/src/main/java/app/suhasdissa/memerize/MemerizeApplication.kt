@@ -9,15 +9,13 @@ package app.suhasdissa.memerize
 
 import android.app.Application
 import app.suhasdissa.memerize.backend.databases.MemeDatabase
-import app.suhasdissa.memerize.backend.databases.MemeRepository
 
 class MemerizeApplication : Application() {
-    val database by lazy { MemeDatabase.getDatabase(this) }
-    val repository by lazy { MemeRepository(database.memeDao()) }
+    private val database by lazy { MemeDatabase.getDatabase(this) }
     lateinit var container: AppContainer
 
-    override fun onCreate(){
+    override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer()
+        container = DefaultAppContainer(database)
     }
 }

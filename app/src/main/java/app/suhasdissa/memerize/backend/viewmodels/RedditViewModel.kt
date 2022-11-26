@@ -34,13 +34,10 @@ class RedditViewModel(private val redditRepository: RedditRepository) : ViewMode
     fun getMemePhotos(subreddit: String, time: String) {
         viewModelScope.launch {
             memeUiState = UiState.Loading
-            memeUiState = try {
-                UiState.Success(
-                    redditRepository.getData(subreddit, time)
-                )
-            } catch (e: Exception) {
-                UiState.Error(e.toString())
-            }
+            memeUiState = UiState.Success(
+                redditRepository.getData(subreddit, time)
+            )
+
         }
     }
 

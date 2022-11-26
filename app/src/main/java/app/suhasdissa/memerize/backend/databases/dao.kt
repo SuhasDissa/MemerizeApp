@@ -7,19 +7,28 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.backend.databases
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
-interface MemeDao {
-    @Query("SELECT * FROM meme")
-    fun getAll(): List<Meme>
+interface RedditMemeDao {
+    @Query("SELECT * FROM reddit_table")
+    fun getAll(): List<RedditMeme>
 
-    @Insert
-    fun insertAll(memes: ArrayList<Meme>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAll(memes: List<RedditMeme>)
 
     @Delete
-    fun delete(meme: Meme)
+    fun delete(meme: RedditMeme)
+}
+
+@Dao
+interface TelegramMemeDao {
+    @Query("SELECT * FROM telegram_table")
+    fun getAll(): List<TelegramMeme>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertAll(memes: List<TelegramMeme>)
+
+    @Delete
+    fun delete(meme: TelegramMeme)
 }

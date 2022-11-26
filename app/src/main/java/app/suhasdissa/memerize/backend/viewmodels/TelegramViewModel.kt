@@ -35,13 +35,10 @@ class TelegramViewModel(private val telegramRepository: TelegramRepository) : Vi
     fun getMemePhotos(channel: String) {
         viewModelScope.launch {
             state = TelegramUiState.Loading
-            state = try {
-                TelegramUiState.Success(
-                    telegramRepository.getData(channel)
-                )
-            } catch (e: Exception) {
-                TelegramUiState.Error(e.toString())
-            }
+            state = TelegramUiState.Success(
+                telegramRepository.getData(channel)
+            )
+
         }
     }
 

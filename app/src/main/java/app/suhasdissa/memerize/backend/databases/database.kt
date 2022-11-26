@@ -8,15 +8,15 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.databases
 
 import android.content.Context
-import androidx.annotation.WorkerThread
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Meme::class], version = 1)
+@Database(entities = [RedditMeme::class,TelegramMeme::class], version = 1)
 abstract class MemeDatabase : RoomDatabase() {
 
-    abstract fun memeDao(): MemeDao
+    abstract fun redditMemeDao(): RedditMemeDao
+    abstract fun telegramMemeDao(): TelegramMemeDao
 
     companion object {
         @Volatile
@@ -26,19 +26,10 @@ abstract class MemeDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, MemeDatabase::class.java, "meme_database"
-                ).build()
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 instance
             }
         }
-    }
-}
-
-class MemeRepository(private val memeDao: MemeDao) {
-    val allMemes = memeDao.getAll()
-
-    @WorkerThread
-    fun insert(memes: ArrayList<Meme>) {
-        memeDao.insertAll(memes)
     }
 }
