@@ -11,9 +11,13 @@ import android.content.Context
 import android.content.Intent
 
 fun shareUrl(context: Context, url: String) {
+    var shareurl = url
+    if (url.contains("v.redd.it")) {
+        shareurl = url.split("/").slice(0..3).joinToString("/")
+    }
     val sendIntent: Intent = Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_TEXT, url)
+        putExtra(Intent.EXTRA_TEXT, shareurl)
         type = "text/plain"
     }
     val shareIntent = Intent.createChooser(sendIntent, "Send Photo to..")

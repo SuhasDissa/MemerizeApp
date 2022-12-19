@@ -11,16 +11,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName ="reddit_table")
+@Entity(tableName = "reddit_table")
 data class RedditMeme(
     @PrimaryKey val url: String,
     @ColumnInfo(name = "is_video") val isVideo: Boolean,
     @ColumnInfo(name = "preview", defaultValue = "") val preview: String
 )
 
-@Entity(tableName ="telegram_table")
+@Entity(tableName = "telegram_table")
 data class TelegramMeme(
     @PrimaryKey val url: String,
     @ColumnInfo(name = "is_video") val isVideo: Boolean,
-    @ColumnInfo(name = "preview",defaultValue = "") val preview: String
+    @ColumnInfo(name = "preview", defaultValue = "") val preview: String
 )

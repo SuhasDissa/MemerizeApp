@@ -7,11 +7,17 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.secondary
 
+import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -30,18 +36,47 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
     val context = LocalContext.current
     val photoUrl = URLDecoder.decode(photo, StandardCharsets.UTF_8.toString())
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
+        val scale = remember { mutableStateOf(1f) }
+        val rotationState = remember { mutableStateOf(1f) }
+        val offsetX = remember { mutableStateOf(1f) }
+        val offsetY = remember { mutableStateOf(1f) }
 
-        AsyncImage(
-            model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
-                .crossfade(true).build(),
-            contentDescription = stringResource(R.string.meme_photo),
-            contentScale = ContentScale.Fit,
-            modifier = modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            error = painterResource(R.drawable.ic_broken_image),
-            placeholder = painterResource(R.drawable.loading_img)
-        )
+        Box(modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+            .pointerInput(Unit) {
+                awaitEachGesture {
+                    awaitFirstDown()
+                    do {
+                        val event = awaitPointerEvent()
+                        scale.value *= event.calculateZoom()
+                        val offset = event.calculatePan()
+                        offsetX.value += offset.x
+                        offsetY.value += offset.y
+                        rotationState.value += event.calculateRotation()
+                    } while (event.changes.any { it.pressed })
+
+                }
+            }
+        , contentAlignment = Alignment.Center) {
+            AsyncImage(
+                model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
+                    .crossfade(true).build(),
+                contentDescription = stringResource(R.string.meme_photo),
+                contentScale = ContentScale.Fit,
+                modifier = modifier
+                    .fillMaxWidth()
+                    .graphicsLayer {
+                        scaleX = scale.value
+                        scaleY = scale.value
+                        rotationZ = rotationState.value
+                        translationX = offsetX.value
+                        translationY = offsetY.value
+                    },
+                error = painterResource(R.drawable.ic_broken_image),
+                placeholder = painterResource(R.drawable.loading_img)
+            )
+        }
 
         Row(
             modifier

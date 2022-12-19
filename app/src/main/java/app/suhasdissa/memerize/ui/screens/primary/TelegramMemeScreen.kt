@@ -88,30 +88,3 @@ private fun MemeGrid(
 
     }
 }
-/*
-
-@Composable
-private fun MemeCard(
-    onClickMeme: (url: String) -> Unit, url: String, modifier: Modifier = Modifier
-) {
-    val encodedImg = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-    CardImage(modifier, { onClickMeme(encodedImg) }, url)
-}
-
-@Composable
-private fun VideoCard(
-    onClickVideo: (url: String) -> Unit, url: String, preview: String, modifier: Modifier = Modifier
-) {
-    val encodedLink = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
-    Box(contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()) {
-        CardImage(modifier, { onClickVideo(encodedLink) }, preview)
-        Card(shape = CircleShape) {
-            Icon(
-                modifier = modifier.size(70.dp),
-                painter = painterResource(com.google.android.exoplayer2.R.drawable.exo_ic_play_circle_filled),
-                contentDescription = stringResource(R.string.play_video_hint)
-            )
-        }
-    }
-}
-*/

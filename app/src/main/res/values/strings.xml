@@ -28,4 +28,6 @@
     <string name="telegram_eplussl">MemeXE SL</string>
     <string name="reddit_dankmemes">Dank Memes</string>
     <string name="reddit_rmemes">r/Memes</string>
+    <string name="settings_title">Settings</string>
+    <string name="reddit_maybemaybe">MaybeMaybeMaybe</string>
 </resources>

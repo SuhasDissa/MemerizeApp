@@ -11,9 +11,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
 import app.suhasdissa.memerize.ui.screens.*
 import app.suhasdissa.memerize.ui.screens.primary.*
+import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
 import app.suhasdissa.memerize.ui.screens.secondary.TextView
 import app.suhasdissa.memerize.ui.screens.secondary.VideoView
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -36,10 +36,14 @@ fun AppNavHost(
                 navController.navigateTo(FeedView.route)
             }, onClickTG = { channel ->
                 navController.navigateTo("${TGMemeView.route}/$channel")
+            }, onClickSettings = {
+                navController.navigateTo(Settings.route)
             })
         }
         composable(route = Settings.route) {
-            SettingsScreen()
+            SettingsScreen(onAboutClick = {
+                navController.navigateTo(About.route)
+            })
         }
         composable(route = About.route) {
             AboutScreen()

@@ -38,7 +38,7 @@ fun CardImage(
             model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
                 .crossfade(true).build(),
             contentDescription = stringResource(R.string.meme_photo),
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
             error = painterResource(R.drawable.ic_broken_image),
             placeholder = painterResource(R.drawable.loading_img)

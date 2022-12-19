@@ -35,8 +35,7 @@ fun AboutScreen(modifier: Modifier = Modifier) {
     ) {
 
         Text(
-            stringResource(R.string.developer_heading),
-            style = MaterialTheme.typography.headlineLarge
+            stringResource(R.string.developer_heading)
         )
         Card(modifier.fillMaxWidth()) {
             Row(
@@ -58,12 +57,10 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = stringResource(R.string.developer_name),
-                        style = MaterialTheme.typography.headlineMedium
+                        text = stringResource(R.string.developer_name)
                     )
                     Text(
-                        text = stringResource(R.string.developer_username),
-                        style = MaterialTheme.typography.headlineSmall
+                        text = stringResource(R.string.developer_username)
                     )
                     Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                         IconButton(onClick = {
@@ -105,13 +102,11 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = stringResource(R.string.update_description),
-                    style = MaterialTheme.typography.headlineSmall
+                    text = stringResource(R.string.update_description)
                 )
                 Button(onClick = { checkUpdate(context) }, enabled = false) {
                     Text(
-                        stringResource(R.string.update_btn),
-                        style = MaterialTheme.typography.headlineSmall
+                        stringResource(R.string.update_btn)
                     )
                 }
             }
