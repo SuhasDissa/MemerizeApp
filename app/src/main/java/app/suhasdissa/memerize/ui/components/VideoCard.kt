@@ -38,10 +38,9 @@ fun VideoCard(
         contentAlignment = Alignment.Center,
         modifier = modifier
          .fillMaxSize()
-         .clickable(onClick = { onClickVideo(encodedLink) })
     ) {
-        CardImage(modifier, {}, preview)
-        Card(shape = CircleShape) {
+        CardImage(modifier, {onClickVideo(encodedLink)}, preview)
+        Card(modifier.clickable(onClick = { onClickVideo(encodedLink) }),shape = CircleShape) {
             Icon(
                 modifier = modifier.size(64.dp),
                 painter = painterResource(R.drawable.exo_ic_play_circle_filled),

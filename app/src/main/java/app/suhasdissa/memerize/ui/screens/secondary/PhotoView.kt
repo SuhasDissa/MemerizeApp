@@ -84,8 +84,9 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
         Surface(
             modifier
                 .fillMaxWidth()
+                .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp)),
-            color = MaterialTheme.colorScheme.tertiary
+            color = MaterialTheme.colorScheme.tertiaryContainer
         ) {
             Row(
                 modifier
