@@ -24,6 +24,8 @@ import app.suhasdissa.memerize.backend.viewmodels.TelegramUiState
 import app.suhasdissa.memerize.backend.viewmodels.TelegramViewModel
 import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
+import app.suhasdissa.memerize.ui.components.MemeCard
+import app.suhasdissa.memerize.ui.components.VideoCard
 
 
 @Composable
@@ -65,7 +67,7 @@ private fun MemeGrid(
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(375.dp),
                 modifier = modifier.fillMaxWidth(),
-                contentPadding = PaddingValues(4.dp)
+                contentPadding = PaddingValues(8.dp)
             ) {
 
                 items(items = memes) { meme ->
@@ -85,6 +87,5 @@ private fun MemeGrid(
                 )
             }
         }
-
     }
 }

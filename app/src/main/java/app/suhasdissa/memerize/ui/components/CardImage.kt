@@ -30,7 +30,7 @@ fun CardImage(
 ) {
     ElevatedCard(
         modifier = modifier
-            .padding(4.dp)
+            .padding(8.dp)
             .fillMaxWidth()
             .aspectRatio(1f)
             .clickable { clickAction() }) {

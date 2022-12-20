@@ -26,13 +26,13 @@ fun TextCard(
     ElevatedCard(
         onClick = { clickAction() },
         modifier = modifier
-            .padding(4.dp)
+            .padding(8.dp)
             .fillMaxWidth()
 
     ) {
         Box(
             modifier
-                .padding(horizontal = 10.dp, vertical = 6.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
                 .height(IntrinsicSize.Min)
         ) {
             Text(text = text, style = MaterialTheme.typography.headlineSmall)

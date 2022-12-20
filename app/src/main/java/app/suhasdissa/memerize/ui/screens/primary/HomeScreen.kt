@@ -57,7 +57,9 @@ fun HomeScreen(
         LazyColumn(
             modifier
                 .fillMaxWidth()
-                .padding(innerPadding), verticalArrangement = Arrangement.spacedBy(20.dp)
+                .padding(innerPadding)
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             item {
                 Text(

@@ -9,13 +9,17 @@ package app.suhasdissa.memerize.ui.screens.secondary
 
 import androidx.compose.foundation.gestures.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -57,8 +61,8 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                     } while (event.changes.any { it.pressed })
 
                 }
-            }
-        , contentAlignment = Alignment.Center) {
+            }, contentAlignment = Alignment.Center
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
                     .crossfade(true).build(),
@@ -77,32 +81,37 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                 placeholder = painterResource(R.drawable.loading_img)
             )
         }
-
-        Row(
+        Surface(
             modifier
-                .padding(vertical = 10.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp)),
+            color = MaterialTheme.colorScheme.tertiary
         ) {
+            Row(
+                modifier
+                    .padding(vertical = 10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
 
-            IconButton(onClick = { downloadUtil(context, photoUrl) }, modifier) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_download),
-                    contentDescription = "Download Photo",
-                    modifier.size(40.dp)
-                )
-            }
-            IconButton(onClick = {
-                shareUrl(context, photoUrl)
-            }, modifier) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_share),
-                    contentDescription = "Share Photo",
-                    modifier.size(40.dp)
-                )
+                IconButton(onClick = { downloadUtil(context, photoUrl) }, modifier) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_download),
+                        contentDescription = "Download Photo",
+                        modifier.size(48.dp)
+                    )
+                }
+                IconButton(onClick = {
+                    shareUrl(context, photoUrl)
+                }, modifier) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_share),
+                        contentDescription = "Share Photo",
+                        modifier.size(48.dp)
+                    )
+                }
             }
         }
-
 
     }
 }

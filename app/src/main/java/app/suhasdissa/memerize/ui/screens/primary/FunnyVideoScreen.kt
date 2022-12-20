@@ -49,7 +49,7 @@ private fun TextCardGrid(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(375.dp),
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(4.dp)
+        contentPadding = PaddingValues(8.dp)
     ) {
         items(items = funnyVideoState.children) { item ->
             val encodedURl = URLEncoder.encode(item.content, StandardCharsets.UTF_8.toString())

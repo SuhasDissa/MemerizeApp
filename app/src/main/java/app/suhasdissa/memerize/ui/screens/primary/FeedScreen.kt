@@ -49,7 +49,7 @@ private fun FeedGrid(
     LazyVerticalGrid(
         columns = GridCells.Adaptive(375.dp),
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(4.dp)
+        contentPadding = PaddingValues(8.dp)
     ) {
         items(items = postsState.children) { item ->
             val encodedText = URLEncoder.encode(

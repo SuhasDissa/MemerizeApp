@@ -29,7 +29,7 @@ fun TextView(text: String, modifier: Modifier = Modifier) {
         Card(
             modifier
                 .fillMaxSize(.8f)
-                .padding(10.dp)
+                .padding(16.dp)
         ) {
             LazyColumn(modifier.fillMaxSize()) {
                 item {

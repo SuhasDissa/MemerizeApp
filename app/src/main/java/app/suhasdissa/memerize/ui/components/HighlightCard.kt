@@ -29,8 +29,8 @@ fun HighlightCard(
 ) {
     ElevatedCard(
         modifier = modifier
-            .width(200.dp)
-            .height(300.dp)
+            .width(240.dp)
+            .height(320.dp)
             .padding(16.dp)
     ) {
         Column(
@@ -43,7 +43,7 @@ fun HighlightCard(
         ) {
             Image(
                 modifier = modifier
-                    .size(120.dp)
+                    .size(128.dp)
                     .clip(CircleShape),
                 painter = painterResource(thumbnail),
                 contentDescription = null
