@@ -9,8 +9,9 @@ package app.suhasdissa.memerize.ui.screens.primary
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -59,16 +60,20 @@ fun HomeScreen(
                 .fillMaxWidth()
                 .padding(innerPadding)
                 .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             item {
                 Text(
                     text = stringResource(R.string.reddit_memes),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
             item {
-                LazyRow(modifier = modifier.fillMaxWidth(), contentPadding = PaddingValues(4.dp)) {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(2),
+                    modifier = modifier.fillMaxWidth().height(280.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
                     items(items = redditList) { card ->
                         HighlightCard(
                             onClick = { onClickMemeView(card.category) },
@@ -76,18 +81,21 @@ fun HomeScreen(
                             name = card.name,
                             thumbnail = card.thumbnail
                         )
-
                     }
                 }
             }
             item {
                 Text(
                     text = stringResource(R.string.telegram_memes),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
             item {
-                LazyRow(modifier = modifier.fillMaxWidth(), contentPadding = PaddingValues(4.dp)) {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(2),
+                    modifier = modifier.fillMaxWidth().height(280.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
                     items(items = telegramList) { card ->
                         HighlightCard(
                             onClick = { onClickTG(card.category) },
@@ -102,11 +110,15 @@ fun HomeScreen(
             item {
                 Text(
                     text = stringResource(R.string.funny_stuff_category),
-                    style = MaterialTheme.typography.headlineLarge
+                    style = MaterialTheme.typography.titleLarge
                 )
             }
             item {
-                LazyRow(modifier = modifier.fillMaxWidth(), contentPadding = PaddingValues(4.dp)) {
+                LazyHorizontalGrid(
+                    rows = GridCells.Fixed(2),
+                    modifier = modifier.fillMaxWidth().height(280.dp),
+                    contentPadding = PaddingValues(4.dp)
+                ) {
                     item {
                         HighlightCard(
                             onClick = onClickFunnyVideo,

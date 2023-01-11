@@ -29,29 +29,29 @@ fun HighlightCard(
 ) {
     ElevatedCard(
         modifier = modifier
-            .width(240.dp)
-            .height(320.dp)
-            .padding(16.dp)
+            .width(300.dp)
+            .height(128.dp)
+            .padding(8.dp)
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .clickable(onClick = { onClick() })
                 .fillMaxSize()
-                .padding(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Image(
                 modifier = modifier
-                    .size(128.dp)
+                    .size(90.dp)
                     .clip(CircleShape),
                 painter = painterResource(thumbnail),
                 contentDescription = null
             )
             Text(
                 text = stringResource(name),
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier,
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
             )
         }
