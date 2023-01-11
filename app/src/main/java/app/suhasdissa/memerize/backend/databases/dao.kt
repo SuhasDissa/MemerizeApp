@@ -11,8 +11,8 @@ import androidx.room.*
 
 @Dao
 interface RedditMemeDao {
-    @Query("SELECT * FROM reddit_table")
-    fun getAll(): List<RedditMeme>
+    @Query("SELECT * FROM reddit_table WHERE subreddit=:subreddit")
+    fun getAll(subreddit:String): List<RedditMeme>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(memes: List<RedditMeme>)
@@ -23,8 +23,8 @@ interface RedditMemeDao {
 
 @Dao
 interface TelegramMemeDao {
-    @Query("SELECT * FROM telegram_table")
-    fun getAll(): List<TelegramMeme>
+    @Query("SELECT * FROM telegram_table WHERE channel=:channel")
+    fun getAll(channel:String): List<TelegramMeme>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(memes: List<TelegramMeme>)

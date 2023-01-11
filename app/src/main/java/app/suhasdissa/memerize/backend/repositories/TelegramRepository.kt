@@ -23,10 +23,10 @@ class NetworkTelegramRepository(private val telegramMemeDao: TelegramMemeDao) : 
         try {
             memesList = getNetworkData(channel)
             Thread {
-                insertMemes(memesList.map { TelegramMeme(it.url, it.isVideo, it.preview) })
+                insertMemes(memesList.map { TelegramMeme(it.url, it.isVideo, it.preview,it.category) })
             }.start()
         } catch (e: Exception) {
-            memesList = getLocalData()
+            memesList = getLocalData(channel)
         }
         return memesList
     }
@@ -37,20 +37,20 @@ class NetworkTelegramRepository(private val telegramMemeDao: TelegramMemeDao) : 
         telegramData.forEach { post ->
             if (post.media?.type?.contains("messageMediaPhoto") == true) {
                 val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
-                memeList.add(Meme(url, false, url))
+                memeList.add(Meme(url, false, url,channel))
             } else if (post.media?.type?.contains("messageMediaDocument") == true) {
                 val url = "https://tg.i-c-a.su/media/$channel/${post.id}"
                 val preview = "https://tg.i-c-a.su/media/$channel/${post.id}/preview"
-                memeList.add(Meme(url, true, preview))
+                memeList.add(Meme(url, true, preview,channel))
             }
         }
         return memeList
     }
 
-    private fun getLocalData(): ArrayList<Meme> {
-        return telegramMemeDao.getAll().mapTo(ArrayList()) {
+    private fun getLocalData(channel: String): ArrayList<Meme> {
+        return telegramMemeDao.getAll(channel).mapTo(ArrayList()) {
             Meme(
-                it.url, it.isVideo, it.preview
+                it.url, it.isVideo, it.preview,it.channel
             )
         }
     }

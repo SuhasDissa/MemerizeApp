@@ -12,7 +12,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [RedditMeme::class, TelegramMeme::class], version = 1)
+@Database(entities = [RedditMeme::class, TelegramMeme::class], version = 2)
 abstract class MemeDatabase : RoomDatabase() {
 
     abstract fun redditMemeDao(): RedditMemeDao
@@ -26,7 +26,7 @@ abstract class MemeDatabase : RoomDatabase() {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext, MemeDatabase::class.java, "meme_database"
-                ).allowMainThreadQueries().build()
+                ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

@@ -17,7 +17,7 @@ interface RedditRepository {
 }
 
 data class Meme(
-    val url: String, val isVideo: Boolean, val preview: String
+    val url: String, val isVideo: Boolean, val preview: String, val category:String
 )
 
 class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : RedditRepository {
@@ -26,10 +26,10 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
         try {
             memesList = getNetworkData(subreddit, time)
             Thread {
-                insertMemes(memesList.map { RedditMeme(it.url, it.isVideo, it.preview) })
+                insertMemes(memesList.map { RedditMeme(it.url, it.isVideo, it.preview, subreddit=it.category) })
             }.start()
         } catch (e: Exception) {
-            memesList = getLocalData()
+            memesList = getLocalData(subreddit)
         }
         return memesList
     }
@@ -40,7 +40,7 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
         redditData.forEach { child ->
             val url = child.Childdata.url
             if (url.contains("i.redd.it")) {
-                memeList.add(Meme(url, false, ""))
+                memeList.add(Meme(url, false, "",subreddit))
             } else if (url.contains("v.redd.it")) {
                 val dashUrl = child.Childdata.secure_media?.reddit_video?.dash_url
                 val previewUrl = child.Childdata.preview?.images?.get(0)?.source?.url
@@ -48,7 +48,7 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
                     memeList.add(
                         Meme(
                             dashUrl, true, previewUrl.replace("&amp;", "&")
-                        )
+                        ,subreddit)
                     )
                 }
             }
@@ -56,10 +56,10 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
         return memeList
     }
 
-    private fun getLocalData(): ArrayList<Meme> {
-        return redditMemeDao.getAll().mapTo(ArrayList()) {
+    private fun getLocalData(subreddit: String): ArrayList<Meme> {
+        return redditMemeDao.getAll(subreddit).mapTo(ArrayList()) {
             Meme(
-                it.url, it.isVideo, it.preview
+                it.url, it.isVideo, it.preview,it.subreddit
             )
         }
     }

@@ -15,12 +15,14 @@ import androidx.room.PrimaryKey
 data class RedditMeme(
     @PrimaryKey val url: String,
     @ColumnInfo(name = "is_video") val isVideo: Boolean,
-    @ColumnInfo(name = "preview", defaultValue = "") val preview: String
+    @ColumnInfo(name = "preview", defaultValue = "") val preview: String,
+    @ColumnInfo(name = "subreddit", defaultValue = "") val subreddit: String
 )
 
 @Entity(tableName = "telegram_table")
 data class TelegramMeme(
     @PrimaryKey val url: String,
     @ColumnInfo(name = "is_video") val isVideo: Boolean,
-    @ColumnInfo(name = "preview", defaultValue = "") val preview: String
+    @ColumnInfo(name = "preview", defaultValue = "") val preview: String,
+    @ColumnInfo(name = "channel", defaultValue = "") val channel: String
 )

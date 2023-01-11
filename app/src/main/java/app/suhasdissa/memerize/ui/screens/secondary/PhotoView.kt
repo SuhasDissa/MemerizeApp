@@ -32,6 +32,7 @@ import app.suhasdissa.memerize.utils.downloadUtil
 import app.suhasdissa.memerize.utils.shareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import java.lang.Float.max
 import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
@@ -41,7 +42,6 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
     val photoUrl = URLDecoder.decode(photo, StandardCharsets.UTF_8.toString())
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         val scale = remember { mutableStateOf(1f) }
-        val rotationState = remember { mutableStateOf(1f) }
         val offsetX = remember { mutableStateOf(1f) }
         val offsetY = remember { mutableStateOf(1f) }
 
@@ -54,10 +54,10 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                     do {
                         val event = awaitPointerEvent()
                         scale.value *= event.calculateZoom()
+                        scale.value = max(scale.value,1f)
                         val offset = event.calculatePan()
                         offsetX.value += offset.x
                         offsetY.value += offset.y
-                        rotationState.value += event.calculateRotation()
                     } while (event.changes.any { it.pressed })
 
                 }
@@ -73,7 +73,6 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                     .graphicsLayer {
                         scaleX = scale.value
                         scaleY = scale.value
-                        rotationZ = rotationState.value
                         translationX = offsetX.value
                         translationY = offsetY.value
                     },
