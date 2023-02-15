@@ -5,15 +5,13 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="reddit_memes">Reddit Memes</string>
-    <string name="funny_videos">Funny Videos</string>
-    <string name="funny_posts">Funny Posts</string>
     <string name="telegram_memes">Telegram Memes</string>
     <string name="github_avatar" translatable="false">https://avatars.githubusercontent.com/SuhasDissa</string>
     <string name="avatar_description">Profile Picture</string>
     <string name="developer_name" translatable="false">Suhas Dissanayake</string>
     <string name="developer_username" translatable="false">\@SuhasDissa</string>
     <string name="update_btn">UPDATE</string>
-    <string name="update_description">Check For Updates:</string>
+    <string name="update_description">Check For Updates:</string>+
     <string name="developer_heading">Developer:</string>
     <string name="github_icon_hint">Github</string>
     <string name="twitter_icon_hint">Twitter</string>
@@ -22,12 +20,5 @@
     <string name="reddit_month_btn">This Month</string>
     <string name="play_video_hint">Play Video</string>
     <string name="funny_stuff_category">Funny Stuff</string>
-    <string name="reddit_tkasylum">THE KOTA</string>
-    <string name="telegram_chaplin">Chaplin SL</string>
-    <string name="reddit_piefm">PIE FM</string>
-    <string name="telegram_eplussl">MemeXE SL</string>
-    <string name="reddit_dankmemes">Dank Memes</string>
-    <string name="reddit_rmemes">r/Memes</string>
     <string name="settings_title">Settings</string>
-    <string name="reddit_maybemaybe">MaybeMaybeMaybe</string>
 </resources>

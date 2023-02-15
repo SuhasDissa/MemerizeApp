@@ -7,7 +7,10 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.secondary
 
-import androidx.compose.foundation.gestures.*
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculatePan
+import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -45,23 +48,24 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
         val offsetX = remember { mutableStateOf(1f) }
         val offsetY = remember { mutableStateOf(1f) }
 
-        Box(modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()
-            .pointerInput(Unit) {
-                awaitEachGesture {
-                    awaitFirstDown()
-                    do {
-                        val event = awaitPointerEvent()
-                        scale.value *= event.calculateZoom()
-                        scale.value = max(scale.value,1f)
-                        val offset = event.calculatePan()
-                        offsetX.value += offset.x
-                        offsetY.value += offset.y
-                    } while (event.changes.any { it.pressed })
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        awaitFirstDown()
+                        do {
+                            val event = awaitPointerEvent()
+                            scale.value *= event.calculateZoom()
+                            scale.value = max(scale.value, 1f)
+                            val offset = event.calculatePan()
+                            offsetX.value += offset.x
+                            offsetY.value += offset.y
+                        } while (event.changes.any { it.pressed })
 
-                }
-            }, contentAlignment = Alignment.Center
+                    }
+                }, contentAlignment = Alignment.Center
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)

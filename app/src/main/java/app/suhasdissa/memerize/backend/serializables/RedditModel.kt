@@ -27,6 +27,7 @@ data class Children(
 
 @Serializable
 data class ChildData(
+    @SerialName("title") var title: String,
     @SerialName("secure_media") var secure_media: SecureMedia? = SecureMedia(),
     @SerialName("url") var url: String,
     @SerialName("permalink") var permalink: String? = null,

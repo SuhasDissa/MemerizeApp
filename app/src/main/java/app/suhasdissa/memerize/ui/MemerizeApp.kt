@@ -17,7 +17,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MemerizeApp(modifier: Modifier = Modifier) {
+fun MemerizeApp() {
     val navController = rememberAnimatedNavController()
     Surface(
         modifier = Modifier

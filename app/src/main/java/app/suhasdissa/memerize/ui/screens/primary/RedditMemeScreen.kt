@@ -102,9 +102,9 @@ private fun MemeGrid(
 
                 items(items = memes) { meme ->
                     if (meme.isVideo) {
-                        VideoCard(onClickVideo, meme.url, meme.preview, modifier)
+                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, modifier)
                     } else {
-                        MemeCard(onClickMeme, meme.url, modifier)
+                        MemeCard(onClickMeme, meme.url, meme.title, modifier)
                     }
                 }
             }

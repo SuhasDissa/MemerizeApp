@@ -18,14 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import app.suhasdissa.memerize.R
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 @Composable
 fun HighlightCard(
-    onClick: () -> Unit, modifier: Modifier = Modifier, name: Int, thumbnail: Int
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    name: String,
+    thumbnail: Int? = null,
+    thumbnail_url: String? = null
 ) {
     ElevatedCard(
         modifier = modifier
@@ -41,18 +49,33 @@ fun HighlightCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Image(
-                modifier = modifier
-                    .size(90.dp)
-                    .clip(CircleShape),
-                painter = painterResource(thumbnail),
-                contentDescription = null
-            )
+            if (thumbnail != null) {
+                Image(
+                    modifier = modifier
+                        .size(90.dp)
+                        .clip(CircleShape),
+                    painter = painterResource(thumbnail),
+                    contentDescription = null
+                )
+            } else if (thumbnail_url != null) {
+                AsyncImage(
+                    model = ImageRequest.Builder(context = LocalContext.current).data(thumbnail_url)
+                        .crossfade(true).build(),
+                    contentDescription = null,
+                    modifier = modifier
+                        .size(90.dp)
+                        .clip(CircleShape),
+                    contentScale= ContentScale.Crop,
+                    error = painterResource(R.drawable.reddit_placeholder),
+                    placeholder = painterResource(R.drawable.reddit_placeholder)
+                )
+            }
             Text(
-                text = stringResource(name),
+                text = name,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

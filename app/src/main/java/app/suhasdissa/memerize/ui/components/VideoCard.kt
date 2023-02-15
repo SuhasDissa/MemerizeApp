@@ -28,19 +28,20 @@ import java.nio.charset.StandardCharsets
 fun VideoCard(
     onClickVideo: (url: String) -> Unit,
     vidlink: String,
+    title: String,
     preview: String,
     modifier: Modifier = Modifier
 ) {
 
     val encodedLink = URLEncoder.encode(vidlink, StandardCharsets.UTF_8.toString())
-
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-         .fillMaxSize()
+            .fillMaxSize()
     ) {
-        CardImage(modifier, {onClickVideo(encodedLink)}, preview)
-        Card(modifier.clickable(onClick = { onClickVideo(encodedLink) }),shape = CircleShape) {
+
+        CardImage(modifier, { onClickVideo(encodedLink) }, preview, title)
+        Card(modifier.clickable(onClick = { onClickVideo(encodedLink) }), shape = CircleShape) {
             Icon(
                 modifier = modifier.size(64.dp),
                 painter = painterResource(R.drawable.exo_ic_play_circle_filled),

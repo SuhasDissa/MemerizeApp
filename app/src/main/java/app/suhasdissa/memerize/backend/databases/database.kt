@@ -12,11 +12,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [RedditMeme::class, TelegramMeme::class], version = 2)
+@Database(entities = [RedditMeme::class], version = 3)
 abstract class MemeDatabase : RoomDatabase() {
 
     abstract fun redditMemeDao(): RedditMemeDao
-    abstract fun telegramMemeDao(): TelegramMemeDao
 
     companion object {
         @Volatile

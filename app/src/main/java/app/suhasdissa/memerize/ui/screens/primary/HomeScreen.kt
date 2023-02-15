@@ -21,18 +21,49 @@ import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.ui.components.HighlightCard
 
-data class HighlightCardItem(val name: Int, val category: String, val thumbnail: Int)
+data class HighlightCardItem(val name: String, val category: String, val thumbnail: String)
 
 val redditList = listOf(
-    HighlightCardItem(R.string.reddit_tkasylum, "tkasylum", R.drawable.tkasylum),
-    HighlightCardItem(R.string.reddit_piefm, "piefm", R.drawable.piefm),
-    HighlightCardItem(R.string.reddit_maybemaybe, "maybemaybemaybe", R.drawable.maybe),
-    HighlightCardItem(R.string.reddit_rmemes, "memes", R.drawable.memes),
-    HighlightCardItem(R.string.reddit_dankmemes, "dankmemes", R.drawable.dankmemes)
-)
-val telegramList = listOf(
-    HighlightCardItem(R.string.telegram_chaplin, "chap_lin_sl", R.drawable.chap_lin_sl),
-    HighlightCardItem(R.string.telegram_eplussl, "eplussl", R.drawable.eplussl)
+    HighlightCardItem(
+        "TKasylum",
+        "tkasylum",
+        "https://styles.redditmedia.com/t5_51onzf/styles/communityIcon_mecdz2ktyk481.jpg"
+    ),
+    HighlightCardItem(
+        "PieFM",
+        "piefm",
+        "https://styles.redditmedia.com/t5_w2oen/styles/communityIcon_q818qhbawip31.png"
+    ),
+    HighlightCardItem(
+        "Maybe Maybe",
+        "maybemaybemaybe",
+        "https://styles.redditmedia.com/t5_38e1l/styles/communityIcon_hcpveq6pu5p41.png"
+    ),
+    HighlightCardItem(
+        "HolUP",
+        "holup",
+        "https://styles.redditmedia.com/t5_qir9n/styles/communityIcon_yvasg0bnblaa1.png"
+    ),
+    HighlightCardItem(
+        "Funny",
+        "funny",
+        "https://a.thumbs.redditmedia.com/kIpBoUR8zJLMQlF8azhN-kSBsjVUidHjvZNLuHDONm8.png"
+    ),
+    HighlightCardItem(
+        "FacePalm",
+        "facepalm",
+        "https://styles.redditmedia.com/t5_2r5rp/styles/communityIcon_qzjxzx1g08z91.jpg"
+    ),
+    HighlightCardItem(
+        "Memes",
+        "memes",
+        "https://styles.redditmedia.com/t5_2qjpg/styles/communityIcon_uzvo7sibvc3a1.jpg"
+    ),
+    HighlightCardItem(
+        "Dank Memes",
+        "dankmemes",
+        "https://styles.redditmedia.com/t5_2zmfe/styles/communityIcon_g5xoywnpe2l91.png"
+    )
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,8 +73,7 @@ fun HomeScreen(
     onClickSettings: () -> Unit,
     onClickMemeView: (category: String) -> Unit,
     onClickFunnyVideo: () -> Unit,
-    onClickFeed: () -> Unit,
-    onClickTG: (category: String) -> Unit
+    onClickFeed: () -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
@@ -65,13 +95,16 @@ fun HomeScreen(
             item {
                 Text(
                     text = stringResource(R.string.reddit_memes),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
             item {
                 LazyHorizontalGrid(
-                    rows = GridCells.Fixed(2),
-                    modifier = modifier.fillMaxWidth().height(280.dp),
+                    rows = GridCells.Fixed(4),
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(560.dp),
                     contentPadding = PaddingValues(4.dp)
                 ) {
                     items(items = redditList) { card ->
@@ -79,51 +112,31 @@ fun HomeScreen(
                             onClick = { onClickMemeView(card.category) },
                             modifier = modifier,
                             name = card.name,
-                            thumbnail = card.thumbnail
+                            thumbnail_url = card.thumbnail
                         )
-                    }
-                }
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.telegram_memes),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-            item {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(2),
-                    modifier = modifier.fillMaxWidth().height(280.dp),
-                    contentPadding = PaddingValues(4.dp)
-                ) {
-                    items(items = telegramList) { card ->
-                        HighlightCard(
-                            onClick = { onClickTG(card.category) },
-                            modifier = modifier,
-                            name = card.name,
-                            thumbnail = card.thumbnail
-                        )
-
                     }
                 }
             }
             item {
                 Text(
                     text = stringResource(R.string.funny_stuff_category),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
             item {
                 LazyHorizontalGrid(
                     rows = GridCells.Fixed(2),
-                    modifier = modifier.fillMaxWidth().height(280.dp),
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .height(280.dp),
                     contentPadding = PaddingValues(4.dp)
                 ) {
                     item {
                         HighlightCard(
                             onClick = onClickFunnyVideo,
                             modifier = modifier,
-                            name = R.string.funny_videos,
+                            name = "Funny Videos",
                             thumbnail = R.drawable.ic_launcher_foreground
                         )
                     }
@@ -131,7 +144,7 @@ fun HomeScreen(
                         HighlightCard(
                             onClick = onClickFeed,
                             modifier = modifier,
-                            name = R.string.funny_posts,
+                            name = "Funny Posts",
                             thumbnail = R.drawable.ic_launcher_foreground
                         )
                     }

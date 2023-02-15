@@ -34,8 +34,6 @@ fun AppNavHost(
                 navController.navigateTo(FunnyVideoView.route)
             }, onClickFeed = {
                 navController.navigateTo(FeedView.route)
-            }, onClickTG = { channel ->
-                navController.navigateTo("${TGMemeView.route}/$channel")
             }, onClickSettings = {
                 navController.navigateTo(Settings.route)
             })
@@ -60,16 +58,6 @@ fun AppNavHost(
                     },
                     subreddit = subreddit
                 )
-            }
-        }
-        composable(route = TGMemeView.routeWithArgs, arguments = TGMemeView.arguments) {
-            val channel = it.arguments?.getString("category")
-            if (channel != null) {
-                TelegramMemeScreen(onClickMeme = { url ->
-                    navController.navigateTo("${PhotoView.route}/$url")
-                }, onClickVideo = { url ->
-                    navController.navigateTo("${VideoPlayer.route}/$url")
-                }, channel = channel)
             }
         }
         composable(route = FunnyVideoView.route) {
