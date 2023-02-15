@@ -13,8 +13,8 @@ android {
         applicationId "app.suhasdissa.memerize"
         minSdk 24
         targetSdk 33
-        versionCode 16
-        versionName "1.6"
+        versionCode 17
+        versionName "1.7"
 
         vectorDrawables {
             useSupportLibrary true
