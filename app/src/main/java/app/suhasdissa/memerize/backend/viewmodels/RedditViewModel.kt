@@ -21,23 +21,37 @@ import app.suhasdissa.memerize.backend.repositories.Meme
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
 import kotlinx.coroutines.launch
 
-sealed interface UiState {
-    data class Success(val memes: ArrayList<Meme>) : UiState
-    data class Error(val error: String) : UiState
-    object Loading : UiState
+sealed interface DataState {
+    data class Success(val memes: ArrayList<Meme>) : DataState
+    data class Error(val error: String) : DataState
+    object Loading : DataState
 }
 
 class RedditViewModel(private val redditRepository: RedditRepository) : ViewModel() {
-    var memeUiState: UiState by mutableStateOf(UiState.Loading)
+    var dataState: DataState by mutableStateOf(DataState.Loading)
         private set
 
     fun getMemePhotos(subreddit: String, time: String) {
         viewModelScope.launch {
-            memeUiState = UiState.Loading
-            memeUiState = UiState.Success(
-                redditRepository.getData(subreddit, time)
-            )
+            dataState = DataState.Loading
 
+            dataState = when (val data = redditRepository.getOnlineData(subreddit, time)) {
+                null -> {
+                    DataState.Error("")
+                }
+
+                else -> {
+                    DataState.Success(data)
+                }
+            }
+        }
+    }
+
+    fun getLocalMemes(subreddit: String) {
+        viewModelScope.launch {
+            dataState = DataState.Loading
+
+            dataState = DataState.Success(redditRepository.getLocalData(subreddit))
         }
     }
 

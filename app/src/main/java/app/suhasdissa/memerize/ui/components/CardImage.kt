@@ -8,7 +8,11 @@ All Rights Reserved
 package app.suhasdissa.memerize.ui.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,7 +42,13 @@ fun CardImage(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = title, modifier = Modifier.padding(horizontal = 8.dp), style = MaterialTheme.typography.titleLarge,color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center)
+            Text(
+                text = title,
+                modifier = Modifier.padding(horizontal = 8.dp),
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(20.dp))
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)

@@ -13,7 +13,8 @@ import app.suhasdissa.memerize.backend.databases.RedditMeme
 import app.suhasdissa.memerize.backend.databases.RedditMemeDao
 
 interface RedditRepository {
-    suspend fun getData(subreddit: String, time: String): ArrayList<Meme>
+    suspend fun getOnlineData(subreddit: String, time: String): ArrayList<Meme>?
+    suspend fun getLocalData(subreddit: String): ArrayList<Meme>
 }
 
 data class Meme(
@@ -25,12 +26,11 @@ data class Meme(
 )
 
 class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : RedditRepository {
-    override suspend fun getData(subreddit: String, time: String): ArrayList<Meme> {
-        var memesList: ArrayList<Meme>
+    override suspend fun getOnlineData(subreddit: String, time: String): ArrayList<Meme>? {
         try {
-            memesList = getNetworkData(subreddit, time)
+            val memesList = getNetworkData(subreddit, time)
             Thread {
-                insertMemes(memesList.map {
+                insertMemes(memesList.filter{ !it.isVideo }.map{
                     RedditMeme(
                         it.url,
                         it.title,
@@ -40,10 +40,18 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
                     )
                 })
             }.start()
+            return memesList
         } catch (e: Exception) {
-            memesList = getLocalData(subreddit)
+            return null
         }
-        return memesList
+    }
+
+    override suspend fun getLocalData(subreddit: String): ArrayList<Meme> {
+        return redditMemeDao.getAll(subreddit).mapTo(ArrayList()) {
+            Meme(
+                it.url, it.title, it.isVideo, it.preview, it.subreddit
+            )
+        }
     }
 
     private suspend fun getNetworkData(subreddit: String, time: String): ArrayList<Meme> {
@@ -72,13 +80,6 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
         return memeList
     }
 
-    private fun getLocalData(subreddit: String): ArrayList<Meme> {
-        return redditMemeDao.getAll(subreddit).mapTo(ArrayList()) {
-            Meme(
-                it.url, it.title, it.isVideo, it.preview, it.subreddit
-            )
-        }
-    }
 
     @WorkerThread
     private fun insertMemes(memes: List<RedditMeme>) {

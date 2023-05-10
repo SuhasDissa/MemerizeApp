@@ -43,6 +43,6 @@ fun TextCard(
 
 @Preview(showBackground = true)
 @Composable
-fun TextCardPreview(){
+fun TextCardPreview() {
     TextCard(clickAction = {}, text = "Preview")
 }

@@ -7,7 +7,14 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.primary
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -15,8 +22,12 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,11 +35,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.repositories.Meme
+import app.suhasdissa.memerize.backend.viewmodels.DataState
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
-import app.suhasdissa.memerize.backend.viewmodels.UiState
-import app.suhasdissa.memerize.ui.components.ErrorScreen
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.MemeCard
+import app.suhasdissa.memerize.ui.components.RetryScreen
 import app.suhasdissa.memerize.ui.components.VideoCard
 
 
@@ -52,11 +63,16 @@ fun RedditMemeScreen(
             _subreddit = subreddit
         }
     }
-    when (val memeUiState = viewModel.memeUiState) {
-        is UiState.Loading -> LoadingScreen(modifier)
-        is UiState.Error -> ErrorScreen(memeUiState.error, modifier)
-        is UiState.Success -> MemeGrid(
-            memeUiState.memes, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
+    when (val memeDataState = viewModel.dataState) {
+        is DataState.Loading -> LoadingScreen(modifier)
+        is DataState.Error -> RetryScreen(
+            "Error Loading Online Memes",
+            "Show Offline Memes",
+            modifier,
+            onRetry = { viewModel.getLocalMemes(subreddit) })
+
+        is DataState.Success -> MemeGrid(
+            memeDataState.memes, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
         )
     }
 }

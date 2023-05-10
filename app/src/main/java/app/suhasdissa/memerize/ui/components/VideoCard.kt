@@ -54,6 +54,6 @@ fun VideoCard(
 
 @Preview
 @Composable
-fun VideoCardPreview(){
+fun VideoCardPreview() {
     VideoCard(onClickVideo = {}, vidlink = "", title = "Preview", preview = "")
 }
