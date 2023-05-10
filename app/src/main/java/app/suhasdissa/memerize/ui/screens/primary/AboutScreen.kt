@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.utils.checkUpdate
@@ -112,4 +113,11 @@ fun AboutScreen(modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+
+@Preview(showBackground = true, device = "spec:width=411dp,height=891dp")
+@Composable
+fun AboutScreenPreview(){
+    AboutScreen()
 }

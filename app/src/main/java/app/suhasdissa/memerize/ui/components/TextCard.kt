@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,4 +39,10 @@ fun TextCard(
             Text(text = text, style = MaterialTheme.typography.headlineSmall)
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun TextCardPreview(){
+    TextCard(clickAction = {}, text = "Preview")
 }

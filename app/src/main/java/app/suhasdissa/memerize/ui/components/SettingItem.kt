@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -53,5 +54,11 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun SettingItemPreview(){
+    SettingItem(title = "Setting Item", description = "Description", onClick = {} ,icon =null)
 }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.exoplayer2.R
 import java.net.URLEncoder
@@ -49,4 +50,10 @@ fun VideoCard(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun VideoCardPreview(){
+    VideoCard(onClickVideo = {}, vidlink = "", title = "Preview", preview = "")
 }
