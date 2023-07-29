@@ -5,7 +5,7 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.ui.screens.primary
+package app.suhasdissa.memerize.ui.screens.settings
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

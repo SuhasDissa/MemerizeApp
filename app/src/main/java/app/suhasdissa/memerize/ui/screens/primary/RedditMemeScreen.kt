@@ -24,44 +24,34 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.repositories.Meme
+import app.suhasdissa.memerize.backend.databases.RedditMeme
 import app.suhasdissa.memerize.backend.viewmodels.DataState
+import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.MemeCard
 import app.suhasdissa.memerize.ui.components.RetryScreen
 import app.suhasdissa.memerize.ui.components.VideoCard
 
-
 @Composable
 fun RedditMemeScreen(
     modifier: Modifier = Modifier,
     viewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory),
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit,
+    onClickVideo: () -> Unit,
     subreddit: String
 ) {
     fun refresh(time: String) {
         viewModel.getMemePhotos(subreddit, time)
     }
-
-    var _subreddit: String by rememberSaveable { mutableStateOf("") }
-
-    if (_subreddit != subreddit) {
-        LaunchedEffect(Unit) {
-            refresh("today")
-            _subreddit = subreddit
-        }
+    LaunchedEffect(Unit) {
+        refresh("today")
     }
     when (val memeDataState = viewModel.dataState) {
         is DataState.Loading -> LoadingScreen(modifier)
@@ -69,22 +59,27 @@ fun RedditMemeScreen(
             "Error Loading Online Memes",
             "Show Offline Memes",
             modifier,
-            onRetry = { viewModel.getLocalMemes(subreddit) })
+            onRetry = { viewModel.getLocalMemes(subreddit) }
+        )
 
         is DataState.Success -> MemeGrid(
-            memeDataState.memes, onClickMeme, onClickVideo, { time -> refresh(time) }, modifier
+            memeDataState.memes,
+            onClickMeme,
+            onClickVideo,
+            { time -> refresh(time) },
+            modifier
         )
     }
 }
 
-
 @Composable
 private fun MemeGrid(
-    memes: List<Meme>,
+    memes: List<RedditMeme>,
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit,
+    onClickVideo: () -> Unit,
     refresh: (time: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    playerViewModel: PlayerViewModel = viewModel()
 ) {
     Column(
         modifier = modifier
@@ -115,10 +110,12 @@ private fun MemeGrid(
                 modifier = modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(8.dp)
             ) {
-
                 items(items = memes) { meme ->
                     if (meme.isVideo) {
-                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, modifier)
+                        VideoCard({
+                            playerViewModel.currentUrl = meme.url
+                            onClickVideo()
+                        }, meme.url, meme.title, meme.preview, modifier)
                     } else {
                         MemeCard(onClickMeme, meme.url, meme.title, modifier)
                     }
@@ -133,7 +130,5 @@ private fun MemeGrid(
                 )
             }
         }
-
     }
-
 }

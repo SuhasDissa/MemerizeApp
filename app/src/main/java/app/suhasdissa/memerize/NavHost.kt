@@ -7,33 +7,31 @@ All Rights Reserved
 
 package app.suhasdissa.memerize
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import app.suhasdissa.memerize.ui.screens.*
-import app.suhasdissa.memerize.ui.screens.primary.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.ui.screens.primary.HomeScreen
+import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
 import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
-import app.suhasdissa.memerize.ui.screens.secondary.TextView
 import app.suhasdissa.memerize.ui.screens.secondary.VideoView
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
+import app.suhasdissa.memerize.ui.screens.settings.AboutScreen
+import app.suhasdissa.memerize.ui.screens.settings.SettingsScreen
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppNavHost(
-    navController: NavHostController, modifier: Modifier = Modifier
+    navController: NavHostController,
+    modifier: Modifier = Modifier
 ) {
-    AnimatedNavHost(
-        navController = navController, startDestination = Home.route, modifier = modifier
+    NavHost(
+        navController = navController,
+        startDestination = Home.route,
+        modifier = modifier
     ) {
         composable(route = Home.route) {
             HomeScreen(onClickMemeView = { subreddit ->
                 navController.navigateTo("${RedditMemeView.route}/$subreddit")
-            }, onClickFunnyVideo = {
-                navController.navigateTo(FunnyVideoView.route)
-            }, onClickFeed = {
-                navController.navigateTo(FeedView.route)
             }, onClickSettings = {
                 navController.navigateTo(Settings.route)
             })
@@ -53,48 +51,27 @@ fun AppNavHost(
                     onClickMeme = { url ->
                         navController.navigateTo("${PhotoView.route}/$url")
                     },
-                    onClickVideo = { url ->
-                        navController.navigateTo("${VideoPlayer.route}/$url")
+                    onClickVideo = {
+                        navController.navigateTo(VideoPlayer.route)
                     },
                     subreddit = subreddit
                 )
             }
         }
-        composable(route = FunnyVideoView.route) {
-            FunnyVideoScreen(onClickTextCard = { url ->
-                navController.navigateTo("${VideoPlayer.route}/$url")
-            })
-        }
-        composable(route = FeedView.route) {
-            FeedScreen(onClickTextCard = { text ->
-                navController.navigateTo("${TextViewer.route}/$text")
-            })
-        }
         composable(
-            route = PhotoView.routeWithArgs, arguments = PhotoView.arguments
+            route = PhotoView.routeWithArgs,
+            arguments = PhotoView.arguments
         ) {
             val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
                 PhotoView(imgurl)
             }
-
         }
 
         composable(
-            route = VideoPlayer.routeWithArgs, arguments = VideoPlayer.arguments
+            route = VideoPlayer.route
         ) {
-            val url = it.arguments?.getString("url")
-            if (url != null) {
-                VideoView(url)
-            }
-        }
-        composable(
-            route = TextViewer.routeWithArgs, arguments = TextViewer.arguments
-        ) {
-            val text = it.arguments?.getString("text")
-            if (text != null) {
-                TextView(text)
-            }
+            VideoView()
         }
     }
 }

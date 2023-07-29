@@ -21,7 +21,8 @@ import app.suhasdissa.memerize.R
 @Composable
 fun ErrorScreen(memeUiState: String, modifier: Modifier = Modifier) {
     Box(
-        contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()
+        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize()
     ) {
         Column {
             Text(

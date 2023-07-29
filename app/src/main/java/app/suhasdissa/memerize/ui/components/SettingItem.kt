@@ -26,7 +26,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp, 24.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             icon?.let {
                 Icon(
@@ -53,7 +53,7 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
                     text = description,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
@@ -65,4 +65,3 @@ fun SettingItem(title: String, description: String, icon: ImageVector?, onClick:
 fun SettingItemPreview() {
     SettingItem(title = "Setting Item", description = "Description", onClick = {}, icon = null)
 }
-

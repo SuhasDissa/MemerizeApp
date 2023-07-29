@@ -14,7 +14,10 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun MemeCard(
-    onClickMeme: (url: String) -> Unit, photo: String, title: String, modifier: Modifier = Modifier
+    onClickMeme: (url: String) -> Unit,
+    photo: String,
+    title: String,
+    modifier: Modifier = Modifier
 ) {
     val encodedImg = URLEncoder.encode(photo, StandardCharsets.UTF_8.toString())
 

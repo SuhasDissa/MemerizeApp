@@ -13,7 +13,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "reddit_table")
 data class RedditMeme(
-    @PrimaryKey val url: String,
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "title", defaultValue = "") val title: String,
     @ColumnInfo(name = "is_video") val isVideo: Boolean,
     @ColumnInfo(name = "preview", defaultValue = "") val preview: String,

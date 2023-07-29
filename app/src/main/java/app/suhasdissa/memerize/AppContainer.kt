@@ -16,5 +16,7 @@ interface AppContainer {
 }
 
 class DefaultAppContainer(database: MemeDatabase) : AppContainer {
-    override val redditRepository: RedditRepository by lazy { NetworkRedditRepository(database.redditMemeDao()) }
+    override val redditRepository: RedditRepository by lazy {
+        NetworkRedditRepository(database.redditMemeDao())
+    }
 }

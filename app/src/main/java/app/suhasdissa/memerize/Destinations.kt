@@ -24,20 +24,6 @@ object RedditMemeView : Destination {
     val arguments = listOf(navArgument("category") { type = NavType.StringType })
 }
 
-object TGMemeView : Destination {
-    override val route = "tgmemeview"
-    val routeWithArgs = "$route/{category}"
-    val arguments = listOf(navArgument("category") { type = NavType.StringType })
-}
-
-object FunnyVideoView : Destination {
-    override val route = "funvidview"
-}
-
-object FeedView : Destination {
-    override val route = "feedview"
-}
-
 object Settings : Destination {
     override val route = "settings"
 }
@@ -54,12 +40,4 @@ object PhotoView : Destination {
 
 object VideoPlayer : Destination {
     override val route = "video"
-    val routeWithArgs = "$route/{url}"
-    val arguments = listOf(navArgument("url") { type = NavType.StringType })
-}
-
-object TextViewer : Destination {
-    override val route = "textviewer"
-    val routeWithArgs = "$route/{text}"
-    val arguments = listOf(navArgument("text") { type = NavType.StringType })
 }

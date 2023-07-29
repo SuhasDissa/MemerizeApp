@@ -71,9 +71,7 @@ val redditList = listOf(
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onClickSettings: () -> Unit,
-    onClickMemeView: (category: String) -> Unit,
-    onClickFunnyVideo: () -> Unit,
-    onClickFeed: () -> Unit
+    onClickMemeView: (category: String) -> Unit
 ) {
     Scaffold(modifier = modifier.fillMaxSize(), topBar = {
         TopAppBar(title = { Text(stringResource(R.string.app_name)) }, actions = {
@@ -113,39 +111,6 @@ fun HomeScreen(
                             modifier = modifier,
                             name = card.name,
                             thumbnail_url = card.thumbnail
-                        )
-                    }
-                }
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.funny_stuff_category),
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
-            item {
-                LazyHorizontalGrid(
-                    rows = GridCells.Fixed(2),
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .height(280.dp),
-                    contentPadding = PaddingValues(4.dp)
-                ) {
-                    item {
-                        HighlightCard(
-                            onClick = onClickFunnyVideo,
-                            modifier = modifier,
-                            name = "Funny Videos",
-                            thumbnail = R.drawable.ic_launcher_foreground
-                        )
-                    }
-                    item {
-                        HighlightCard(
-                            onClick = onClickFeed,
-                            modifier = modifier,
-                            name = "Funny Posts",
-                            thumbnail = R.drawable.ic_launcher_foreground
                         )
                     }
                 }

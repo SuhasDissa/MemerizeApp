@@ -24,7 +24,9 @@ abstract class MemeDatabase : RoomDatabase() {
         fun getDatabase(context: Context): MemeDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext, MemeDatabase::class.java, "meme_database"
+                    context.applicationContext,
+                    MemeDatabase::class.java,
+                    "meme_database"
                 ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance

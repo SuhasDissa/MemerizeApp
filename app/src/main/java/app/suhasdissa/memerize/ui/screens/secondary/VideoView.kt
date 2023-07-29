@@ -7,8 +7,14 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.secondary
 
-import android.net.Uri
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,26 +30,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.utils.downloadUtil
 import app.suhasdissa.memerize.utils.shareUrl
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 @Composable
-fun VideoView(url: String, modifier: Modifier = Modifier) {
-    val decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8.toString())
+fun VideoView(
+    modifier: Modifier = Modifier,
+    playerViewModel: PlayerViewModel = viewModel()
+) {
+    val decodedUrl = playerViewModel.currentUrl
 
     val context = LocalContext.current
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
-
-
         val mExoPlayer = remember(context) {
             ExoPlayer.Builder(context).build().apply {
-                val mediaItem = MediaItem.Builder().setUri(Uri.parse(decodedUrl)).build()
+                val mediaItem = MediaItem.Builder().setUri(decodedUrl).build()
                 setMediaItem(mediaItem)
                 playWhenReady = true
                 prepare()
@@ -52,11 +59,12 @@ fun VideoView(url: String, modifier: Modifier = Modifier) {
         Box(
             modifier = modifier
                 .weight(1f)
-                .fillMaxWidth(), contentAlignment = Alignment.Center
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
         ) {
             DisposableEffect(
                 AndroidView(factory = { context ->
-                    StyledPlayerView(context).apply {
+                    PlayerView(context).apply {
                         player = mExoPlayer
                     }
                 })
@@ -79,8 +87,7 @@ fun VideoView(url: String, modifier: Modifier = Modifier) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-
-                IconButton(onClick = { downloadUtil(context, decodedUrl) }, modifier) {
+                IconButton(onClick = { downloadUtil(context, decodedUrl ?: "") }, modifier) {
                     Icon(
                         painter = painterResource(R.drawable.ic_download),
                         contentDescription = "Download Photo",
@@ -88,7 +95,7 @@ fun VideoView(url: String, modifier: Modifier = Modifier) {
                     )
                 }
                 IconButton(onClick = {
-                    shareUrl(context, decodedUrl)
+                    shareUrl(context, decodedUrl ?: "")
                 }, modifier) {
                     Icon(
                         painter = painterResource(R.drawable.ic_share),

@@ -25,7 +25,8 @@ fun RetryScreen(
     onRetry: () -> Unit
 ) {
     Box(
-        contentAlignment = Alignment.Center, modifier = modifier.fillMaxSize()
+        contentAlignment = Alignment.Center,
+        modifier = modifier.fillMaxSize()
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(

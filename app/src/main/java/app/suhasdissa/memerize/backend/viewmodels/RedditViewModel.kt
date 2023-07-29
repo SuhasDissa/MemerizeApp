@@ -17,12 +17,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
-import app.suhasdissa.memerize.backend.repositories.Meme
+import app.suhasdissa.memerize.backend.databases.RedditMeme
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
 import kotlinx.coroutines.launch
 
 sealed interface DataState {
-    data class Success(val memes: ArrayList<Meme>) : DataState
+    data class Success(val memes: List<RedditMeme>) : DataState
     data class Error(val error: String) : DataState
     object Loading : DataState
 }
@@ -31,7 +31,11 @@ class RedditViewModel(private val redditRepository: RedditRepository) : ViewMode
     var dataState: DataState by mutableStateOf(DataState.Loading)
         private set
 
+    private var currentSubreddit: String? = null
+    private var currentTime: String? = null
+
     fun getMemePhotos(subreddit: String, time: String) {
+        if (subreddit == currentSubreddit && time == currentTime) return
         viewModelScope.launch {
             dataState = DataState.Loading
 

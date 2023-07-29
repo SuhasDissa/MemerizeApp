@@ -88,7 +88,6 @@ fun HighlightCard(
     }
 }
 
-
 @Preview()
 @Composable
 fun HighlightCardPreview() {

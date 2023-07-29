@@ -31,13 +31,17 @@ import coil.request.ImageRequest
 
 @Composable
 fun CardImage(
-    modifier: Modifier = Modifier, clickAction: () -> Unit, photoUrl: String, title: String
+    modifier: Modifier = Modifier,
+    clickAction: () -> Unit,
+    photoUrl: String,
+    title: String
 ) {
     ElevatedCard(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { clickAction() }) {
+            .clickable { clickAction() }
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally

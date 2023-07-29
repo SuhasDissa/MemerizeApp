@@ -20,5 +20,4 @@ fun applySettingString(context: Context, key: String, newValue: String) {
         putString(key, newValue)
         apply()
     }
-
 }

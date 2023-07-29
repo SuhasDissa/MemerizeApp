@@ -9,6 +9,7 @@ package app.suhasdissa.memerize
 
 import android.app.Application
 import app.suhasdissa.memerize.backend.databases.MemeDatabase
+import app.suhasdissa.memerize.utils.UpdateUtil
 
 class MemerizeApplication : Application() {
     private val database by lazy { MemeDatabase.getDatabase(this) }
@@ -17,5 +18,6 @@ class MemerizeApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = DefaultAppContainer(database)
+        UpdateUtil.getCurrentVersion(this.applicationContext)
     }
 }
