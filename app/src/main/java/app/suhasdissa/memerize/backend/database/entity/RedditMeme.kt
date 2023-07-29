@@ -1,11 +1,11 @@
 /*******************************************************************************
-Created By Suhas Dissanayake on 11/25/22, 7:39 AM
-Copyright (c) 2022
-https://github.com/SuhasDissa/
-All Rights Reserved
+ Created By Suhas Dissanayake on 7/29/23, 8:14 PM
+ Copyright (c) 2023
+ https://github.com/SuhasDissa/
+ All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.backend.databases
+package app.suhasdissa.memerize.backend.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

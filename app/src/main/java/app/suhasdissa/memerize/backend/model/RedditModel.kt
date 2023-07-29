@@ -5,7 +5,7 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.backend.serializables
+package app.suhasdissa.memerize.backend.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

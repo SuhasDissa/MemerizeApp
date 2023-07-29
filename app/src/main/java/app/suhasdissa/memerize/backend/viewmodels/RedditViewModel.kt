@@ -17,7 +17,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
-import app.suhasdissa.memerize.backend.databases.RedditMeme
+import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
 import kotlinx.coroutines.launch
 

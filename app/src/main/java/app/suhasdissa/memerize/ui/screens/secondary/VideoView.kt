@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,24 +30,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.utils.downloadUtil
 import app.suhasdissa.memerize.utils.shareUrl
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun VideoView(
-    modifier: Modifier = Modifier,
-    playerViewModel: PlayerViewModel = viewModel()
+    url: String,
+    modifier: Modifier = Modifier
 ) {
-    val decodedUrl = playerViewModel.currentUrl
+    val decodedUrl = remember { URLDecoder.decode(url, StandardCharsets.UTF_8.toString()) }
 
     val context = LocalContext.current
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
@@ -89,7 +90,7 @@ fun VideoView(
             ) {
                 IconButton(onClick = { downloadUtil(context, decodedUrl ?: "") }, modifier) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_download),
+                        imageVector = Icons.Default.Download,
                         contentDescription = "Download Photo",
                         modifier.size(48.dp)
                     )
@@ -98,7 +99,7 @@ fun VideoView(
                     shareUrl(context, decodedUrl ?: "")
                 }, modifier) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_share),
+                        imageVector = Icons.Default.Share,
                         contentDescription = "Share Photo",
                         modifier.size(48.dp)
                     )

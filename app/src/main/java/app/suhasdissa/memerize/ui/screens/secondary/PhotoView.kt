@@ -20,6 +20,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -108,7 +111,7 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
             ) {
                 IconButton(onClick = { downloadUtil(context, photoUrl) }, modifier) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_download),
+                        imageVector = Icons.Default.Download,
                         contentDescription = "Download Photo",
                         modifier.size(48.dp)
                     )
@@ -117,7 +120,7 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                     shareUrl(context, photoUrl)
                 }, modifier) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_share),
+                        imageVector = Icons.Default.Share,
                         contentDescription = "Share Photo",
                         modifier.size(48.dp)
                     )

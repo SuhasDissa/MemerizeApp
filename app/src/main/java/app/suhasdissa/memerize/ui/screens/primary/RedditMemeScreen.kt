@@ -30,7 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.databases.RedditMeme
+import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 import app.suhasdissa.memerize.backend.viewmodels.DataState
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
@@ -44,7 +44,7 @@ fun RedditMemeScreen(
     modifier: Modifier = Modifier,
     viewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory),
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: () -> Unit,
+    onClickVideo: (url: String) -> Unit,
     subreddit: String
 ) {
     fun refresh(time: String) {
@@ -76,7 +76,7 @@ fun RedditMemeScreen(
 private fun MemeGrid(
     memes: List<RedditMeme>,
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: () -> Unit,
+    onClickVideo: (url: String) -> Unit,
     refresh: (time: String) -> Unit,
     modifier: Modifier = Modifier,
     playerViewModel: PlayerViewModel = viewModel()
@@ -112,10 +112,7 @@ private fun MemeGrid(
             ) {
                 items(items = memes) { meme ->
                     if (meme.isVideo) {
-                        VideoCard({
-                            playerViewModel.currentUrl = meme.url
-                            onClickVideo()
-                        }, meme.url, meme.title, meme.preview, modifier)
+                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, modifier)
                     } else {
                         MemeCard(onClickMeme, meme.url, meme.title, modifier)
                     }

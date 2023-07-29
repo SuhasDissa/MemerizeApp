@@ -5,12 +5,14 @@ https://github.com/SuhasDissa/
 All Rights Reserved
  ******************************************************************************/
 
-package app.suhasdissa.memerize.backend.databases
+package app.suhasdissa.memerize.backend.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
+import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 
 @Database(entities = [RedditMeme::class], version = 3)
 abstract class MemeDatabase : RoomDatabase() {

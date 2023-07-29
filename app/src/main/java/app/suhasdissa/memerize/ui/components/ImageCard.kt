@@ -30,7 +30,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun CardImage(
+fun ImageCard(
     modifier: Modifier = Modifier,
     clickAction: () -> Unit,
     photoUrl: String,

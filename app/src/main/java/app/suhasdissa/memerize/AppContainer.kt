@@ -7,7 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize
 
-import app.suhasdissa.memerize.backend.databases.MemeDatabase
+import app.suhasdissa.memerize.backend.database.MemeDatabase
 import app.suhasdissa.memerize.backend.repositories.NetworkRedditRepository
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
 

@@ -9,8 +9,8 @@ package app.suhasdissa.memerize.backend.repositories
 
 import androidx.annotation.WorkerThread
 import app.suhasdissa.memerize.backend.apis.RedditApi
-import app.suhasdissa.memerize.backend.databases.RedditMeme
-import app.suhasdissa.memerize.backend.databases.RedditMemeDao
+import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
+import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 
 interface RedditRepository {
     suspend fun getOnlineData(subreddit: String, time: String): List<RedditMeme>?

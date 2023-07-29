@@ -21,5 +21,5 @@ fun MemeCard(
 ) {
     val encodedImg = URLEncoder.encode(photo, StandardCharsets.UTF_8.toString())
 
-    CardImage(modifier, { onClickMeme(encodedImg) }, photo, title)
+    ImageCard(modifier, { onClickMeme(encodedImg) }, photo, title)
 }

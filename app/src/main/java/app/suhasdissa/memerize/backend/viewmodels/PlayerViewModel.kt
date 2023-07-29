@@ -9,6 +9,6 @@ package app.suhasdissa.memerize.backend.viewmodels
 
 import androidx.lifecycle.ViewModel
 
-class PlayerViewModel() : ViewModel() {
+class PlayerViewModel : ViewModel() {
     var currentUrl: String? = null
 }

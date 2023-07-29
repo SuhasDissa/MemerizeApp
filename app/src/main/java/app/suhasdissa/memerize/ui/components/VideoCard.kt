@@ -39,7 +39,7 @@ fun VideoCard(
         modifier = modifier
             .fillMaxSize()
     ) {
-        CardImage(modifier, { onClickVideo(encodedLink) }, preview, title)
+        ImageCard(modifier, { onClickVideo(encodedLink) }, preview, title)
         Card(modifier.clickable(onClick = { onClickVideo(encodedLink) }), shape = CircleShape) {
             Icon(
                 modifier = modifier.size(64.dp),

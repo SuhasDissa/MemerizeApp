@@ -26,41 +26,44 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Home.route,
+        startDestination = Destination.Home.route,
         modifier = modifier
     ) {
-        composable(route = Home.route) {
+        composable(route = Destination.Home.route) {
             HomeScreen(onClickMemeView = { subreddit ->
-                navController.navigateTo("${RedditMemeView.route}/$subreddit")
+                navController.navigateTo("${Destination.RedditMemeView.route}/$subreddit")
             }, onClickSettings = {
-                navController.navigateTo(Settings.route)
+                navController.navigateTo(Destination.Settings.route)
             })
         }
-        composable(route = Settings.route) {
+        composable(route = Destination.Settings.route) {
             SettingsScreen(onAboutClick = {
-                navController.navigateTo(About.route)
+                navController.navigateTo(Destination.About.route)
             })
         }
-        composable(route = About.route) {
+        composable(route = Destination.About.route) {
             AboutScreen()
         }
-        composable(route = RedditMemeView.routeWithArgs, arguments = RedditMemeView.arguments) {
+        composable(
+            route = Destination.RedditMemeView.routeWithArgs,
+            arguments = Destination.RedditMemeView.arguments
+        ) {
             val subreddit = it.arguments?.getString("category")
             if (subreddit != null) {
                 RedditMemeScreen(
                     onClickMeme = { url ->
-                        navController.navigateTo("${PhotoView.route}/$url")
+                        navController.navigateTo("${Destination.PhotoView.route}/$url")
                     },
-                    onClickVideo = {
-                        navController.navigateTo(VideoPlayer.route)
+                    onClickVideo = { url ->
+                        navController.navigateTo("${Destination.VideoPlayer.route}/$url")
                     },
                     subreddit = subreddit
                 )
             }
         }
         composable(
-            route = PhotoView.routeWithArgs,
-            arguments = PhotoView.arguments
+            route = Destination.PhotoView.routeWithArgs,
+            arguments = Destination.PhotoView.arguments
         ) {
             val imgurl = it.arguments?.getString("url")
             if (imgurl != null) {
@@ -69,9 +72,13 @@ fun AppNavHost(
         }
 
         composable(
-            route = VideoPlayer.route
+            route = Destination.VideoPlayer.routeWithArgs,
+            arguments = Destination.VideoPlayer.arguments
         ) {
-            VideoView()
+            val url = it.arguments?.getString("url")
+            if (url != null) {
+                VideoView(url)
+            }
         }
     }
 }
