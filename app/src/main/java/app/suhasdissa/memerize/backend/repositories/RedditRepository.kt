@@ -22,6 +22,7 @@ interface RedditRepository {
     fun getSubreddits(): Flow<List<Subreddit>>
     suspend fun getSubredditInfo(subreddit: String): RedditAboutResponse?
     suspend fun insertSubreddit(subreddit: Subreddit)
+    suspend fun removeSubreddit(subreddit: Subreddit)
 }
 
 class RedditRepositoryImpl(
@@ -41,6 +42,7 @@ class RedditRepositoryImpl(
     }
 
     override suspend fun insertSubreddit(subreddit: Subreddit) = subredditDAO.insert(subreddit)
+    override suspend fun removeSubreddit(subreddit: Subreddit) = subredditDAO.delete(subreddit)
     override fun getSubreddits(): Flow<List<Subreddit>> = subredditDAO.getAll()
     override suspend fun getSubredditInfo(subreddit: String): RedditAboutResponse? {
         return try {

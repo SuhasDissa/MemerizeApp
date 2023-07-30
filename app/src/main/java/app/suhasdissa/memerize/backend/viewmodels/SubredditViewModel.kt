@@ -39,6 +39,12 @@ class SubredditViewModel(private val redditRepository: RedditRepository) : ViewM
 
     var subredditAboutState: AboutState by mutableStateOf(AboutState.Loading(""))
 
+    fun removeSubreddit(subreddit: Subreddit) {
+        viewModelScope.launch {
+            redditRepository.removeSubreddit(subreddit)
+        }
+    }
+
     fun getSubredditInfo(subreddit: String) {
         viewModelScope.launch {
             subredditAboutState = AboutState.Loading(subreddit)
