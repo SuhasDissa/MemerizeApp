@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.secondary
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
@@ -46,7 +48,7 @@ fun VideoView(
     modifier: Modifier = Modifier
 ) {
     val decodedUrl = remember { URLDecoder.decode(url, StandardCharsets.UTF_8.toString()) }
-
+    val view = LocalView.current
     val context = LocalContext.current
     Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         val mExoPlayer = remember(context) {
@@ -88,7 +90,10 @@ fun VideoView(
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                IconButton(onClick = { downloadUtil(context, decodedUrl ?: "") }, modifier) {
+                IconButton(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
+                    downloadUtil(context, decodedUrl ?: "")
+                }, modifier) {
                     Icon(
                         imageVector = Icons.Default.Download,
                         contentDescription = "Download Photo",
@@ -96,6 +101,7 @@ fun VideoView(
                     )
                 }
                 IconButton(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     shareUrl(context, decodedUrl ?: "")
                 }, modifier) {
                     Icon(

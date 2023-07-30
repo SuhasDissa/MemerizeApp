@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -35,11 +37,15 @@ fun ImageCard(
     photoUrl: String,
     title: String
 ) {
+    val view = LocalView.current
     ElevatedCard(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable { clickAction() }
+            .clickable {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
+                clickAction()
+            }
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),

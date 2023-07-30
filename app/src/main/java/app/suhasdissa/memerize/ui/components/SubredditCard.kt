@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -36,10 +38,14 @@ fun SubredditCardCompact(
     TrailingContent: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val view = LocalView.current
     Row(
         modifier
             .fillMaxWidth()
-            .clickable { onClickCard() },
+            .clickable {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
+                onClickCard()
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         AsyncImage(

@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.secondary
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.calculatePan
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -60,6 +62,7 @@ fun PhotoView(photo: String) {
         var offsetX by remember { mutableFloatStateOf(1f) }
         var offsetY by remember { mutableFloatStateOf(1f) }
 
+        val view = LocalView.current
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -109,7 +112,10 @@ fun PhotoView(photo: String) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                IconButton(onClick = { downloadUtil(context, photoUrl) }) {
+                IconButton(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
+                    downloadUtil(context, photoUrl)
+                }) {
                     Icon(
                         imageVector = Icons.Default.Download,
                         contentDescription = "Download Photo",
@@ -117,6 +123,7 @@ fun PhotoView(photo: String) {
                     )
                 }
                 IconButton(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
                     shareUrl(context, photoUrl)
                 }) {
                     Icon(

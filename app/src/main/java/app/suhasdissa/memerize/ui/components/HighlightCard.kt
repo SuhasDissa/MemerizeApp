@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.components
 
+import android.view.SoundEffectConstants
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +44,7 @@ fun HighlightCard(
     thumbnail: Int? = null,
     thumbnail_url: String? = null
 ) {
+    val view = LocalView.current
     ElevatedCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,7 +53,10 @@ fun HighlightCard(
     ) {
         Row(
             modifier = Modifier
-                .clickable(onClick = { onClick() })
+                .clickable(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
+                    onClick()
+                })
                 .fillMaxSize()
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
