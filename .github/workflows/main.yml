@@ -1,13 +1,17 @@
 name: Create Apk
 
 on:
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - "README*.md"
+      - "app/src/main/res/**"
+      - ".github/**"
   push:
     paths-ignore:
       - "README*.md"
-      - "app/src/res/**"
+      - "app/src/main/res/**"
       - ".github/**"
-    branches:
-      - main
 
 jobs:
   apk:
