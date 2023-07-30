@@ -1,0 +1,2 @@
+Memerize is a handy meme viewer app. It fetches memes from various subreddits. You can add/remove subreddits as you wish.
+This app caches memes as you browse through them. So you can browse them later without internet.

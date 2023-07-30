@@ -1,0 +1,1 @@
+Memerize is a handy meme viewer app. Uses Reddit to get the latest memes.
