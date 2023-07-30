@@ -8,8 +8,8 @@ All Rights Reserved
 package app.suhasdissa.memerize
 
 import app.suhasdissa.memerize.backend.database.MemeDatabase
-import app.suhasdissa.memerize.backend.repositories.NetworkRedditRepository
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
+import app.suhasdissa.memerize.backend.repositories.RedditRepositoryImpl
 
 interface AppContainer {
     val redditRepository: RedditRepository
@@ -17,6 +17,6 @@ interface AppContainer {
 
 class DefaultAppContainer(database: MemeDatabase) : AppContainer {
     override val redditRepository: RedditRepository by lazy {
-        NetworkRedditRepository(database.redditMemeDao())
+        RedditRepositoryImpl(database.redditMemeDao(), database.subredditDao())
     }
 }

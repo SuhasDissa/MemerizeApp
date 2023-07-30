@@ -32,7 +32,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 import app.suhasdissa.memerize.backend.viewmodels.DataState
-import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.MemeCard
@@ -78,8 +77,7 @@ private fun MemeGrid(
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     refresh: (time: String) -> Unit,
-    modifier: Modifier = Modifier,
-    playerViewModel: PlayerViewModel = viewModel()
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -114,7 +112,7 @@ private fun MemeGrid(
                     if (meme.isVideo) {
                         VideoCard(onClickVideo, meme.url, meme.title, meme.preview, modifier)
                     } else {
-                        MemeCard(onClickMeme, meme.url, meme.title, modifier)
+                        MemeCard(onClickMeme, meme.url, meme.title)
                     }
                 }
             }

@@ -10,14 +10,24 @@ package app.suhasdissa.memerize.backend.repositories
 import androidx.annotation.WorkerThread
 import app.suhasdissa.memerize.backend.apis.RedditApi
 import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
+import app.suhasdissa.memerize.backend.database.dao.SubredditDAO
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
+import app.suhasdissa.memerize.backend.database.entity.Subreddit
+import app.suhasdissa.memerize.backend.model.RedditAboutResponse
+import kotlinx.coroutines.flow.Flow
 
 interface RedditRepository {
     suspend fun getOnlineData(subreddit: String, time: String): List<RedditMeme>?
     suspend fun getLocalData(subreddit: String): List<RedditMeme>
+    fun getSubreddits(): Flow<List<Subreddit>>
+    suspend fun getSubredditInfo(subreddit: String): RedditAboutResponse?
+    suspend fun insertSubreddit(subreddit: Subreddit)
 }
 
-class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : RedditRepository {
+class RedditRepositoryImpl(
+    private val redditMemeDao: RedditMemeDao,
+    private val subredditDAO: SubredditDAO
+) : RedditRepository {
     override suspend fun getOnlineData(subreddit: String, time: String): List<RedditMeme>? {
         return try {
             val memesList = getNetworkData(subreddit, time)
@@ -30,9 +40,18 @@ class NetworkRedditRepository(private val redditMemeDao: RedditMemeDao) : Reddit
         }
     }
 
-    override suspend fun getLocalData(subreddit: String): List<RedditMeme> {
-        return redditMemeDao.getAll(subreddit)
+    override suspend fun insertSubreddit(subreddit: Subreddit) = subredditDAO.insert(subreddit)
+    override fun getSubreddits(): Flow<List<Subreddit>> = subredditDAO.getAll()
+    override suspend fun getSubredditInfo(subreddit: String): RedditAboutResponse? {
+        return try {
+            RedditApi.retrofitService.getAboutSubreddit(subreddit)
+        } catch (_: Exception) {
+            null
+        }
     }
+
+    override suspend fun getLocalData(subreddit: String): List<RedditMeme> =
+        redditMemeDao.getAll(subreddit)
 
     private suspend fun getNetworkData(subreddit: String, time: String): List<RedditMeme> {
         val memeList: ArrayList<RedditMeme> = arrayListOf()

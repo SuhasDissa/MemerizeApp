@@ -18,6 +18,7 @@ sealed class Destination(val route: String) {
     }
 
     object Settings : Destination("settings")
+    object Subreddits : Destination("subreddits")
     object About : Destination("about")
     object PhotoView : Destination("memescreen") {
         val routeWithArgs = "$route/{url}"

@@ -31,13 +31,12 @@ import coil.request.ImageRequest
 
 @Composable
 fun ImageCard(
-    modifier: Modifier = Modifier,
     clickAction: () -> Unit,
     photoUrl: String,
     title: String
 ) {
     ElevatedCard(
-        modifier = modifier
+        modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .clickable { clickAction() }

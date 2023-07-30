@@ -52,10 +52,10 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Composable
-fun PhotoView(photo: String, modifier: Modifier = Modifier) {
+fun PhotoView(photo: String) {
     val context = LocalContext.current
     val photoUrl = remember { URLDecoder.decode(photo, StandardCharsets.UTF_8.toString()) }
-    Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         var scale by remember { mutableFloatStateOf(1f) }
         var offsetX by remember { mutableFloatStateOf(1f) }
         var offsetY by remember { mutableFloatStateOf(1f) }
@@ -84,7 +84,7 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
                     .crossfade(true).build(),
                 contentDescription = stringResource(R.string.meme_photo),
                 contentScale = ContentScale.Fit,
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .graphicsLayer {
                         scaleX = scale
@@ -97,32 +97,32 @@ fun PhotoView(photo: String, modifier: Modifier = Modifier) {
             )
         }
         Surface(
-            modifier
+            Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
                 .clip(RoundedCornerShape(8.dp)),
             color = MaterialTheme.colorScheme.tertiaryContainer
         ) {
             Row(
-                modifier
+                Modifier
                     .padding(vertical = 10.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                IconButton(onClick = { downloadUtil(context, photoUrl) }, modifier) {
+                IconButton(onClick = { downloadUtil(context, photoUrl) }) {
                     Icon(
                         imageVector = Icons.Default.Download,
                         contentDescription = "Download Photo",
-                        modifier.size(48.dp)
+                        Modifier.size(48.dp)
                     )
                 }
                 IconButton(onClick = {
                     shareUrl(context, photoUrl)
-                }, modifier) {
+                }) {
                     Icon(
                         imageVector = Icons.Default.Share,
                         contentDescription = "Share Photo",
-                        modifier.size(48.dp)
+                        Modifier.size(48.dp)
                     )
                 }
             }

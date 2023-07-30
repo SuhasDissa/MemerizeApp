@@ -16,4 +16,6 @@
     <string name="github_issue">Github Issue</string>
     <string name="github_issue_description">Submit bug reports and feature requests</string>
     <string name="about_title">About</string>
+    <string name="home">Home</string>
+    <string name="subreddits">Subreddits</string>
 </resources>

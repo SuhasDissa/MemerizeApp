@@ -12,7 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import app.suhasdissa.memerize.ui.screens.primary.HomeScreen
+import app.suhasdissa.memerize.ui.screens.home.HomeScreen
+import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
 import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
 import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
 import app.suhasdissa.memerize.ui.screens.secondary.VideoView
@@ -32,14 +33,15 @@ fun AppNavHost(
         composable(route = Destination.Home.route) {
             HomeScreen(onClickMemeView = { subreddit ->
                 navController.navigateTo("${Destination.RedditMemeView.route}/$subreddit")
-            }, onClickSettings = {
-                navController.navigateTo(Destination.Settings.route)
             })
         }
         composable(route = Destination.Settings.route) {
             SettingsScreen(onAboutClick = {
                 navController.navigateTo(Destination.About.route)
             })
+        }
+        composable(route = Destination.Subreddits.route) {
+            SubredditScreen()
         }
         composable(route = Destination.About.route) {
             AboutScreen()

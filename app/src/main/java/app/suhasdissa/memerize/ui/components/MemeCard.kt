@@ -8,7 +8,6 @@ All Rights Reserved
 package app.suhasdissa.memerize.ui.components
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -16,10 +15,9 @@ import java.nio.charset.StandardCharsets
 fun MemeCard(
     onClickMeme: (url: String) -> Unit,
     photo: String,
-    title: String,
-    modifier: Modifier = Modifier
+    title: String
 ) {
     val encodedImg = URLEncoder.encode(photo, StandardCharsets.UTF_8.toString())
 
-    ImageCard(modifier, { onClickMeme(encodedImg) }, photo, title)
+    ImageCard({ onClickMeme(encodedImg) }, photo, title)
 }

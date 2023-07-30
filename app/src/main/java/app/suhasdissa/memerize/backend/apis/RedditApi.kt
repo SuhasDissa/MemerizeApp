@@ -8,6 +8,7 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.apis
 
 import app.suhasdissa.memerize.backend.model.Reddit
+import app.suhasdissa.memerize.backend.model.RedditAboutResponse
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -34,6 +35,12 @@ interface ApiService {
         @Path("subreddit") subreddit: String,
         @Query("t") time: String
     ): Reddit
+
+    @Headers(header)
+    @GET("r/{subreddit}/about.json")
+    suspend fun getAboutSubreddit(
+        @Path("subreddit") subreddit: String
+    ): RedditAboutResponse
 }
 
 object RedditApi {
