@@ -23,14 +23,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
+import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.viewmodels.DataState
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.components.LoadingScreen
@@ -41,31 +40,27 @@ import app.suhasdissa.memerize.ui.components.VideoCard
 @Composable
 fun RedditMemeScreen(
     modifier: Modifier = Modifier,
-    viewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory),
+    redditViewModel: RedditViewModel,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
     subreddit: String
 ) {
-    fun refresh(time: String) {
-        viewModel.getMemePhotos(subreddit, time)
-    }
-    LaunchedEffect(Unit) {
-        refresh("today")
-    }
-    when (val memeDataState = viewModel.dataState) {
+    when (val memeDataState = redditViewModel.dataState) {
         is DataState.Loading -> LoadingScreen(modifier)
         is DataState.Error -> RetryScreen(
             "Error Loading Online Memes",
             "Show Offline Memes",
             modifier,
-            onRetry = { viewModel.getLocalMemes(subreddit) }
+            onRetry = { redditViewModel.getLocalMemes(subreddit) }
         )
 
         is DataState.Success -> MemeGrid(
             memeDataState.memes,
             onClickMeme,
             onClickVideo,
-            { time -> refresh(time) },
+            { time ->
+                redditViewModel.getMemePhotos(subreddit, time)
+            },
             modifier
         )
     }
@@ -76,7 +71,7 @@ private fun MemeGrid(
     memes: List<RedditMeme>,
     onClickMeme: (url: String) -> Unit,
     onClickVideo: (url: String) -> Unit,
-    refresh: (time: String) -> Unit,
+    refresh: (time: SortTime) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -91,13 +86,13 @@ private fun MemeGrid(
                 .padding(10.dp)
         ) {
             Row(modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
-                OutlinedButton(onClick = { refresh("today") }) {
+                OutlinedButton(onClick = { refresh(SortTime.TODAY) }) {
                     Text(stringResource(R.string.reddit_today_btn))
                 }
-                OutlinedButton(onClick = { refresh("week") }) {
+                OutlinedButton(onClick = { refresh(SortTime.WEEK) }) {
                     Text(stringResource(R.string.reddit_week_btn))
                 }
-                OutlinedButton(onClick = { refresh("month") }) {
+                OutlinedButton(onClick = { refresh(SortTime.MONTH) }) {
                     Text(stringResource(R.string.reddit_month_btn))
                 }
             }

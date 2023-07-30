@@ -9,9 +9,11 @@ package app.suhasdissa.memerize
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.screens.home.HomeScreen
 import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
 import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
@@ -25,15 +27,19 @@ fun AppNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val redditViewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory)
     NavHost(
         navController = navController,
         startDestination = Destination.Home.route,
         modifier = modifier
     ) {
         composable(route = Destination.Home.route) {
-            HomeScreen(onClickMemeView = { subreddit ->
-                navController.navigateTo("${Destination.RedditMemeView.route}/$subreddit")
-            })
+            HomeScreen(
+                onClickMemeView = { subreddit ->
+                    navController.navigateTo("${Destination.RedditMemeView.route}/$subreddit")
+                },
+                redditViewModel = redditViewModel
+            )
         }
         composable(route = Destination.Settings.route) {
             SettingsScreen(onAboutClick = {
@@ -53,6 +59,7 @@ fun AppNavHost(
             val subreddit = it.arguments?.getString("category")
             if (subreddit != null) {
                 RedditMemeScreen(
+                    redditViewModel = redditViewModel,
                     onClickMeme = { url ->
                         navController.navigateTo("${Destination.PhotoView.route}/$url")
                     },

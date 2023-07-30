@@ -17,13 +17,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.suhasdissa.memerize.backend.model.SortTime
+import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.backend.viewmodels.SubredditViewModel
 import app.suhasdissa.memerize.ui.components.HighlightCard
 
 @Composable
 fun HomeScreen(
     onClickMemeView: (category: String) -> Unit,
-    subredditViewModel: SubredditViewModel = viewModel(factory = SubredditViewModel.Factory)
+    subredditViewModel: SubredditViewModel = viewModel(factory = SubredditViewModel.Factory),
+    redditViewModel: RedditViewModel
 ) {
     val subreddits by subredditViewModel.subreddits.collectAsState()
     LazyColumn(
@@ -33,7 +36,10 @@ fun HomeScreen(
     ) {
         items(items = subreddits) {
             HighlightCard(
-                onClick = { onClickMemeView(it.id) },
+                onClick = {
+                    redditViewModel.getMemePhotos(it.id, SortTime.TODAY)
+                    onClickMemeView(it.id)
+                },
                 name = it.name,
                 thumbnail_url = it.iconUrl
             )

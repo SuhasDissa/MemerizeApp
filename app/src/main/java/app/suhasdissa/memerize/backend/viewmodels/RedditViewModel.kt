@@ -18,6 +18,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
+import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.repositories.RedditRepository
 import kotlinx.coroutines.launch
 
@@ -31,15 +32,11 @@ class RedditViewModel(private val redditRepository: RedditRepository) : ViewMode
     var dataState: DataState by mutableStateOf(DataState.Loading)
         private set
 
-    private var currentSubreddit: String? = null
-    private var currentTime: String? = null
-
-    fun getMemePhotos(subreddit: String, time: String) {
-        if (subreddit == currentSubreddit && time == currentTime) return
+    fun getMemePhotos(subreddit: String, time: SortTime) {
         viewModelScope.launch {
             dataState = DataState.Loading
 
-            dataState = when (val data = redditRepository.getOnlineData(subreddit, time)) {
+            dataState = when (val data = redditRepository.getOnlineData(subreddit, time.text)) {
                 null -> {
                     DataState.Error("")
                 }
