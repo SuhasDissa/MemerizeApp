@@ -4,12 +4,14 @@
   <b>Memerize</b> is a handy meme viewer app for Reddit
 </div>
 <br>
+
 <div align="center">
-
-![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/SuhasDissa/MemerizeApp?include_prereleases)
-![GitHub](https://img.shields.io/github/license/Suhasdissa/MemerizeApp)
-![GitHub Repo stars](https://img.shields.io/github/stars/Suhasdissa/MemerizeApp)
-
+    <img alt="License" src="https://img.shields.io/github/license/SuhasDissa/MemerizeApp?color=c3e7ff&style=flat-square">
+    <img alt="Downloads" src="https://img.shields.io/github/downloads/SuhasDissa/MemerizeApp/total.svg?color=c3e7ff&style=flat-square">
+    <img alt="Last commit" src="https://img.shields.io/github/last-commit/SuhasDissa/MemerizeApp?color=c3e7ff&style=flat-square">
+    <img alt="Repo size" src="https://img.shields.io/github/repo-size/SuhasDissa/MemerizeApp?color=c3e7ff&style=flat-square">
+    <img alt="Stars" src="https://img.shields.io/github/stars/SuhasDissa/MemerizeApp?color=c3e7ff&style=flat-square">
+    <br>
 </div>
 
 ---
