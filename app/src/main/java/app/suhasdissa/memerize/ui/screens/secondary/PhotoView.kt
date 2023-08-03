@@ -83,8 +83,11 @@ fun PhotoView(
                             scale *= event.calculateZoom()
                             scale = max(scale, 1f)
                             val offset = event.calculatePan()
-                            offsetX += offset.x
-                            offsetY += offset.y
+
+                            val w = size.width * (scale - 1f) / 2
+                            offsetX = (offsetX + offset.x).coerceIn(-w, w)
+                            val h = size.height * (scale - 1f) / 2
+                            offsetY = (offsetY + offset.y).coerceIn(-h, h)
                         } while (event.changes.any { it.pressed })
                     }
                 },
