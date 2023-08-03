@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.screens.home.HomeScreen
 import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
@@ -28,6 +29,7 @@ fun AppNavHost(
     modifier: Modifier = Modifier
 ) {
     val redditViewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory)
+    val playerViewModel: PlayerViewModel = viewModel(factory = PlayerViewModel.Factory)
     NavHost(
         navController = navController,
         startDestination = Destination.Home.route,
@@ -86,7 +88,7 @@ fun AppNavHost(
         ) {
             val url = it.arguments?.getString("url")
             if (url != null) {
-                VideoView(url)
+                VideoView(url = url, playerViewModel = playerViewModel)
             }
         }
     }

@@ -18,4 +18,6 @@
     <string name="about_title">About</string>
     <string name="home">Home</string>
     <string name="subreddits">Subreddits</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
 </resources>
