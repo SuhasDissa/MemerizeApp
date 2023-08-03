@@ -8,16 +8,19 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.viewmodels
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Environment
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.suhasdissa.memerize.BuildConfig
 import coil.ImageLoader
-import coil.request.ErrorResult
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import java.io.File
@@ -31,18 +34,26 @@ class PhotoViewModel : ViewModel() {
 
     var downloadState: DownloadState by mutableStateOf(DownloadState.NotStarted)
 
+    private suspend fun getBitmapFromUrl(url: String, context: Context): Bitmap? {
+        val imageLoader = ImageLoader.Builder(context).build()
+        val request = ImageRequest.Builder(context)
+            .data(url)
+            .build()
+        val result = imageLoader.execute(request)
+
+        if (result is SuccessResult) {
+            return result.drawable.toBitmap()
+        }
+        return null
+    }
+
     fun savePhotoToDisk(url: String, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 downloadState = DownloadState.Loading
             }
-            val imageLoader = ImageLoader.Builder(context).build()
-            val request = ImageRequest.Builder(context)
-                .data(url)
-                .build()
-            val result = imageLoader.execute(request)
-
-            if (result is SuccessResult) {
+            val bitmap = getBitmapFromUrl(url, context)
+            if (bitmap != null) {
                 try {
                     val outputStream =
                         FileOutputStream(
@@ -53,7 +64,6 @@ class PhotoViewModel : ViewModel() {
                                 "${UUID.randomUUID()}.jpg"
                             )
                         )
-                    val bitmap = result.drawable.toBitmap()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.flush()
                     outputStream.close()
@@ -65,9 +75,44 @@ class PhotoViewModel : ViewModel() {
                         downloadState = DownloadState.Error
                     }
                 }
-            } else if (result is ErrorResult) {
+            } else {
                 withContext(Dispatchers.Main) {
                     downloadState = DownloadState.Error
+                }
+            }
+        }
+    }
+
+    fun shareImage(url: String, context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val bitmap = getBitmapFromUrl(url, context)
+            if (bitmap != null) {
+                try {
+                    val outputFile = File(
+                        context.cacheDir,
+                        "${UUID.randomUUID()}.jpg"
+                    )
+                    val outputStream = FileOutputStream(outputFile)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                    outputStream.flush()
+                    outputStream.close()
+                    val sendIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(
+                            Intent.EXTRA_STREAM,
+                            FileProvider.getUriForFile(
+                                context,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                outputFile
+                            )
+                        )
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        type = "image/jpg"
+                    }
+                    val shareIntent = Intent.createChooser(sendIntent, "Send Photo to..")
+                    context.startActivity(shareIntent)
+                } catch (e: Exception) {
+                    Log.e("Share Image", e.toString())
                 }
             }
         }

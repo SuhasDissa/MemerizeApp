@@ -51,7 +51,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PhotoViewModel
-import app.suhasdissa.memerize.utils.shareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import java.lang.Float.max
@@ -140,7 +139,7 @@ fun PhotoView(
                 }
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    shareUrl(context, photoUrl)
+                    photoViewModel.shareImage(photoUrl, context)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Share,
