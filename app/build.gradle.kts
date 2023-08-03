@@ -20,6 +20,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
     signingConfigs {
         create("release") {
