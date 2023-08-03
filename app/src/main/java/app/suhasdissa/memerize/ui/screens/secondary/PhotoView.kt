@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.DownloadDone
+import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,8 +47,10 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.utils.downloadUtil
+import app.suhasdissa.memerize.backend.viewmodels.DownloadState
+import app.suhasdissa.memerize.backend.viewmodels.PhotoViewModel
 import app.suhasdissa.memerize.utils.shareUrl
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -54,7 +59,10 @@ import java.net.URLDecoder
 import java.nio.charset.StandardCharsets
 
 @Composable
-fun PhotoView(photo: String) {
+fun PhotoView(
+    photo: String,
+    photoViewModel: PhotoViewModel = viewModel()
+) {
     val context = LocalContext.current
     val photoUrl = remember { URLDecoder.decode(photo, StandardCharsets.UTF_8.toString()) }
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
@@ -114,10 +122,15 @@ fun PhotoView(photo: String) {
             ) {
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    downloadUtil(context, photoUrl)
+                    photoViewModel.savePhotoToDisk(photoUrl, context)
                 }) {
                     Icon(
-                        imageVector = Icons.Default.Download,
+                        imageVector = when (photoViewModel.downloadState) {
+                            DownloadState.Error -> Icons.Default.Error
+                            DownloadState.Loading -> Icons.Default.Downloading
+                            DownloadState.NotStarted -> Icons.Default.Download
+                            DownloadState.Success -> Icons.Default.DownloadDone
+                        },
                         contentDescription = "Download Photo",
                         Modifier.size(48.dp)
                     )
