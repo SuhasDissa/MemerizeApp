@@ -8,20 +8,34 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.database
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.suhasdissa.memerize.backend.database.dao.CommunityDAO
+import app.suhasdissa.memerize.backend.database.dao.LemmyMemeDAO
 import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
 import app.suhasdissa.memerize.backend.database.dao.SubredditDAO
+import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
+import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 import app.suhasdissa.memerize.backend.database.entity.Subreddit
 
-@Database(entities = [RedditMeme::class, Subreddit::class], version = 4)
+@Database(
+    entities = [RedditMeme::class, Subreddit::class, LemmyMeme::class, LemmyCommunity::class],
+    version = 5,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 4, to = 5)
+    ]
+)
 abstract class MemeDatabase : RoomDatabase() {
 
     abstract fun redditMemeDao(): RedditMemeDao
     abstract fun subredditDao(): SubredditDAO
+    abstract fun communityDao(): CommunityDAO
+    abstract fun lemmyMemeDao(): LemmyMemeDAO
 
     companion object {
         @Volatile
@@ -33,7 +47,7 @@ abstract class MemeDatabase : RoomDatabase() {
                     context.applicationContext,
                     MemeDatabase::class.java,
                     "meme_database"
-                ).allowMainThreadQueries().fallbackToDestructiveMigration()
+                ).allowMainThreadQueries()
                     .addCallback(initSubreddits())
                     .build()
                 INSTANCE = instance

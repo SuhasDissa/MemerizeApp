@@ -20,4 +20,5 @@
     <string name="subreddits">Subreddits</string>
     <string name="pause">Pause</string>
     <string name="play">Play</string>
+    <string name="lemmy_communities">Lemmy Communities</string>
 </resources>

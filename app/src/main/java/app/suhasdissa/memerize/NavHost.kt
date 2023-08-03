@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
+import app.suhasdissa.memerize.ui.screens.home.CommunityScreen
 import app.suhasdissa.memerize.ui.screens.home.HomeScreen
 import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
 import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
@@ -50,6 +51,9 @@ fun AppNavHost(
         }
         composable(route = Destination.Subreddits.route) {
             SubredditScreen()
+        }
+        composable(route = Destination.Communities.route) {
+            CommunityScreen()
         }
         composable(route = Destination.About.route) {
             AboutScreen()

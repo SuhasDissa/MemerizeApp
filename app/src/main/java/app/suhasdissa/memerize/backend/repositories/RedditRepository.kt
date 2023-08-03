@@ -27,7 +27,8 @@ interface RedditRepository {
 
 class RedditRepositoryImpl(
     private val redditMemeDao: RedditMemeDao,
-    private val subredditDAO: SubredditDAO
+    private val subredditDAO: SubredditDAO,
+    private val redditApi: RedditApi
 ) : RedditRepository {
     override suspend fun getOnlineData(subreddit: String, time: String): List<RedditMeme>? {
         return try {
@@ -46,7 +47,7 @@ class RedditRepositoryImpl(
     override fun getSubreddits(): Flow<List<Subreddit>> = subredditDAO.getAll()
     override suspend fun getSubredditInfo(subreddit: String): RedditAboutResponse? {
         return try {
-            RedditApi.retrofitService.getAboutSubreddit(subreddit)
+            redditApi.getAboutSubreddit(subreddit)
         } catch (_: Exception) {
             null
         }
@@ -57,7 +58,7 @@ class RedditRepositoryImpl(
 
     private suspend fun getNetworkData(subreddit: String, time: String): List<RedditMeme> {
         val memeList: ArrayList<RedditMeme> = arrayListOf()
-        val redditData = RedditApi.retrofitService.getRedditData(subreddit, time).data.children
+        val redditData = redditApi.getRedditData(subreddit, time).data.children
         redditData.forEach { child ->
             val url = child.Childdata.url
             if (url.contains("i.redd.it")) {

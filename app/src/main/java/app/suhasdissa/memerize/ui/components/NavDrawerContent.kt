@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -85,6 +86,21 @@ fun NavDrawerContent(
             onClick = {
                 view.playSoundEffect(SoundEffectConstants.CLICK)
                 onDestinationSelected(Destination.Subreddits)
+            }
+        )
+        Spacer(Modifier.height(16.dp))
+        NavigationDrawerItem(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.Group,
+                    contentDescription = null
+                )
+            },
+            label = { Text(text = stringResource(id = R.string.lemmy_communities)) },
+            selected = currentDestination == Destination.Communities,
+            onClick = {
+                view.playSoundEffect(SoundEffectConstants.CLICK)
+                onDestinationSelected(Destination.Communities)
             }
         )
         Spacer(Modifier.height(16.dp))
