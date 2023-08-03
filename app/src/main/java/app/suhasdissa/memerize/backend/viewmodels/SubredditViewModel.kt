@@ -51,14 +51,15 @@ class SubredditViewModel(private val redditRepository: RedditRepository) : ViewM
             val subredditInfo = redditRepository.getSubredditInfo(subreddit)?.data
             if (subredditInfo == null) {
                 subredditAboutState = AboutState.Error(subreddit)
+            } else {
+                val sub = Subreddit(
+                    subreddit,
+                    subredditInfo.communityIconUrl,
+                    subredditInfo.displayName ?: subreddit
+                )
+                subredditAboutState = AboutState.Success(sub)
+                redditRepository.insertSubreddit(sub)
             }
-            val sub = Subreddit(
-                subreddit,
-                subredditInfo?.communityIconUrl,
-                subredditInfo?.displayName ?: subreddit
-            )
-            subredditAboutState = AboutState.Success(sub)
-            redditRepository.insertSubreddit(sub)
         }
     }
 
