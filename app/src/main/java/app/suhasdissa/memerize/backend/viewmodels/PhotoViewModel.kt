@@ -10,6 +10,7 @@ package app.suhasdissa.memerize.backend.viewmodels
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -17,9 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.suhasdissa.memerize.BuildConfig
+import app.suhasdissa.memerize.utils.SaveDirectoryKey
+import app.suhasdissa.memerize.utils.preferences
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
@@ -53,24 +57,32 @@ class PhotoViewModel : ViewModel() {
                 downloadState = DownloadState.Loading
             }
             val bitmap = getBitmapFromUrl(url, context)
+            val prefDir =
+                context.preferences.getString(SaveDirectoryKey, null)
+
+            val saveDir = when {
+                prefDir.isNullOrBlank() -> {
+                    val dir =
+                        Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_DOWNLOADS
+                        )
+                    DocumentFile.fromFile(dir)
+                }
+
+                else -> DocumentFile.fromTreeUri(context, Uri.parse(prefDir))!!
+            }
+            val outputFile = saveDir.createFile("image/jpg", "${UUID.randomUUID()}.jpg")
             if (bitmap != null) {
                 try {
-                    val outputStream =
-                        FileOutputStream(
-                            File(
-                                Environment.getExternalStoragePublicDirectory(
-                                    Environment.DIRECTORY_DOWNLOADS
-                                ),
-                                "${UUID.randomUUID()}.jpg"
-                            )
-                        )
+                    val outputStream = context.contentResolver.openOutputStream(outputFile!!.uri)!!
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.flush()
                     outputStream.close()
                     withContext(Dispatchers.Main) {
                         downloadState = DownloadState.Success
                     }
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    Log.e("Photo save", e.toString())
                     withContext(Dispatchers.Main) {
                         downloadState = DownloadState.Error
                     }
