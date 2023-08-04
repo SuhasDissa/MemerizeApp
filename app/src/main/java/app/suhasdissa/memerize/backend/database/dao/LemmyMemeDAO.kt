@@ -15,7 +15,7 @@ import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
 
 @Dao
 interface LemmyMemeDAO {
-    @Query("SELECT * FROM lemmy_table WHERE community=:community AND instance=:instance")
+    @Query("SELECT * FROM lemmy_table WHERE id=:community AND instance=:instance")
     fun getAll(community: String, instance: String): List<LemmyMeme>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -12,8 +12,8 @@ import androidx.room.Entity
 
 @Entity(tableName = "community", primaryKeys = ["community", "instance"])
 data class LemmyCommunity(
-    @ColumnInfo(name = "community") val community: String,
+    @ColumnInfo(name = "community") override val id: String,
     @ColumnInfo(name = "instance") val instance: String,
-    @ColumnInfo(name = "icon_url") val iconUrl: String?,
-    @ColumnInfo(name = "name") val name: String
-)
+    @ColumnInfo(name = "icon_url") override val iconUrl: String? = null,
+    @ColumnInfo(name = "name") override val name: String = ""
+) : AboutCommunity

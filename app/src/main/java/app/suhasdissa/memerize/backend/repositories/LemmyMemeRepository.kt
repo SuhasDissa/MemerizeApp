@@ -1,5 +1,5 @@
 /*******************************************************************************
-Created By Suhas Dissanayake on 8/3/23, 6:55 PM
+Created By Suhas Dissanayake on 8/4/23, 9:06 PM
 Copyright (c) 2023
 https://github.com/SuhasDissa/
 All Rights Reserved
@@ -10,27 +10,14 @@ package app.suhasdissa.memerize.backend.repositories
 import android.util.Log
 import androidx.annotation.WorkerThread
 import app.suhasdissa.memerize.backend.apis.LemmyApi
-import app.suhasdissa.memerize.backend.database.dao.CommunityDAO
 import app.suhasdissa.memerize.backend.database.dao.LemmyMemeDAO
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
-import kotlinx.coroutines.flow.Flow
 
-interface LemmyRepository {
-    suspend fun getOnlineData(community: LemmyCommunity, time: String): List<LemmyMeme>?
-    suspend fun getLocalData(community: LemmyCommunity): List<LemmyMeme>
-    fun getCommunities(): Flow<List<LemmyCommunity>>
-    suspend fun getCommunityInfo(name: String, instance: String): LemmyCommunity?
-    suspend fun insertCommunity(community: LemmyCommunity)
-    suspend fun removeCommunity(community: LemmyCommunity)
-}
-
-class LemmyRepositoryImpl(
-    private val communityDAO: CommunityDAO,
+class LemmyMemeRepository(
     private val lemmyDAO: LemmyMemeDAO,
     private val lemmyApi: LemmyApi
-) :
-    LemmyRepository {
+) : MemeRepository<LemmyMeme, LemmyCommunity> {
 
     override suspend fun getOnlineData(
         community: LemmyCommunity,
@@ -55,7 +42,7 @@ class LemmyRepositoryImpl(
         val memeList: ArrayList<LemmyMeme> = arrayListOf()
         val lemmyData = lemmyApi.getLemmyData(
             instance = community.instance,
-            community = community.community,
+            community = community.id,
             sort = time
         ).posts
         lemmyData.forEach { post ->
@@ -80,24 +67,7 @@ class LemmyRepositoryImpl(
     }
 
     override suspend fun getLocalData(community: LemmyCommunity): List<LemmyMeme> =
-        lemmyDAO.getAll(community.community, community.instance)
-
-    override fun getCommunities(): Flow<List<LemmyCommunity>> = communityDAO.getAll()
-
-    override suspend fun getCommunityInfo(name: String, instance: String): LemmyCommunity? {
-        return try {
-            val community =
-                lemmyApi.getCommunity(instance, name).communityView?.community ?: return null
-            return LemmyCommunity(name, instance, community.icon, community.name ?: name)
-        } catch (e: Exception) {
-            Log.e("Lemmy Repository", e.toString())
-            null
-        }
-    }
-
-    override suspend fun insertCommunity(community: LemmyCommunity) = communityDAO.insert(community)
-
-    override suspend fun removeCommunity(community: LemmyCommunity) = communityDAO.delete(community)
+        lemmyDAO.getAll(community.id, community.instance)
 
     @WorkerThread
     private fun insertMemes(memes: List<LemmyMeme>) {

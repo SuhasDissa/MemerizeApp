@@ -50,8 +50,9 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.suhasdissa.memerize.backend.viewmodels.LemmyAboutState
+import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
+import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import app.suhasdissa.memerize.ui.components.SubredditCardCompact
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -75,7 +76,7 @@ fun CommunityScreen(
             items(items = communities) {
                 SubredditCardCompact(
                     onClickCard = {
-                        communityViewModel.getInfo(it.instance, it.community)
+                        communityViewModel.getInfo(it.instance, it.id)
                         subredditInfoSheet = true
                     },
                     title = it.name,
@@ -102,7 +103,7 @@ fun CommunityScreen(
         }
         AlertDialog(
             onDismissRequest = { addNewDialog = false },
-            title = { Text("Add new Subreddit") },
+            title = { Text("Add new RedditCommunity") },
             confirmButton = {
                 Button(onClick = {
                     communityViewModel.getInfo(instance = newInstance, community = newCommunity)
@@ -156,20 +157,20 @@ fun CommunityScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                when (val state = communityViewModel.aboutState) {
-                    is LemmyAboutState.Error -> {
+                when (val state = communityViewModel.aboutCommutnityState) {
+                    is AboutCommunityState.Error -> {
                         Text(
                             text = "Failed to fetch Community info",
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.error
                         )
                         Text(
-                            text = "${state.community}@${state.instance}",
+                            text = "${state.community.id}@${(state.community as LemmyCommunity).instance}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
 
-                    is LemmyAboutState.Loading -> {
+                    is AboutCommunityState.Loading -> {
                         Box(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -183,16 +184,16 @@ fun CommunityScreen(
                         }
 
                         Text(
-                            text = state.community,
+                            text = state.community.name,
                             style = MaterialTheme.typography.headlineMedium
                         )
                         Text(
-                            text = "${state.community}@${state.instance}",
+                            text = "${state.community.id}@${(state.community as LemmyCommunity).instance}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
 
-                    is LemmyAboutState.Success -> {
+                    is AboutCommunityState.Success -> {
                         AsyncImage(
                             modifier = Modifier
                                 .size(120.dp)
@@ -210,7 +211,7 @@ fun CommunityScreen(
                             style = MaterialTheme.typography.headlineMedium
                         )
                         Text(
-                            text = "${state.community.community}@${state.community.instance}",
+                            text = "${state.community.id}@${(state.community as LemmyCommunity).instance}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }

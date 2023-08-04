@@ -19,11 +19,11 @@ import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
 import app.suhasdissa.memerize.backend.database.dao.SubredditDAO
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
+import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
-import app.suhasdissa.memerize.backend.database.entity.Subreddit
 
 @Database(
-    entities = [RedditMeme::class, Subreddit::class, LemmyMeme::class, LemmyCommunity::class],
+    entities = [RedditMeme::class, RedditCommunity::class, LemmyMeme::class, LemmyCommunity::class],
     version = 5,
     exportSchema = true,
     autoMigrations = [
@@ -57,32 +57,32 @@ abstract class MemeDatabase : RoomDatabase() {
 
         class initSubreddits : Callback() {
             val redditList = listOf(
-                Subreddit(
+                RedditCommunity(
                     "maybemaybemaybe",
                     "https://styles.redditmedia.com/t5_38e1l/styles/communityIcon_hcpveq6pu5p41.png",
                     "Maybe Maybe Maybe"
                 ),
-                Subreddit(
+                RedditCommunity(
                     "holup",
                     "https://styles.redditmedia.com/t5_qir9n/styles/communityIcon_yvasg0bnblaa1.png",
                     "HolUP"
                 ),
-                Subreddit(
+                RedditCommunity(
                     "funny",
                     "https://a.thumbs.redditmedia.com/kIpBoUR8zJLMQlF8azhN-kSBsjVUidHjvZNLuHDONm8.png",
                     "Funny"
                 ),
-                Subreddit(
+                RedditCommunity(
                     "facepalm",
                     "https://styles.redditmedia.com/t5_2r5rp/styles/communityIcon_qzjxzx1g08z91.jpg",
                     "FacePalm"
                 ),
-                Subreddit(
+                RedditCommunity(
                     "memes",
                     "https://styles.redditmedia.com/t5_2qjpg/styles/communityIcon_uzvo7sibvc3a1.jpg",
                     "Memes"
                 ),
-                Subreddit(
+                RedditCommunity(
                     "dankmemes",
                     "https://styles.redditmedia.com/t5_2zmfe/styles/communityIcon_g5xoywnpe2l91.png",
                     "Dank Memes"

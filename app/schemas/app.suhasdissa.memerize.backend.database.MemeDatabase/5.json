@@ -154,7 +154,7 @@
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`community` TEXT NOT NULL, `instance` TEXT NOT NULL, `icon_url` TEXT, `name` TEXT NOT NULL, PRIMARY KEY(`community`, `instance`))",
         "fields": [
           {
-            "fieldPath": "community",
+            "fieldPath": "id",
             "columnName": "community",
             "affinity": "TEXT",
             "notNull": true

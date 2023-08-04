@@ -17,48 +17,43 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
-import app.suhasdissa.memerize.backend.database.entity.Subreddit
-import app.suhasdissa.memerize.backend.repositories.RedditRepository
+import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
+import app.suhasdissa.memerize.backend.repositories.CommunityRepository
+import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-sealed interface AboutState {
-    data class Success(val subreddit: Subreddit) : AboutState
-    data class Error(val subreddit: String) : AboutState
-    data class Loading(val subreddit: String) : AboutState
-}
+class RedditCommunityViewModel(private val redditRepository: CommunityRepository<RedditCommunity>) :
+    ViewModel() {
 
-class SubredditViewModel(private val redditRepository: RedditRepository) : ViewModel() {
-
-    val subreddits = redditRepository.getSubreddits().stateIn(
+    val communities = redditRepository.getCommunities().stateIn(
         viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
         initialValue = listOf()
     )
 
-    var subredditAboutState: AboutState by mutableStateOf(AboutState.Loading(""))
+    var aboutCommunityState: AboutCommunityState by mutableStateOf(
+        AboutCommunityState.Loading(
+            RedditCommunity("")
+        )
+    )
 
-    fun removeSubreddit(subreddit: Subreddit) {
+    fun removeSubreddit(subreddit: RedditCommunity) {
         viewModelScope.launch {
-            redditRepository.removeSubreddit(subreddit)
+            redditRepository.removeCommunity(subreddit)
         }
     }
 
     fun getSubredditInfo(subreddit: String) {
         viewModelScope.launch {
-            subredditAboutState = AboutState.Loading(subreddit)
-            val subredditInfo = redditRepository.getSubredditInfo(subreddit)?.data
+            aboutCommunityState = AboutCommunityState.Loading(RedditCommunity(subreddit))
+            val subredditInfo = redditRepository.getCommunityInfo(RedditCommunity(subreddit))
             if (subredditInfo == null) {
-                subredditAboutState = AboutState.Error(subreddit)
+                aboutCommunityState = AboutCommunityState.Error(RedditCommunity(subreddit))
             } else {
-                val sub = Subreddit(
-                    subreddit,
-                    subredditInfo.communityIconUrl,
-                    subredditInfo.displayName ?: subreddit
-                )
-                subredditAboutState = AboutState.Success(sub)
-                redditRepository.insertSubreddit(sub)
+                aboutCommunityState = AboutCommunityState.Success(subredditInfo)
+                redditRepository.insertCommunity(subredditInfo)
             }
         }
     }
@@ -67,8 +62,8 @@ class SubredditViewModel(private val redditRepository: RedditRepository) : ViewM
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as MemerizeApplication)
-                val redditRepository = application.container.redditRepository
-                SubredditViewModel(redditRepository = redditRepository)
+                val redditRepository = application.container.redditCommunityRepository
+                RedditCommunityViewModel(redditRepository = redditRepository)
             }
         }
     }

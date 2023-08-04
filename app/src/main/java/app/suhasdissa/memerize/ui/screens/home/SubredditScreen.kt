@@ -50,8 +50,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import app.suhasdissa.memerize.backend.viewmodels.AboutState
-import app.suhasdissa.memerize.backend.viewmodels.SubredditViewModel
+import app.suhasdissa.memerize.backend.viewmodels.RedditCommunityViewModel
+import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import app.suhasdissa.memerize.ui.components.SubredditCardCompact
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -59,9 +59,11 @@ import coil.request.ImageRequest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubredditScreen(
-    subredditViewModel: SubredditViewModel = viewModel(factory = SubredditViewModel.Factory)
+    redditCommunityViewModel: RedditCommunityViewModel = viewModel(
+        factory = RedditCommunityViewModel.Factory
+    )
 ) {
-    val subreddits by subredditViewModel.subreddits.collectAsState()
+    val subreddits by redditCommunityViewModel.communities.collectAsState()
     var subredditInfoSheet by remember { mutableStateOf(false) }
     var addNewDialog by remember { mutableStateOf(false) }
     Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = {
@@ -73,13 +75,13 @@ fun SubredditScreen(
             items(items = subreddits) {
                 SubredditCardCompact(
                     onClickCard = {
-                        subredditViewModel.getSubredditInfo(it.id)
+                        redditCommunityViewModel.getSubredditInfo(it.id)
                         subredditInfoSheet = true
                     },
                     title = it.name,
                     thumbnail = it.iconUrl,
                     TrailingContent = {
-                        IconButton(onClick = { subredditViewModel.removeSubreddit(it) }) {
+                        IconButton(onClick = { redditCommunityViewModel.removeSubreddit(it) }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
                                 contentDescription = "Remove subreddit"
@@ -97,10 +99,10 @@ fun SubredditScreen(
         }
         AlertDialog(
             onDismissRequest = { addNewDialog = false },
-            title = { Text("Add new Subreddit") },
+            title = { Text("Add new RedditCommunity") },
             confirmButton = {
                 Button(onClick = {
-                    subredditViewModel.getSubredditInfo(newSubreddit)
+                    redditCommunityViewModel.getSubredditInfo(newSubreddit)
                     addNewDialog = false
                     subredditInfoSheet = true
                 }) {
@@ -124,7 +126,7 @@ fun SubredditScreen(
                         ),
                         prefix = { Text("r/") },
                         isError = newSubreddit.contains(' '),
-                        label = { Text("Subreddit name from url") },
+                        label = { Text("RedditCommunity name from url") },
                         placeholder = { Text("maybemaybemaybe") }
                     )
                 }
@@ -139,20 +141,20 @@ fun SubredditScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                when (val state = subredditViewModel.subredditAboutState) {
-                    is AboutState.Error -> {
+                when (val state = redditCommunityViewModel.aboutCommunityState) {
+                    is AboutCommunityState.Error -> {
                         Text(
                             text = "Failed to fetch subreddit Info",
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.error
                         )
                         Text(
-                            text = "r/${state.subreddit}",
+                            text = "r/${state.community.id}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
 
-                    is AboutState.Loading -> {
+                    is AboutCommunityState.Loading -> {
                         Box(
                             modifier = Modifier
                                 .background(MaterialTheme.colorScheme.primaryContainer)
@@ -166,16 +168,16 @@ fun SubredditScreen(
                         }
 
                         Text(
-                            text = state.subreddit,
+                            text = state.community.name,
                             style = MaterialTheme.typography.headlineMedium
                         )
                         Text(
-                            text = "r/${state.subreddit}",
+                            text = "r/${state.community.id}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
 
-                    is AboutState.Success -> {
+                    is AboutCommunityState.Success -> {
                         AsyncImage(
                             modifier = Modifier
                                 .size(120.dp)
@@ -183,17 +185,17 @@ fun SubredditScreen(
                                 .aspectRatio(1f)
                                 .clip(CircleShape),
                             model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(state.subreddit.iconUrl).crossfade(true).build(),
+                                .data(state.community.iconUrl).crossfade(true).build(),
                             contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
 
                         Text(
-                            text = state.subreddit.name,
+                            text = state.community.name,
                             style = MaterialTheme.typography.headlineMedium
                         )
                         Text(
-                            text = "r/${state.subreddit.id}",
+                            text = "r/${state.community.id}",
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }

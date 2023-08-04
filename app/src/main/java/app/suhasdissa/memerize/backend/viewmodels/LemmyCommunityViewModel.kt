@@ -18,18 +18,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
-import app.suhasdissa.memerize.backend.repositories.LemmyRepository
+import app.suhasdissa.memerize.backend.repositories.CommunityRepository
+import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-sealed interface LemmyAboutState {
-    data class Success(val community: LemmyCommunity) : LemmyAboutState
-    data class Error(val community: String, val instance: String) : LemmyAboutState
-    data class Loading(val community: String = "", val instance: String = "") : LemmyAboutState
-}
-
-class LemmyCommunityViewModel(private val lemmyRepository: LemmyRepository) : ViewModel() {
+class LemmyCommunityViewModel(private val lemmyRepository: CommunityRepository<LemmyCommunity>) :
+    ViewModel() {
 
     val communities = lemmyRepository.getCommunities().stateIn(
         viewModelScope,
@@ -37,7 +33,11 @@ class LemmyCommunityViewModel(private val lemmyRepository: LemmyRepository) : Vi
         initialValue = listOf()
     )
 
-    var aboutState: LemmyAboutState by mutableStateOf(LemmyAboutState.Loading())
+    var aboutCommutnityState: AboutCommunityState by mutableStateOf(
+        AboutCommunityState.Loading(
+            LemmyCommunity("", "")
+        )
+    )
 
     fun removeCommunity(community: LemmyCommunity) {
         viewModelScope.launch {
@@ -47,12 +47,13 @@ class LemmyCommunityViewModel(private val lemmyRepository: LemmyRepository) : Vi
 
     fun getInfo(instance: String, community: String) {
         viewModelScope.launch {
-            aboutState = LemmyAboutState.Loading(community, instance)
-            val lemmyInfo = lemmyRepository.getCommunityInfo(community, instance)
+            aboutCommutnityState = AboutCommunityState.Loading(LemmyCommunity(community, instance))
+            val lemmyInfo = lemmyRepository.getCommunityInfo(LemmyCommunity(community, instance))
             if (lemmyInfo == null) {
-                aboutState = LemmyAboutState.Error(community, instance)
+                aboutCommutnityState =
+                    AboutCommunityState.Error(LemmyCommunity(community, instance))
             } else {
-                aboutState = LemmyAboutState.Success(lemmyInfo)
+                aboutCommutnityState = AboutCommunityState.Success(lemmyInfo)
                 lemmyRepository.insertCommunity(lemmyInfo)
             }
         }
@@ -62,7 +63,7 @@ class LemmyCommunityViewModel(private val lemmyRepository: LemmyRepository) : Vi
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as MemerizeApplication)
-                val lemmyRepository = application.container.lemmyRepository
+                val lemmyRepository = application.container.lemmyCommunityRepository
                 LemmyCommunityViewModel(lemmyRepository)
             }
         }

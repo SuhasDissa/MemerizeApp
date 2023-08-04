@@ -23,20 +23,22 @@ import app.suhasdissa.memerize.Destination
 import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
+import app.suhasdissa.memerize.backend.viewmodels.RedditCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
-import app.suhasdissa.memerize.backend.viewmodels.SubredditViewModel
 import app.suhasdissa.memerize.ui.components.HighlightCard
 
 @Composable
 fun HomeScreen(
     onNavigate: (Destination) -> Unit,
-    subredditViewModel: SubredditViewModel = viewModel(factory = SubredditViewModel.Factory),
+    redditCommunityViewModel: RedditCommunityViewModel = viewModel(
+        factory = RedditCommunityViewModel.Factory
+    ),
     lemmyCommunityViewModel: LemmyCommunityViewModel =
         viewModel(factory = LemmyCommunityViewModel.Factory),
     redditViewModel: RedditViewModel,
     lemmyViewModel: LemmyViewModel
 ) {
-    val subreddits by subredditViewModel.subreddits.collectAsState()
+    val subreddits by redditCommunityViewModel.communities.collectAsState()
     val communities by lemmyCommunityViewModel.communities.collectAsState()
     LazyColumn(
         Modifier

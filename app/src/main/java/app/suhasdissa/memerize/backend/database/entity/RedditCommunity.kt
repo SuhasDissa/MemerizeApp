@@ -12,8 +12,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "subreddit")
-data class Subreddit(
-    @PrimaryKey val id: String,
-    @ColumnInfo(name = "icon_url") val iconUrl: String?,
-    @ColumnInfo(name = "name") val name: String
-)
+data class RedditCommunity(
+    @PrimaryKey override val id: String,
+    @ColumnInfo(name = "icon_url") override val iconUrl: String? = null,
+    @ColumnInfo(name = "name") override val name: String = ""
+) : AboutCommunity

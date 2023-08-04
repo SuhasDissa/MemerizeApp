@@ -12,20 +12,20 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import app.suhasdissa.memerize.backend.database.entity.Subreddit
+import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SubredditDAO {
     @Query("SELECT * FROM subreddit")
-    fun getAll(): Flow<List<Subreddit>>
+    fun getAll(): Flow<List<RedditCommunity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(subreddits: List<Subreddit>)
+    fun insertAll(subreddits: List<RedditCommunity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(subreddits: Subreddit)
+    fun insert(subreddits: RedditCommunity)
 
     @Delete
-    fun delete(subreddit: Subreddit)
+    fun delete(subreddit: RedditCommunity)
 }
