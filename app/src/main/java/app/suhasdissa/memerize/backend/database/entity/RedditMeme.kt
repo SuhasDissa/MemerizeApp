@@ -13,10 +13,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "reddit_table")
 data class RedditMeme(
-    @PrimaryKey val id: String,
-    @ColumnInfo(name = "url") val url: String,
-    @ColumnInfo(name = "title", defaultValue = "") val title: String,
-    @ColumnInfo(name = "is_video") val isVideo: Boolean,
-    @ColumnInfo(name = "preview", defaultValue = "") val preview: String,
+    @PrimaryKey override val id: String,
+    @ColumnInfo(name = "url") override val url: String,
+    @ColumnInfo(name = "title", defaultValue = "") override val title: String,
+    @ColumnInfo(name = "is_video") override val isVideo: Boolean,
+    @ColumnInfo(name = "preview", defaultValue = "") override val preview: String,
     @ColumnInfo(name = "subreddit", defaultValue = "") val subreddit: String
-)
+) : Meme

@@ -13,11 +13,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.screens.home.CommunityScreen
 import app.suhasdissa.memerize.ui.screens.home.HomeScreen
 import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
+import app.suhasdissa.memerize.ui.screens.primary.LemmyMemeScreen
 import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
 import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
 import app.suhasdissa.memerize.ui.screens.secondary.VideoView
@@ -30,6 +32,7 @@ fun AppNavHost(
     modifier: Modifier = Modifier
 ) {
     val redditViewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory)
+    val lemmyViewModel: LemmyViewModel = viewModel(factory = LemmyViewModel.Factory)
     val playerViewModel: PlayerViewModel = viewModel(factory = PlayerViewModel.Factory)
     NavHost(
         navController = navController,
@@ -38,10 +41,11 @@ fun AppNavHost(
     ) {
         composable(route = Destination.Home.route) {
             HomeScreen(
-                onClickMemeView = { subreddit ->
-                    navController.navigateTo("${Destination.RedditMemeView.route}/$subreddit")
+                onNavigate = { destination ->
+                    navController.navigateTo(destination.route)
                 },
-                redditViewModel = redditViewModel
+                redditViewModel = redditViewModel,
+                lemmyViewModel = lemmyViewModel
             )
         }
         composable(route = Destination.Settings.route) {
@@ -59,22 +63,30 @@ fun AppNavHost(
             AboutScreen()
         }
         composable(
-            route = Destination.RedditMemeView.routeWithArgs,
-            arguments = Destination.RedditMemeView.arguments
+            route = Destination.RedditMemeView.route
         ) {
-            val subreddit = it.arguments?.getString("category")
-            if (subreddit != null) {
-                RedditMemeScreen(
-                    redditViewModel = redditViewModel,
-                    onClickMeme = { url ->
-                        navController.navigateTo("${Destination.PhotoView.route}/$url")
-                    },
-                    onClickVideo = { url ->
-                        navController.navigateTo("${Destination.VideoPlayer.route}/$url")
-                    },
-                    subreddit = subreddit
-                )
-            }
+            RedditMemeScreen(
+                redditViewModel = redditViewModel,
+                onClickMeme = { url ->
+                    navController.navigateTo("${Destination.PhotoView.route}/$url")
+                },
+                onClickVideo = { url ->
+                    navController.navigateTo("${Destination.VideoPlayer.route}/$url")
+                }
+            )
+        }
+        composable(
+            route = Destination.LemmyMemeView.route
+        ) {
+            LemmyMemeScreen(
+                lemmyViewModel = lemmyViewModel,
+                onClickMeme = { url ->
+                    navController.navigateTo("${Destination.PhotoView.route}/$url")
+                },
+                onClickVideo = { url ->
+                    navController.navigateTo("${Destination.VideoPlayer.route}/$url")
+                }
+            )
         }
         composable(
             route = Destination.PhotoView.routeWithArgs,

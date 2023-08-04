@@ -32,7 +32,7 @@ class DefaultAppContainer(database: MemeDatabase) : AppContainer {
     }
 
     override val lemmyRepository: LemmyRepository by lazy {
-        LemmyRepositoryImpl(database.communityDao(), lemmyApi)
+        LemmyRepositoryImpl(database.communityDao(), database.lemmyMemeDao(), lemmyApi)
     }
 
     private val json = Json { ignoreUnknownKeys = true }

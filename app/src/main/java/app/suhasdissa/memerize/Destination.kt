@@ -12,11 +12,8 @@ import androidx.navigation.navArgument
 
 sealed class Destination(val route: String) {
     object Home : Destination("home")
-    object RedditMemeView : Destination("memeview") {
-        val routeWithArgs = "$route/{category}"
-        val arguments = listOf(navArgument("category") { type = NavType.StringType })
-    }
-
+    object RedditMemeView : Destination("reddit_memeview")
+    object LemmyMemeView : Destination("lemmy_memeview")
     object Settings : Destination("settings")
     object Subreddits : Destination("subreddits")
     object Communities : Destination("communities")

@@ -17,24 +17,28 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
+import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.model.SortTime
-import app.suhasdissa.memerize.backend.model.reddit
-import app.suhasdissa.memerize.backend.repositories.RedditRepository
+import app.suhasdissa.memerize.backend.model.lemmy
+import app.suhasdissa.memerize.backend.repositories.LemmyRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import kotlinx.coroutines.launch
 
-class RedditViewModel(private val redditRepository: RedditRepository) : ViewModel() {
+class LemmyViewModel(private val lemmyRepository: LemmyRepository) : ViewModel() {
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set
 
-    private var currentSubreddit: String? = null
+    private var currentCommunity: LemmyCommunity? = null
 
-    fun getMemePhotos(subreddit: String? = currentSubreddit, time: SortTime = SortTime.TODAY) {
-        currentSubreddit = subreddit!!
+    fun getMemePhotos(
+        community: LemmyCommunity? = currentCommunity,
+        time: SortTime = SortTime.TODAY
+    ) {
+        currentCommunity = community!!
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
-            memeUiState = when (val data = redditRepository.getOnlineData(subreddit, time.reddit)) {
+            memeUiState = when (val data = lemmyRepository.getOnlineData(community, time.lemmy)) {
                 null -> {
                     MemeUiState.Error("")
                 }
@@ -46,11 +50,11 @@ class RedditViewModel(private val redditRepository: RedditRepository) : ViewMode
         }
     }
 
-    fun getLocalMemes(subreddit: String = currentSubreddit!!) {
+    fun getLocalMemes(community: LemmyCommunity = currentCommunity!!) {
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
-            memeUiState = MemeUiState.Success(redditRepository.getLocalData(subreddit))
+            memeUiState = MemeUiState.Success(lemmyRepository.getLocalData(community))
         }
     }
 
@@ -58,8 +62,8 @@ class RedditViewModel(private val redditRepository: RedditRepository) : ViewMode
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as MemerizeApplication)
-                val redditRepository = application.container.redditRepository
-                RedditViewModel(redditRepository = redditRepository)
+                val lemmyRepository = application.container.lemmyRepository
+                LemmyViewModel(lemmyRepository)
             }
         }
     }

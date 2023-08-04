@@ -7,8 +7,22 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.backend.model
 
-enum class SortTime(val text: String) {
-    TODAY("today"),
-    WEEK("week"),
-    MONTH("month")
+enum class SortTime {
+    TODAY,
+    WEEK,
+    MONTH
 }
+
+val SortTime.reddit: String
+    get() = when (this) {
+        SortTime.TODAY -> "today"
+        SortTime.WEEK -> "week"
+        SortTime.MONTH -> "month"
+    }
+
+val SortTime.lemmy: String
+    get() = when (this) {
+        SortTime.TODAY -> "TopDay"
+        SortTime.WEEK -> "TopWeek"
+        SortTime.MONTH -> "TopMonth"
+    }
