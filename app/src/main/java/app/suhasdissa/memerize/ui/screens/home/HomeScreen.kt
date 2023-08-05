@@ -16,10 +16,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.Destination
+import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
@@ -40,6 +43,7 @@ fun HomeScreen(
 ) {
     val subreddits by redditCommunityViewModel.communities.collectAsState()
     val communities by lemmyCommunityViewModel.communities.collectAsState()
+    val selectedSubreddits = remember { mutableStateListOf<RedditCommunity>() }
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -51,11 +55,24 @@ fun HomeScreen(
         items(items = subreddits) {
             HighlightCard(
                 onClick = {
-                    redditViewModel.getMemePhotos(it.id, SortTime.TODAY)
-                    onNavigate(Destination.RedditMemeView)
+                    if (selectedSubreddits.isNotEmpty()) {
+                        redditViewModel.getMultiMemes(selectedSubreddits)
+                        onNavigate(Destination.RedditMemeView)
+                    } else {
+                        redditViewModel.getMemePhotos(it.id, SortTime.TODAY)
+                        onNavigate(Destination.RedditMemeView)
+                    }
                 },
                 name = it.name,
-                thumbnail_url = it.iconUrl
+                thumbnail_url = it.iconUrl,
+                onLongClick = {
+                    if (selectedSubreddits.contains(it)) {
+                        selectedSubreddits.remove(it)
+                    } else {
+                        selectedSubreddits.add(it)
+                    }
+                },
+                highlighted = selectedSubreddits.contains(it)
             )
         }
         item {

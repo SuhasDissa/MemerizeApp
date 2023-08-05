@@ -23,6 +23,8 @@ import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.model.reddit
 import app.suhasdissa.memerize.backend.repositories.MemeRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
 class RedditViewModel(private val redditRepository: MemeRepository<RedditMeme, RedditCommunity>) :
@@ -30,7 +32,8 @@ class RedditViewModel(private val redditRepository: MemeRepository<RedditMeme, R
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set
 
-    private var currentSubreddit: String? = null
+    var currentSubreddit: String? = null
+        private set
 
     fun getMemePhotos(subreddit: String? = currentSubreddit, time: SortTime = SortTime.TODAY) {
         currentSubreddit = subreddit!!
@@ -58,6 +61,21 @@ class RedditViewModel(private val redditRepository: MemeRepository<RedditMeme, R
 
             memeUiState =
                 MemeUiState.Success(redditRepository.getLocalData(RedditCommunity(subreddit)))
+        }
+    }
+
+    fun getMultiMemes(communities: List<RedditCommunity>) {
+        viewModelScope.launch {
+            memeUiState = MemeUiState.Loading
+            val results = communities.map {
+                async { redditRepository.getOnlineData(it, SortTime.TODAY.reddit) }
+            }.awaitAll()
+            val memeList: List<RedditMeme> = results.filterNotNull().flatten()
+            memeUiState = if (memeList.isEmpty()) {
+                MemeUiState.Error("")
+            } else {
+                MemeUiState.Success(memeList)
+            }
         }
     }
 

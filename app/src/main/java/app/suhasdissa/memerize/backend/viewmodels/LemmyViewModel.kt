@@ -30,7 +30,8 @@ class LemmyViewModel(private val lemmyRepository: MemeRepository<LemmyMeme, Lemm
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set
 
-    private var currentCommunity: LemmyCommunity? = null
+    var currentCommunity: LemmyCommunity? = null
+        private set
 
     fun getMemePhotos(
         community: LemmyCommunity? = currentCommunity,
