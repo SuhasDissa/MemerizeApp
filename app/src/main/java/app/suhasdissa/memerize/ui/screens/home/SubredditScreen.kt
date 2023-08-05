@@ -99,7 +99,7 @@ fun SubredditScreen(
         }
         AlertDialog(
             onDismissRequest = { addNewDialog = false },
-            title = { Text("Add new RedditCommunity") },
+            title = { Text("Add new Subreddit") },
             confirmButton = {
                 Button(onClick = {
                     redditCommunityViewModel.getSubredditInfo(newSubreddit)
@@ -126,7 +126,7 @@ fun SubredditScreen(
                         ),
                         prefix = { Text("r/") },
                         isError = newSubreddit.contains(' '),
-                        label = { Text("RedditCommunity name from url") },
+                        label = { Text("Subreddit name from url") },
                         placeholder = { Text("maybemaybemaybe") }
                     )
                 }
