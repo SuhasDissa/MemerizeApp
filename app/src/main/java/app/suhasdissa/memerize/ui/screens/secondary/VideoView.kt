@@ -21,6 +21,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.DownloadDone
+import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Share
@@ -52,9 +55,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.ui.PlayerView
 import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.utils.PlayerState
-import app.suhasdissa.memerize.utils.downloadUtil
 import app.suhasdissa.memerize.utils.isPlayingState
 import app.suhasdissa.memerize.utils.positionAndDurationState
 import app.suhasdissa.memerize.utils.shareUrl
@@ -139,11 +142,16 @@ fun PlayerController(
                 val context = LocalContext.current
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    downloadUtil(context, decodedUrl)
+                    playerViewModel.downloadVideo(context, decodedUrl)
                 }) {
                     Icon(
-                        imageVector = Icons.Default.Download,
-                        contentDescription = "Download Photo"
+                        imageVector = when (playerViewModel.downloadState) {
+                            DownloadState.Error -> Icons.Default.Error
+                            DownloadState.Loading -> Icons.Default.Downloading
+                            DownloadState.NotStarted -> Icons.Default.Download
+                            DownloadState.Success -> Icons.Default.DownloadDone
+                        },
+                        contentDescription = "Download Video"
                     )
                 }
                 IconButton(onClick = {

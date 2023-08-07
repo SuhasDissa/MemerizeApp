@@ -13,6 +13,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -79,11 +80,13 @@ class PhotoViewModel : ViewModel() {
                     outputStream.flush()
                     outputStream.close()
                     withContext(Dispatchers.Main) {
-                        downloadState = DownloadState.Success
+                        Toast.makeText(context, "Download Finished", Toast.LENGTH_LONG).show()
+                        downloadState = DownloadState.NotStarted
                     }
                 } catch (e: Exception) {
                     Log.e("Photo save", e.toString())
                     withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Download Failed", Toast.LENGTH_LONG).show()
                         downloadState = DownloadState.Error
                     }
                 }
