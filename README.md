@@ -1,7 +1,7 @@
 <div align="center">
   <img width="150" src="/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="App icon">
   <h1 align="center">Memerize</h1>
-  <b>Memerize</b> is a handy meme viewer app for Reddit
+  <b>Memerize</b> is a handy meme viewer app for Reddit and Lemmy
 </div>
 <br>
 
@@ -31,9 +31,11 @@
 
 ## Features
 - Material you dynamic theme with dark mode support
-- Add/Remove subreddits as you like
+- Add/Remove subreddits and lemmy communities as you like
 - Support catching memes for offline browsing.
 - Sort Top memes by time period (Today, This Week, This Month)
+- Supports sharing memes from the app
+- Allows custom download location
 
 ## Installation
 
