@@ -34,7 +34,6 @@
 - Add/Remove subreddits and lemmy communities as you like
 - Support catching memes for offline browsing.
 - Sort Top memes by time period (Today, This Week, This Month)
-- Improved video controls
 - Supports sharing memes from the app
 - Allows custom download location
 
