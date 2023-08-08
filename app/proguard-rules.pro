@@ -12,3 +12,19 @@
 
 -keep class org.xmlpull.** { *; }
 -keepclassmembers class org.xmlpull.** { *; }
+
+-dontwarn javax.xml.stream.**
+
+-keep public class org.simpleframework.** { *; }
+-keep class org.simpleframework.xml.** { *; }
+-keep class org.simpleframework.xml.core.** { *; }
+-keep class org.simpleframework.xml.util.** { *; }
+
+-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+-keep,allowobfuscation,allowshrinking class retrofit2.Response
+
+-keepattributes Element, ElementList, Root
+
+-keepclassmembers class * {
+    @org.simpleframework.xml.* *;
+}
