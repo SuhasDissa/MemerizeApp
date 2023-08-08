@@ -12,10 +12,11 @@ import app.suhasdissa.memerize.backend.database.dao.SubredditDAO
 import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import kotlinx.coroutines.flow.Flow
 
-class RedditCommunityRepository(
+interface RedditCommunityRepository : CommunityRepository<RedditCommunity>
+class RedditCommunityRepositoryImpl(
     private val subredditDAO: SubredditDAO,
     private val redditApi: RedditApi
-) : CommunityRepository<RedditCommunity> {
+) : RedditCommunityRepository {
 
     override fun getCommunities(): Flow<List<RedditCommunity>> = subredditDAO.getAll()
 

@@ -18,13 +18,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
-import app.suhasdissa.memerize.backend.repositories.CommunityRepository
+import app.suhasdissa.memerize.backend.repositories.RedditCommunityRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class RedditCommunityViewModel(private val redditRepository: CommunityRepository<RedditCommunity>) :
+class RedditCommunityViewModel(private val redditRepository: RedditCommunityRepository) :
     ViewModel() {
 
     val communities = redditRepository.getCommunities().stateIn(

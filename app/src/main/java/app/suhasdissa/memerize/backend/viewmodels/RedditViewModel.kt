@@ -21,13 +21,13 @@ import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.model.reddit
-import app.suhasdissa.memerize.backend.repositories.MemeRepository
+import app.suhasdissa.memerize.backend.repositories.RedditMemeRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
-class RedditViewModel(private val redditRepository: MemeRepository<RedditMeme, RedditCommunity>) :
+class RedditViewModel(private val redditRepository: RedditMemeRepository) :
     ViewModel() {
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set

@@ -18,13 +18,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
-import app.suhasdissa.memerize.backend.repositories.CommunityRepository
+import app.suhasdissa.memerize.backend.repositories.LemmyCommunityRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class LemmyCommunityViewModel(private val lemmyRepository: CommunityRepository<LemmyCommunity>) :
+class LemmyCommunityViewModel(private val lemmyRepository: LemmyCommunityRepository) :
     ViewModel() {
 
     val communities = lemmyRepository.getCommunities().stateIn(

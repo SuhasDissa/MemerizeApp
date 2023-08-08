@@ -13,10 +13,11 @@ import app.suhasdissa.memerize.backend.database.dao.CommunityDAO
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import kotlinx.coroutines.flow.Flow
 
-class LemmyCommunityRepository(
+interface LemmyCommunityRepository : CommunityRepository<LemmyCommunity>
+class LemmyCommunityRepositoryImpl(
     private val communityDAO: CommunityDAO,
     private val lemmyApi: LemmyApi
-) : CommunityRepository<LemmyCommunity> {
+) : LemmyCommunityRepository {
 
     override fun getCommunities(): Flow<List<LemmyCommunity>> = communityDAO.getAll()
 

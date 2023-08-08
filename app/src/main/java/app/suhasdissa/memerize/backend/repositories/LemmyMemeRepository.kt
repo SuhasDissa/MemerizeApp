@@ -14,10 +14,11 @@ import app.suhasdissa.memerize.backend.database.dao.LemmyMemeDAO
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
 
-class LemmyMemeRepository(
+interface LemmyMemeRepository : MemeRepository<LemmyMeme, LemmyCommunity>
+class LemmyMemeRepositoryImpl(
     private val lemmyDAO: LemmyMemeDAO,
     private val lemmyApi: LemmyApi
-) : MemeRepository<LemmyMeme, LemmyCommunity> {
+) : LemmyMemeRepository {
 
     override suspend fun getOnlineData(
         community: LemmyCommunity,

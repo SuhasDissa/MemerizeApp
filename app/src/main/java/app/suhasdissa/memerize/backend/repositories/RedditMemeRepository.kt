@@ -13,10 +13,12 @@ import app.suhasdissa.memerize.backend.database.dao.RedditMemeDao
 import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 
-class RedditMemeRepository(
+interface RedditMemeRepository : MemeRepository<RedditMeme, RedditCommunity>
+
+class RedditMemeRepositoryImpl(
     private val redditMemeDao: RedditMemeDao,
     private val redditApi: RedditApi
-) : MemeRepository<RedditMeme, RedditCommunity> {
+) : RedditMemeRepository {
 
     override suspend fun getOnlineData(
         community: RedditCommunity,

@@ -18,14 +18,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
-import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
 import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.model.lemmy
-import app.suhasdissa.memerize.backend.repositories.MemeRepository
+import app.suhasdissa.memerize.backend.repositories.LemmyMemeRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import kotlinx.coroutines.launch
 
-class LemmyViewModel(private val lemmyRepository: MemeRepository<LemmyMeme, LemmyCommunity>) :
+class LemmyViewModel(private val lemmyRepository: LemmyMemeRepository) :
     ViewModel() {
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set
