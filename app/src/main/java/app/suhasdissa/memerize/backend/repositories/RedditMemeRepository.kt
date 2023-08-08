@@ -20,6 +20,8 @@ class RedditMemeRepositoryImpl(
     private val redditApi: RedditApi
 ) : RedditMemeRepository {
 
+    private val imageRegex = Regex("^.+\\.(jpg|jpeg|png|webp)\$")
+    private val gifvRegex = Regex("^.+\\.gifv\$")
     override suspend fun getOnlineData(
         community: RedditCommunity,
         time: String
@@ -43,11 +45,12 @@ class RedditMemeRepositoryImpl(
         val redditData = redditApi.getRedditData(subreddit, time).data.children
         redditData.forEach { child ->
             val url = child.Childdata.url
-            if (url.contains("i.redd.it")) {
+            if (url.matches(imageRegex)) {
                 val id = url.hashCode().toString()
                 memeList.add(RedditMeme(id, url, child.Childdata.title, false, "", subreddit))
-            } else if (url.contains("v.redd.it")) {
+            } else if (url.contains("v.redd.it") || url.matches(gifvRegex)) {
                 val dashUrl = child.Childdata.secure_media?.reddit_video?.dash_url
+                    ?: child.Childdata.preview?.redditVideo?.dash_url
                 val previewUrl = child.Childdata.preview?.images?.get(0)?.source?.url
                 if (dashUrl != null && previewUrl != null) {
                     val id = url.hashCode().toString()

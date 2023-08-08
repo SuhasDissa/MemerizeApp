@@ -47,7 +47,8 @@ data class RedditVideo(
 
 @Serializable
 data class Preview(
-    @SerialName("images") var images: ArrayList<Images> = arrayListOf()
+    @SerialName("images") var images: ArrayList<Images> = arrayListOf(),
+    @SerialName("reddit_video_preview") var redditVideo: RedditVideo? = null
 )
 
 @Serializable
