@@ -131,7 +131,7 @@ class RedditVideoDownloader {
             muxer.stop()
             muxer.release()
         } catch (e: Exception) {
-            Log.e("Video Muxer", e.toString())
+            Log.e("Video Muxer", e.message, e)
             return false
         }
         pfd.close()
@@ -155,7 +155,7 @@ class RedditVideoDownloader {
                     null
                 }
             } catch (e: Exception) {
-                Log.e("File Download", e.toString())
+                Log.e("File Download", e.message, e)
                 null
             }
         }
@@ -169,7 +169,7 @@ class RedditVideoDownloader {
             if (audioUrl == null || videoUrl == null) return null
             (videoUrl to audioUrl)
         } catch (e: Exception) {
-            Log.e("Reddit Urls", e.toString())
+            Log.e("Reddit Urls", e.message, e)
             null
         }
     }
