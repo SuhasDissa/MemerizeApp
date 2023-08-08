@@ -29,6 +29,7 @@ import app.suhasdissa.memerize.ui.screens.settings.SettingsScreen
 @Composable
 fun AppNavHost(
     navController: NavHostController,
+    onDrawerOpen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val redditViewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory)
@@ -44,20 +45,24 @@ fun AppNavHost(
                 onNavigate = { destination ->
                     navController.navigateTo(destination.route)
                 },
+                onDrawerOpen,
                 redditViewModel = redditViewModel,
                 lemmyViewModel = lemmyViewModel
             )
         }
         composable(route = Destination.Settings.route) {
-            SettingsScreen(onAboutClick = {
-                navController.navigateTo(Destination.About.route)
-            })
+            SettingsScreen(
+                onDrawerOpen,
+                onAboutClick = {
+                    navController.navigateTo(Destination.About.route)
+                }
+            )
         }
         composable(route = Destination.Subreddits.route) {
-            SubredditScreen()
+            SubredditScreen(onDrawerOpen)
         }
         composable(route = Destination.Communities.route) {
-            CommunityScreen()
+            CommunityScreen(onDrawerOpen)
         }
         composable(route = Destination.About.route) {
             AboutScreen()

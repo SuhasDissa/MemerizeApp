@@ -66,11 +66,12 @@ class RedditViewModel(private val redditRepository: RedditMemeRepository) :
 
     fun getMultiMemes(communities: List<RedditCommunity>) {
         viewModelScope.launch {
+            currentSubreddit = null
             memeUiState = MemeUiState.Loading
             val results = communities.map {
                 async { redditRepository.getOnlineData(it, SortTime.TODAY.reddit) }
             }.awaitAll()
-            val memeList: List<RedditMeme> = results.filterNotNull().flatten()
+            val memeList: List<RedditMeme> = results.filterNotNull().flatten().shuffled()
             memeUiState = if (memeList.isEmpty()) {
                 MemeUiState.Error("")
             } else {

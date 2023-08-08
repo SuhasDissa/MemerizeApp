@@ -9,21 +9,26 @@ package app.suhasdissa.memerize.ui
 
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Surface
+import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
-import app.suhasdissa.memerize.*
-import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.AppNavHost
+import app.suhasdissa.memerize.Destination
+import app.suhasdissa.memerize.navigateTo
 import app.suhasdissa.memerize.ui.components.NavDrawerContent
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemerizeApp() {
     val navController = rememberNavController()
@@ -51,31 +56,16 @@ fun MemerizeApp() {
                 .fillMaxSize(),
             color = MaterialTheme.colorScheme.surface
         ) {
-            Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                CenterAlignedTopAppBar(navigationIcon = {
-                    IconButton(onClick = {
-                        view.playSoundEffect(SoundEffectConstants.CLICK)
-                        scope.launch {
-                            drawerState.open()
-                        }
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Open Navigation Drawer"
-                        )
+            AppNavHost(
+                navController = navController,
+                onDrawerOpen = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
+                    scope.launch {
+                        drawerState.open()
                     }
-                }, title = {
-                    Text(
-                        stringResource(id = R.string.app_name),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                })
-            }) { paddingValues ->
-                AppNavHost(
-                    navController = navController,
-                    modifier = Modifier.padding(paddingValues).fillMaxSize()
-                )
-            }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
         }
     }
 }

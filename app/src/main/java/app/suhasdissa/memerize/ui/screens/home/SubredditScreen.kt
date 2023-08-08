@@ -23,8 +23,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -59,6 +61,8 @@ import coil.request.ImageRequest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubredditScreen(
+
+    onDrawerOpen: () -> Unit,
     redditCommunityViewModel: RedditCommunityViewModel = viewModel(
         factory = RedditCommunityViewModel.Factory
     )
@@ -66,11 +70,31 @@ fun SubredditScreen(
     val subreddits by redditCommunityViewModel.communities.collectAsState()
     var subredditInfoSheet by remember { mutableStateOf(false) }
     var addNewDialog by remember { mutableStateOf(false) }
-    Scaffold(modifier = Modifier.fillMaxSize(), floatingActionButton = {
-        FloatingActionButton(onClick = { addNewDialog = true }) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Add new subreddit")
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButton = {
+            FloatingActionButton(onClick = { addNewDialog = true }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add new subreddit")
+            }
+        },
+        topBar = {
+            CenterAlignedTopAppBar(navigationIcon = {
+                IconButton(onClick = {
+                    onDrawerOpen.invoke()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Open Navigation Drawer"
+                    )
+                }
+            }, title = {
+                Text(
+                    "Subreddits",
+                    color = MaterialTheme.colorScheme.primary
+                )
+            })
         }
-    }) { paddingValues ->
+    ) { paddingValues ->
         LazyColumn(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
             items(items = subreddits) {
                 SubredditCardCompact(
