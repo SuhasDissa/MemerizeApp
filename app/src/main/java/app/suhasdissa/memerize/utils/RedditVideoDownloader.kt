@@ -19,20 +19,20 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import app.suhasdissa.memerize.backend.apis.FileDownloadApi
 import app.suhasdissa.memerize.backend.apis.RedditVideoApi
-import java.nio.ByteBuffer
-import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.nio.ByteBuffer
+import java.util.UUID
 
 class RedditVideoDownloader {
 
     private val xmlRetrofit = Retrofit.Builder()
         .baseUrl("https://www.reddit.com/")
-        .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+        .addConverterFactory(ScalarsConverterFactory.create())
         .build()
 
     private val downloadRetrofit = Retrofit.Builder()
@@ -163,15 +163,37 @@ class RedditVideoDownloader {
 
     private suspend fun getRedditUrls(url: String): Pair<String, String>? {
         return try {
-            val sets = apiService.getRedditData(url).period?.adaptationSet
-            val videoUrl = sets?.getOrNull(0)?.representationList?.last()?.baseURL
-            val audioUrl = sets?.getOrNull(1)?.representationList?.last()?.baseURL
-            if (audioUrl == null || videoUrl == null) return null
-            (videoUrl to audioUrl)
+            val text = apiService.getRedditData(url)
+            return matchRedditUrls(text)
         } catch (e: Exception) {
             Log.e("Reddit Urls", e.message, e)
             null
         }
+    }
+
+    private fun matchRedditUrls(text: String): Pair<String, String>? {
+        val regex = Regex("<BaseURL>(DASH(_AUDIO)?_\\d+\\.\\S+)</BaseURL>")
+        val matcher = regex.findAll(text)
+
+        val video = mutableListOf<String?>()
+        val audio = mutableListOf<String?>()
+
+        for (matchResult in matcher) {
+            val match = matchResult.groups[1]?.value
+            val isAudio = matchResult.groups[2]?.value
+
+            if (isAudio != null) {
+                audio.add(match)
+            } else {
+                video.add(match)
+            }
+        }
+        if (video.isEmpty() || audio.isEmpty()) return null
+
+        val selectedVideo = video.last() ?: return null
+        val selectedAudio = audio.last() ?: return null
+
+        return selectedVideo to selectedAudio
     }
 
     private suspend fun getOutputFile(context: Context): DocumentFile {

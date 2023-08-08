@@ -7,7 +7,6 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.backend.apis
 
-import app.suhasdissa.memerize.backend.model.redditvideo.MPD
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Url
@@ -20,5 +19,5 @@ interface RedditVideoApi {
     @GET
     suspend fun getRedditData(
         @Url url: String
-    ): MPD
+    ): String
 }
