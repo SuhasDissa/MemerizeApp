@@ -13,8 +13,8 @@ android {
         applicationId = "app.suhasdissa.memerize"
         minSdk = 26
         targetSdk = 34
-        versionCode = 21
-        versionName = "2.1"
+        versionCode = 22
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -99,7 +99,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    
+
     implementation("androidx.documentfile:documentfile:1.0.1")
 
     implementation("io.coil-kt:coil-compose:2.3.0")
