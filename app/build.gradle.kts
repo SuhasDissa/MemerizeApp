@@ -90,7 +90,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.0-alpha01")
 
     implementation("androidx.compose.material:material-icons-extended:1.4.3")
-    implementation("androidx.media3:media3-session:1.0.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -102,9 +101,9 @@ dependencies {
 
     implementation("androidx.documentfile:documentfile:1.0.1")
 
-    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("io.coil-kt:coil-compose:2.4.0")
 
-    val media3_version = "1.0.2"
+    val media3_version = "1.1.0"
 
     // For media playback using ExoPlayer
     implementation("androidx.media3:media3-exoplayer:$media3_version")
@@ -113,7 +112,9 @@ dependencies {
     // For building media playback UIs
     implementation("androidx.media3:media3-ui:$media3_version")
 
-    val roomVersion = "2.5.1"
+    implementation("androidx.media3:media3-session:$media3_version")
+
+    val roomVersion = "2.5.2"
 
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
