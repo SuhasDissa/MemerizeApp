@@ -18,6 +18,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.edit
 
 const val SaveDirectoryKey = "saveDirectory"
+const val imageCacheKey = "imageCacheLimit"
+
+const val defaultImageCacheSize: Int = 256
 
 inline fun <reified T : Enum<T>> SharedPreferences.getEnum(
     key: String,

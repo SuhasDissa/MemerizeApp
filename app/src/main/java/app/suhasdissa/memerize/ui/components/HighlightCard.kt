@@ -9,7 +9,6 @@ package app.suhasdissa.memerize.ui.components
 
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -30,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
@@ -39,14 +37,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HighlightCard(
     onClick: () -> Unit,
     name: String,
-    thumbnail: Int? = null,
     thumbnail_url: String? = null,
     highlighted: Boolean = false,
     onLongClick: () -> Unit = {}
@@ -84,18 +80,9 @@ fun HighlightCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            if (thumbnail != null) {
-                Image(
-                    modifier = Modifier
-                        .size(90.dp)
-                        .clip(CircleShape),
-                    painter = painterResource(thumbnail),
-                    contentDescription = null
-                )
-            } else if (thumbnail_url != null) {
+            if (thumbnail_url != null) {
                 AsyncImage(
-                    model = ImageRequest.Builder(context = LocalContext.current).data(thumbnail_url)
-                        .crossfade(true).build(),
+                    model = thumbnail_url,
                     contentDescription = null,
                     modifier = Modifier
                         .size(90.dp)
@@ -119,5 +106,5 @@ fun HighlightCard(
 @Preview()
 @Composable
 fun HighlightCardPreview() {
-    HighlightCard(onClick = {}, name = "Preview", thumbnail = R.drawable.reddit_placeholder)
+    HighlightCard(onClick = {}, name = "Preview")
 }

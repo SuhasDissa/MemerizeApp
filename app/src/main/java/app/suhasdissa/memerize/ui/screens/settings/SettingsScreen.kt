@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Storage
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,10 +29,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import app.suhasdissa.memerize.ui.components.CacheSizeDialog
 import app.suhasdissa.memerize.ui.components.SettingItem
 import app.suhasdissa.memerize.utils.SaveDirectoryKey
 import app.suhasdissa.memerize.utils.preferences
@@ -53,6 +59,7 @@ fun SettingsScreen(
             Log.d("FIle path", it.toString())
             context.preferences.edit { putString(SaveDirectoryKey, it.toString()) }
         }
+    var showImageCacheDialog by remember { mutableStateOf(false) }
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(navigationIcon = {
             IconButton(onClick = {
@@ -88,12 +95,28 @@ fun SettingsScreen(
             }
             item {
                 SettingItem(
+                    title = "Image Cache Limit",
+                    description = "Set Image Cache Limit",
+                    onClick = {
+                        showImageCacheDialog = true
+                    },
+                    icon = Icons.Default.Storage
+                )
+            }
+            item {
+                SettingItem(
                     title = "About",
                     description = "Developer Contact",
                     onClick = { onAboutClick() },
                     icon = Icons.Outlined.Info
                 )
             }
+        }
+    }
+
+    if (showImageCacheDialog) {
+        CacheSizeDialog {
+            showImageCacheDialog = false
         }
     }
 }
