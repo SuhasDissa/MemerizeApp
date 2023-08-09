@@ -102,7 +102,7 @@ fun HomeScreen(
                                 selectedSubreddits.add(it)
                             }
                         } else {
-                            redditViewModel.getMemePhotos(it.id, SortTime.TODAY)
+                            redditViewModel.getMemePhotos(it, SortTime.TODAY)
                             onNavigate(Destination.RedditMemeView)
                         }
                     },

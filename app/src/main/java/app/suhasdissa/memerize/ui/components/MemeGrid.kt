@@ -28,11 +28,10 @@ import app.suhasdissa.memerize.backend.database.entity.Meme
 fun MemeGrid(
     memes: List<Meme>,
     onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit,
-    modifier: Modifier = Modifier
+    onClickVideo: (url: String) -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -40,19 +39,19 @@ fun MemeGrid(
         if (memes.isNotEmpty()) {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(375.dp),
-                modifier = modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(items = memes) { meme ->
                     if (meme.isVideo) {
-                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, modifier)
+                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, Modifier)
                     } else {
                         MemeCard(onClickMeme, meme.url, meme.title)
                     }
                 }
             }
         } else {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     "No Memes Here",
                     style = MaterialTheme.typography.bodyLarge,

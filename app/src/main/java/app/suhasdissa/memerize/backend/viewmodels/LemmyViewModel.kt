@@ -31,12 +31,15 @@ class LemmyViewModel(private val lemmyRepository: LemmyMemeRepository) :
 
     var currentCommunity: LemmyCommunity? = null
         private set
+    var currentSortTime: SortTime = SortTime.TODAY
+        private set
 
     fun getMemePhotos(
         community: LemmyCommunity? = currentCommunity,
         time: SortTime = SortTime.TODAY
     ) {
         currentCommunity = community!!
+        currentSortTime = time
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 

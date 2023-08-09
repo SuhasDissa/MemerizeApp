@@ -32,17 +32,24 @@ class RedditViewModel(private val redditRepository: RedditMemeRepository) :
     var memeUiState: MemeUiState by mutableStateOf(MemeUiState.Loading)
         private set
 
-    var currentSubreddit: String? = null
+    var currentSubreddit: RedditCommunity? = null
         private set
 
-    fun getMemePhotos(subreddit: String? = currentSubreddit, time: SortTime = SortTime.TODAY) {
+    var currentSortTime: SortTime = SortTime.TODAY
+        private set
+
+    fun getMemePhotos(
+        subreddit: RedditCommunity? = currentSubreddit,
+        time: SortTime = SortTime.TODAY
+    ) {
         currentSubreddit = subreddit!!
+        currentSortTime = time
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
             memeUiState = when (
                 val data =
-                    redditRepository.getOnlineData(RedditCommunity(subreddit), time.reddit)
+                    redditRepository.getOnlineData(subreddit, time.reddit)
             ) {
                 null -> {
                     MemeUiState.Error("")
@@ -55,12 +62,12 @@ class RedditViewModel(private val redditRepository: RedditMemeRepository) :
         }
     }
 
-    fun getLocalMemes(subreddit: String = currentSubreddit!!) {
+    fun getLocalMemes(subreddit: RedditCommunity = currentSubreddit!!) {
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
             memeUiState =
-                MemeUiState.Success(redditRepository.getLocalData(RedditCommunity(subreddit)))
+                MemeUiState.Success(redditRepository.getLocalData(subreddit))
         }
     }
 
