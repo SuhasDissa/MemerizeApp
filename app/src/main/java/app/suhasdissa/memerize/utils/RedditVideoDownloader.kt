@@ -49,17 +49,19 @@ class RedditVideoDownloader {
         val urlS = getRedditUrls(url) ?: return false
         val redditUrl = Regex("https?://v\\.redd\\.it/\\S+/").find(url)?.value ?: return false
 
-        val videoUrl = redditUrl + urlS.first
-        val audioUrl = redditUrl + urlS.second
         return withContext(Dispatchers.IO) {
-            val videoFile = async { downloadFile(videoUrl, context) }
-            val audioFile = async { downloadFile(audioUrl, context) }
-            val result = awaitAll(videoFile, audioFile)
-            result[0]?.let {
-                val outputFile = getOutputFile(context)
-                val pfd = context.contentResolver.openFileDescriptor(outputFile.uri, "w")
-                muxVideoAndAudio(it.uri.path!!, result[1]?.uri?.path, pfd!!)
-            } ?: false
+            val files = listOfNotNull(
+                async { downloadFile(redditUrl + urlS.first, context) },
+                urlS.second?.let { async { downloadFile(redditUrl + it, context) } }
+            )
+            val result = files.awaitAll()
+
+            val videofilePath = result.getOrNull(0)?.uri?.path ?: return@withContext false
+            val audioFIlePath = result.getOrNull(1)?.uri?.path
+
+            val outputFile = getOutputFile(context)
+            val pfd = context.contentResolver.openFileDescriptor(outputFile.uri, "w")
+            muxVideoAndAudio(videofilePath, audioFIlePath, pfd!!)
         }
     }
 
@@ -161,7 +163,7 @@ class RedditVideoDownloader {
         }
     }
 
-    private suspend fun getRedditUrls(url: String): Pair<String, String>? {
+    private suspend fun getRedditUrls(url: String): Pair<String, String?>? {
         return try {
             val text = apiService.getRedditData(url)
             return matchRedditUrls(text)
@@ -171,7 +173,7 @@ class RedditVideoDownloader {
         }
     }
 
-    private fun matchRedditUrls(text: String): Pair<String, String>? {
+    private fun matchRedditUrls(text: String): Pair<String, String?>? {
         val regex = Regex("<BaseURL>(DASH(_AUDIO)?_\\d+\\.\\S+)</BaseURL>")
         val matcher = regex.findAll(text)
 
@@ -188,10 +190,9 @@ class RedditVideoDownloader {
                 video.add(match)
             }
         }
-        if (video.isEmpty() || audio.isEmpty()) return null
 
-        val selectedVideo = video.last() ?: return null
-        val selectedAudio = audio.last() ?: return null
+        val selectedVideo = video.takeIf { it.isNotEmpty() }?.last() ?: return null
+        val selectedAudio = audio.takeIf { it.isNotEmpty() }?.last()
 
         return selectedVideo to selectedAudio
     }
