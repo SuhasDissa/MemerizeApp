@@ -26,6 +26,8 @@ import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.material.icons.filled.RepeatOn
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
@@ -53,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.ui.PlayerView
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.DownloadState
@@ -211,6 +214,21 @@ fun PlayerController(
                         Icon(Icons.Default.VolumeUp, contentDescription = null)
                     } else {
                         Icon(Icons.Default.VolumeOff, contentDescription = null)
+                    }
+                }
+                var repeat by remember(repeatMode) {
+                    mutableStateOf(repeatMode == Player.REPEAT_MODE_ONE)
+                }
+                IconButton(onClick = {
+                    view.playSoundEffect(SoundEffectConstants.CLICK)
+                    repeatMode =
+                        if (repeatMode == Player.REPEAT_MODE_OFF) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                    repeat = (repeatMode == Player.REPEAT_MODE_ONE)
+                }) {
+                    if (repeat) {
+                        Icon(Icons.Default.RepeatOn, contentDescription = null)
+                    } else {
+                        Icon(Icons.Default.Repeat, contentDescription = null)
                     }
                 }
             }
