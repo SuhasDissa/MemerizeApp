@@ -8,6 +8,7 @@ All Rights Reserved
 package app.suhasdissa.memerize.ui.screens.secondary
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.text.format.DateUtils
 import android.view.SoundEffectConstants
 import androidx.compose.foundation.layout.Arrangement
@@ -143,19 +144,21 @@ fun PlayerController(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val context = LocalContext.current
-                IconButton(onClick = {
-                    view.playSoundEffect(SoundEffectConstants.CLICK)
-                    playerViewModel.downloadVideo(context, decodedUrl)
-                }) {
-                    Icon(
-                        imageVector = when (playerViewModel.downloadState) {
-                            DownloadState.Error -> Icons.Default.Error
-                            DownloadState.Loading -> Icons.Default.Downloading
-                            DownloadState.NotStarted -> Icons.Default.Download
-                            DownloadState.Success -> Icons.Default.DownloadDone
-                        },
-                        contentDescription = "Download Video"
-                    )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    IconButton(onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
+                        playerViewModel.downloadVideo(context, decodedUrl)
+                    }) {
+                        Icon(
+                            imageVector = when (playerViewModel.downloadState) {
+                                DownloadState.Error -> Icons.Default.Error
+                                DownloadState.Loading -> Icons.Default.Downloading
+                                DownloadState.NotStarted -> Icons.Default.Download
+                                DownloadState.Success -> Icons.Default.DownloadDone
+                            },
+                            contentDescription = stringResource(R.string.download_video)
+                        )
+                    }
                 }
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
@@ -163,7 +166,7 @@ fun PlayerController(
                 }) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = "Share Photo"
+                        contentDescription = stringResource(R.string.share_video)
                     )
                 }
                 ElevatedCard(
@@ -211,9 +214,15 @@ fun PlayerController(
                     noMuted = !noMuted
                 }) {
                     if (noMuted) {
-                        Icon(Icons.Default.VolumeUp, contentDescription = null)
+                        Icon(
+                            Icons.Default.VolumeUp,
+                            contentDescription = stringResource(R.string.mute_sound)
+                        )
                     } else {
-                        Icon(Icons.Default.VolumeOff, contentDescription = null)
+                        Icon(
+                            Icons.Default.VolumeOff,
+                            contentDescription = stringResource(R.string.un_mute_sound)
+                        )
                     }
                 }
                 var repeat by remember(repeatMode) {
@@ -226,9 +235,15 @@ fun PlayerController(
                     repeat = (repeatMode == Player.REPEAT_MODE_ONE)
                 }) {
                     if (repeat) {
-                        Icon(Icons.Default.RepeatOn, contentDescription = null)
+                        Icon(
+                            Icons.Default.RepeatOn,
+                            contentDescription = stringResource(R.string.turn_off_repeat)
+                        )
                     } else {
-                        Icon(Icons.Default.Repeat, contentDescription = null)
+                        Icon(
+                            Icons.Default.Repeat,
+                            contentDescription = stringResource(R.string.turn_on_repeat)
+                        )
                     }
                 }
             }

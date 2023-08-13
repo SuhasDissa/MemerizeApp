@@ -133,7 +133,7 @@ fun PhotoView(
                             DownloadState.NotStarted -> Icons.Default.Download
                             DownloadState.Success -> Icons.Default.DownloadDone
                         },
-                        contentDescription = "Download Photo",
+                        contentDescription = stringResource(R.string.download_photo),
                         Modifier.size(48.dp)
                     )
                 }
@@ -143,7 +143,7 @@ fun PhotoView(
                 }) {
                     Icon(
                         imageVector = Icons.Default.Share,
-                        contentDescription = "Share Photo",
+                        contentDescription = stringResource(R.string.share_photo),
                         Modifier.size(48.dp)
                     )
                 }

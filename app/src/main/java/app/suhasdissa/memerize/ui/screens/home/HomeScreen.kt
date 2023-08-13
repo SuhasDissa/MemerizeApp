@@ -64,7 +64,7 @@ fun HomeScreen(
             }) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Open Navigation Drawer"
+                    contentDescription = stringResource(R.string.open_navigation_drawer)
                 )
             }
         }, title = {
@@ -80,7 +80,7 @@ fun HomeScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.LibraryAddCheck,
-                        contentDescription = "Multi Reddit Feed"
+                        contentDescription = stringResource(R.string.multi_reddit_feed)
                     )
                 }
             }
@@ -90,7 +90,10 @@ fun HomeScreen(
             Modifier.fillMaxSize().padding(horizontal = 8.dp).padding(paddingValues)
         ) {
             item {
-                Text("Subreddits", style = MaterialTheme.typography.titleLarge)
+                Text(
+                    stringResource(R.string.subreddits),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
             items(items = subreddits) {
                 HighlightCard(
@@ -119,7 +122,10 @@ fun HomeScreen(
                 )
             }
             item {
-                Text("Lemmy Communities", style = MaterialTheme.typography.titleLarge)
+                Text(
+                    stringResource(R.string.lemmy_communities),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
             items(items = communities) {
                 HighlightCard(

@@ -82,7 +82,7 @@ fun LemmyMemeScreen(
                     Spacer(Modifier.width(8.dp))
                     Column {
                         Text(
-                            "Lemmy"
+                            stringResource(R.string.lemmy)
                         )
                         lemmyViewModel.currentCommunity?.let {
                             Text(it.name, style = MaterialTheme.typography.bodySmall)
@@ -94,7 +94,7 @@ fun LemmyMemeScreen(
                     IconButton(onClick = { showFilterButtons = !showFilterButtons }) {
                         Icon(
                             imageVector = Icons.Default.FilterList,
-                            contentDescription = "Filter by time"
+                            contentDescription = stringResource(R.string.filter_by_time)
                         )
                     }
                 }
@@ -144,8 +144,8 @@ fun LemmyMemeScreen(
             when (val memeDataState = lemmyViewModel.memeUiState) {
                 is MemeUiState.Loading -> LoadingScreen(modifier)
                 is MemeUiState.Error -> RetryScreen(
-                    "Error Loading Online Memes",
-                    "Show Offline Memes",
+                    stringResource(R.string.error_loading_online_memes),
+                    stringResource(R.string.show_offline_memes),
                     modifier,
                     onRetry = { lemmyViewModel.getLocalMemes() }
                 )

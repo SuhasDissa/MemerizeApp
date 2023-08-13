@@ -8,7 +8,9 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.viewmodels
 
 import android.content.Context
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -37,6 +39,7 @@ class PlayerViewModel(appContext: Context) : ViewModel() {
         player.seekTo(to)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun downloadVideo(context: Context, url: String) {
         viewModelScope.launch {
             downloadState = DownloadState.Loading

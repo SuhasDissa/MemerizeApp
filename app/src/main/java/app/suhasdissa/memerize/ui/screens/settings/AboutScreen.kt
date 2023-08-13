@@ -45,7 +45,7 @@ fun AboutScreen(
         topBar = {
             CenterAlignedTopAppBar(title = {
                 Text(
-                    "About",
+                    stringResource(R.string.about),
                     color = MaterialTheme.colorScheme.primary
                 )
             })

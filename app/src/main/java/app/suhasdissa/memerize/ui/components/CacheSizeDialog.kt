@@ -19,7 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.utils.defaultImageCacheSize
 import app.suhasdissa.memerize.utils.imageCacheKey
 import app.suhasdissa.memerize.utils.rememberPreference
@@ -31,12 +33,12 @@ fun CacheSizeDialog(onDismissRequest: () -> Unit) {
     var prefSize by rememberPreference(key = imageCacheKey, defaultValue = defaultImageCacheSize)
     AlertDialog(
         onDismissRequest,
-        title = { Text("Change Image Cache Size") },
+        title = { Text(stringResource(R.string.change_image_cache_size)) },
         confirmButton = {
             Button(onClick = {
                 onDismissRequest.invoke()
             }) {
-                Text(text = "Ok")
+                Text(text = stringResource(R.string.ok))
             }
         },
         text = {

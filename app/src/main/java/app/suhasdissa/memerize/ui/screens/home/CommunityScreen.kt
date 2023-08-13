@@ -47,10 +47,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
@@ -72,7 +74,10 @@ fun CommunityScreen(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(onClick = { addNewDialog = true }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add new community")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_new_community)
+                )
             }
         },
         topBar = {
@@ -82,12 +87,12 @@ fun CommunityScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Default.Menu,
-                        contentDescription = "Open Navigation Drawer"
+                        contentDescription = stringResource(R.string.open_navigation_drawer)
                     )
                 }
             }, title = {
                 Text(
-                    "Lemmy Communities",
+                    stringResource(R.string.lemmy_communities),
                     color = MaterialTheme.colorScheme.primary
                 )
             })
@@ -106,7 +111,7 @@ fun CommunityScreen(
                         IconButton(onClick = { communityViewModel.removeCommunity(it) }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Remove subreddit"
+                                contentDescription = stringResource(R.string.remove_community)
                             )
                         }
                     }
@@ -124,19 +129,19 @@ fun CommunityScreen(
         }
         AlertDialog(
             onDismissRequest = { addNewDialog = false },
-            title = { Text("Add new RedditCommunity") },
+            title = { Text(stringResource(R.string.add_new_redditcommunity)) },
             confirmButton = {
                 Button(onClick = {
                     communityViewModel.getInfo(instance = newInstance, community = newCommunity)
                     addNewDialog = false
                     subredditInfoSheet = true
                 }) {
-                    Text(text = "Save")
+                    Text(text = stringResource(R.string.save))
                 }
             },
             dismissButton = {
                 Button(onClick = { addNewDialog = false }) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(R.string.cancel))
                 }
             },
             text = {
@@ -151,7 +156,7 @@ fun CommunityScreen(
                         ),
                         prefix = { Text("https://") },
                         isError = (newInstance.contains(' ') || !newInstance.contains('.')),
-                        label = { Text("Instance Url") },
+                        label = { Text(stringResource(R.string.instance_url)) },
                         placeholder = { Text("lemmy.ml") }
                     )
                     OutlinedTextField(
@@ -163,7 +168,7 @@ fun CommunityScreen(
                             capitalization = KeyboardCapitalization.None
                         ),
                         isError = newInstance.contains(' '),
-                        label = { Text("Community Name") },
+                        label = { Text(stringResource(R.string.community_name)) },
                         placeholder = { Text("memes") }
                     )
                 }
@@ -181,7 +186,7 @@ fun CommunityScreen(
                 when (val state = communityViewModel.aboutCommutnityState) {
                     is AboutCommunityState.Error -> {
                         Text(
-                            text = "Failed to fetch Community info",
+                            text = stringResource(R.string.failed_to_fetch_community_info),
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.error
                         )

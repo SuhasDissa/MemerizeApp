@@ -13,20 +13,22 @@ import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaMuxer
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.documentfile.provider.DocumentFile
 import app.suhasdissa.memerize.backend.apis.FileDownloadApi
 import app.suhasdissa.memerize.backend.apis.RedditVideoApi
+import java.nio.ByteBuffer
+import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.nio.ByteBuffer
-import java.util.UUID
 
 class RedditVideoDownloader {
 
@@ -44,6 +46,7 @@ class RedditVideoDownloader {
     private val fileDownloadApiService: FileDownloadApi =
         downloadRetrofit.create(FileDownloadApi::class.java)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("Recycle")
     suspend fun downloadRedditVideo(context: Context, url: String): Boolean {
         val urlS = getRedditUrls(url) ?: return false
@@ -68,6 +71,7 @@ class RedditVideoDownloader {
     /**
      * https://github.com/Docile-Alligator/Infinity-For-Reddit/blob/d0a9d9af9a46477a9bc1ff36af11278fcba06aa5/app/src/main/java/ml/docilealligator/infinityforreddit/services/DownloadRedditVideoService.java#L348C7-L426C10
      */
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     private fun muxVideoAndAudio(
         videoFilePath: String,

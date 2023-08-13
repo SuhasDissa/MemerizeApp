@@ -35,8 +35,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.edit
+import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.ui.components.CacheSizeDialog
 import app.suhasdissa.memerize.ui.components.SettingItem
 import app.suhasdissa.memerize.utils.SaveDirectoryKey
@@ -67,12 +69,12 @@ fun SettingsScreen(
             }) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Open Navigation Drawer"
+                    contentDescription = stringResource(R.string.open_navigation_drawer)
                 )
             }
         }, title = {
             Text(
-                "Settings",
+                stringResource(R.string.settings),
                 color = MaterialTheme.colorScheme.primary
             )
         })
@@ -83,8 +85,8 @@ fun SettingsScreen(
         ) {
             item {
                 SettingItem(
-                    title = "Download Location",
-                    description = "Select Meme download location",
+                    title = stringResource(R.string.download_location),
+                    description = stringResource(R.string.select_meme_download_location),
                     onClick = {
                         val lastDir = context.preferences.getString(SaveDirectoryKey, null)
                             .takeIf { !it.isNullOrBlank() }
@@ -95,8 +97,8 @@ fun SettingsScreen(
             }
             item {
                 SettingItem(
-                    title = "Image Cache Limit",
-                    description = "Set Image Cache Limit",
+                    title = stringResource(R.string.image_cache_limit),
+                    description = stringResource(R.string.set_image_cache_limit),
                     onClick = {
                         showImageCacheDialog = true
                     },
@@ -105,8 +107,8 @@ fun SettingsScreen(
             }
             item {
                 SettingItem(
-                    title = "About",
-                    description = "Developer Contact",
+                    title = stringResource(R.string.about),
+                    description = stringResource(R.string.developer_contact),
                     onClick = { onAboutClick() },
                     icon = Icons.Outlined.Info
                 )

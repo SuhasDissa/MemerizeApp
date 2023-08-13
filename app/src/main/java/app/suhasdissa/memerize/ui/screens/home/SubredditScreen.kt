@@ -47,10 +47,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.RedditCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import app.suhasdissa.memerize.ui.components.SubredditCardCompact
@@ -72,7 +74,10 @@ fun SubredditScreen(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(onClick = { addNewDialog = true }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add new subreddit")
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add_new_subreddit)
+                )
             }
         },
         topBar = {
@@ -82,7 +87,7 @@ fun SubredditScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Default.Menu,
-                        contentDescription = "Open Navigation Drawer"
+                        contentDescription = stringResource(R.string.open_navigation_drawer)
                     )
                 }
             }, title = {
@@ -106,7 +111,7 @@ fun SubredditScreen(
                         IconButton(onClick = { redditCommunityViewModel.removeSubreddit(it) }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Remove subreddit"
+                                contentDescription = stringResource(R.string.remove_subreddit)
                             )
                         }
                     }
@@ -121,19 +126,19 @@ fun SubredditScreen(
         }
         AlertDialog(
             onDismissRequest = { addNewDialog = false },
-            title = { Text("Add new Subreddit") },
+            title = { Text(stringResource(R.string.add_new_subreddit)) },
             confirmButton = {
                 Button(onClick = {
                     redditCommunityViewModel.getSubredditInfo(newSubreddit)
                     addNewDialog = false
                     subredditInfoSheet = true
                 }) {
-                    Text(text = "Save")
+                    Text(text = stringResource(R.string.save))
                 }
             },
             dismissButton = {
                 Button(onClick = { addNewDialog = false }) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(R.string.cancel))
                 }
             },
             text = {
@@ -148,7 +153,7 @@ fun SubredditScreen(
                         ),
                         prefix = { Text("r/") },
                         isError = newSubreddit.contains(' '),
-                        label = { Text("Subreddit name from url") },
+                        label = { Text(stringResource(R.string.subreddit_name_from_url)) },
                         placeholder = { Text("maybemaybemaybe") }
                     )
                 }
@@ -166,7 +171,7 @@ fun SubredditScreen(
                 when (val state = redditCommunityViewModel.aboutCommunityState) {
                     is AboutCommunityState.Error -> {
                         Text(
-                            text = "Failed to fetch subreddit Info",
+                            text = stringResource(R.string.failed_to_fetch_subreddit_info),
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.error
                         )
