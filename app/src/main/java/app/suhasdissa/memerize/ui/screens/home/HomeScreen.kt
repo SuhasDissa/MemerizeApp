@@ -33,7 +33,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.Destination
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
-import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
 import app.suhasdissa.memerize.backend.viewmodels.RedditCommunityViewModel
@@ -105,7 +104,7 @@ fun HomeScreen(
                                 selectedSubreddits.add(it)
                             }
                         } else {
-                            redditViewModel.getMemePhotos(it, SortTime.TODAY)
+                            redditViewModel.getMemePhotos(it)
                             onNavigate(Destination.RedditMemeView)
                         }
                     },

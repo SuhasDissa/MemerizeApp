@@ -20,7 +20,9 @@ private const val header =
 interface LemmyApi {
     /**
      * @param community The name of the community.
-     * @param sort "TopAll", "TopDay", "TopMonth", "TopWeek".
+     * @param sort "Active", "Hot", "MostComments", "New", "NewComments",
+     *                 "Old", "TopAll", "TopDay", "TopMonth", "TopWeek",
+     *                 "TopYear".
      */
     @Headers(header)
     @GET("https://{instance}/api/v3/post/list")

@@ -7,14 +7,11 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.primary
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,7 +19,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,12 +38,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.suhasdissa.memerize.R
-import app.suhasdissa.memerize.backend.model.SortTime
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.MemeGrid
 import app.suhasdissa.memerize.ui.components.RetryScreen
+import app.suhasdissa.memerize.ui.components.SortBottomSheet
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -100,42 +96,6 @@ fun RedditMemeScreen(
         }
     ) { paddingValues ->
         Column(Modifier.padding(paddingValues)) {
-            redditViewModel.currentSubreddit?.let {
-                AnimatedVisibility(visible = showFilterButtons) {
-                    Row(modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
-                        FilterChip(
-                            selected = redditViewModel.currentSortTime == SortTime.TODAY,
-                            onClick = {
-                                showFilterButtons = false
-                                redditViewModel.getMemePhotos(time = SortTime.TODAY)
-                            },
-                            label = {
-                                Text(stringResource(R.string.reddit_today_btn))
-                            }
-                        )
-                        FilterChip(
-                            selected = redditViewModel.currentSortTime == SortTime.WEEK,
-                            onClick = {
-                                showFilterButtons = false
-                                redditViewModel.getMemePhotos(time = SortTime.WEEK)
-                            },
-                            label = {
-                                Text(stringResource(R.string.reddit_week_btn))
-                            }
-                        )
-                        FilterChip(
-                            selected = redditViewModel.currentSortTime == SortTime.MONTH,
-                            onClick = {
-                                showFilterButtons = false
-                                redditViewModel.getMemePhotos(time = SortTime.MONTH)
-                            },
-                            label = {
-                                Text(stringResource(R.string.reddit_month_btn))
-                            }
-                        )
-                    }
-                }
-            }
             when (val memeDataState = redditViewModel.memeUiState) {
                 is MemeUiState.Loading -> LoadingScreen(modifier)
                 is MemeUiState.Error -> RetryScreen(
@@ -152,5 +112,11 @@ fun RedditMemeScreen(
                 )
             }
         }
+    }
+    if (showFilterButtons) {
+        SortBottomSheet(currentSort = redditViewModel.currentSortTime, onSelect = {
+            showFilterButtons = false
+            redditViewModel.getMemePhotos(sort = it)
+        }, onDismissRequest = { showFilterButtons = false })
     }
 }

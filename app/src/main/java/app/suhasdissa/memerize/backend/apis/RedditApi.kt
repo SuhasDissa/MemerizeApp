@@ -19,10 +19,11 @@ private const val header =
 
 interface RedditApi {
     @Headers(header)
-    @GET("r/{subreddit}/top.json?sort=top&limit=100")
+    @GET("r/{subreddit}/{sort}.json")
     suspend fun getRedditData(
         @Path("subreddit") subreddit: String,
-        @Query("t") time: String
+        @Path("sort") sort: String,
+        @Query("t") time: String? = null
     ): Reddit
 
     @Headers(header)
