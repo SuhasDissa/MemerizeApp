@@ -53,4 +53,9 @@
     <string name="image_cache_limit">Image Cache Limit</string>
     <string name="set_image_cache_limit">Set Image Cache Limit</string>
     <string name="developer_contact">Developer Contact</string>
+    <string name="hot">Hot</string>
+    <string name="rising">Rising</string>
+    <string name="sort_new">New</string>
+    <string name="top">Top</string>
+    <string name="sort_by">Sort By</string>
 </resources>
