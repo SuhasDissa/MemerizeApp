@@ -51,69 +51,70 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
+import app.suhasdissa.memerize.backend.viewmodels.playPause
 import app.suhasdissa.memerize.utils.PlayerState
 import app.suhasdissa.memerize.utils.isPlayingState
 import app.suhasdissa.memerize.utils.positionAndDurationState
 import app.suhasdissa.memerize.utils.shareUrl
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun VideoView(
-    url: String,
-    modifier: Modifier = Modifier,
-    playerViewModel: PlayerViewModel = viewModel(factory = PlayerViewModel.Factory)
+    meme: Meme,
+    playWhenReady: Boolean = false,
+    playerViewModel: PlayerViewModel = viewModel()
 
 ) {
-    val decodedUrl = remember { URLDecoder.decode(url, StandardCharsets.UTF_8.toString()) }
-
+    val context = LocalContext.current
+    val player = remember(context) { ExoPlayer.Builder(context).build() }
+    player.playWhenReady = playWhenReady
     DisposableEffect(Unit) {
-        with(playerViewModel.player) {
-            val mediaItem = MediaItem.Builder().setUri(decodedUrl).build()
+        with(player) {
+            val mediaItem = MediaItem.Builder().setUri(meme.url).build()
             setMediaItem(mediaItem)
-            playWhenReady = true
             prepare()
             onDispose {
-                stop()
+                player.release()
             }
         }
     }
-    Column(modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         Box(
-            modifier = modifier
+            modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth(),
             contentAlignment = Alignment.Center
         ) {
             AndroidView(factory = { context ->
                 PlayerView(context).apply {
-                    player = playerViewModel.player
+                    this.player = player
                     useController = false
                 }
             }, modifier = Modifier.fillMaxSize())
         }
-        PlayerController(playerViewModel, decodedUrl)
+        PlayerController(player, playerViewModel, meme.url)
     }
 }
 
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 fun PlayerController(
-    playerViewModel: PlayerViewModel = viewModel(factory = PlayerViewModel.Factory),
+    player: Player,
+    playerViewModel: PlayerViewModel = viewModel(),
     decodedUrl: String
 ) {
     val view = LocalView.current
-    with(playerViewModel.player) {
+    with(player) {
         Column(Modifier.padding(16.dp)) {
             val positionAndDuration by positionAndDurationState()
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -128,7 +129,7 @@ fun PlayerController(
                     ),
                     onValueChangeFinished = {
                         tempSliderPosition?.let {
-                            playerViewModel.seekTo(it.toLong())
+                            player.seekTo(it.toLong())
                         }
                         tempSliderPosition = null
                     }
@@ -180,7 +181,7 @@ fun PlayerController(
                     IconButton(
                         onClick = {
                             view.playSoundEffect(SoundEffectConstants.CLICK)
-                            playerViewModel.playPause()
+                            player.playPause()
                         },
                         modifier = Modifier.padding(8.dp)
                     ) {
@@ -249,10 +250,4 @@ fun PlayerController(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefaultPreview() {
-    PlayerController(decodedUrl = "")
 }

@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.primary
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
@@ -51,9 +53,11 @@ import coil.request.ImageRequest
 @Composable
 fun RedditMemeScreen(
     modifier: Modifier = Modifier,
-    redditViewModel: RedditViewModel,
-    onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit
+    redditViewModel: RedditViewModel = viewModel(
+        LocalContext.current as ComponentActivity,
+        factory = RedditViewModel.Factory
+    ),
+    onClickCard: (Int) -> Unit
 ) {
     var showFilterButtons by remember { mutableStateOf(false) }
     Scaffold(
@@ -107,8 +111,7 @@ fun RedditMemeScreen(
 
                 is MemeUiState.Success -> MemeGrid(
                     memeDataState.memes,
-                    onClickMeme,
-                    onClickVideo
+                    onClickCard
                 )
             }
         }

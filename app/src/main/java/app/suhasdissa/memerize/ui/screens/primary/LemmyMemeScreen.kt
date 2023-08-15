@@ -7,6 +7,7 @@ All Rights Reserved
 
 package app.suhasdissa.memerize.ui.screens.primary
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
@@ -51,9 +53,11 @@ import coil.request.ImageRequest
 @Composable
 fun LemmyMemeScreen(
     modifier: Modifier = Modifier,
-    lemmyViewModel: LemmyViewModel,
-    onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit
+    lemmyViewModel: LemmyViewModel = viewModel(
+        LocalContext.current as ComponentActivity,
+        factory = LemmyViewModel.Factory
+    ),
+    onClickCard: (Int) -> Unit
 ) {
     var showFilterButtons by remember { mutableStateOf(false) }
     Scaffold(
@@ -107,8 +111,7 @@ fun LemmyMemeScreen(
 
                 is MemeUiState.Success -> MemeGrid(
                     memeDataState.memes,
-                    onClickMeme,
-                    onClickVideo
+                    onClickCard
                 )
             }
         }

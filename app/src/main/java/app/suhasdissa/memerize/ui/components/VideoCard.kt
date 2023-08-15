@@ -22,25 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun VideoCard(
-    onClickVideo: (url: String) -> Unit,
-    vidlink: String,
+    onClickVideo: () -> Unit,
     title: String,
     preview: String,
     modifier: Modifier = Modifier
 ) {
-    val encodedLink = URLEncoder.encode(vidlink, StandardCharsets.UTF_8.toString())
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxSize()
     ) {
-        ImageCard({ onClickVideo(encodedLink) }, preview, title)
-        Card(modifier.clickable(onClick = { onClickVideo(encodedLink) }), shape = CircleShape) {
+        ImageCard({ onClickVideo.invoke() }, preview, title)
+        Card(modifier.clickable(onClick = { onClickVideo.invoke() }), shape = CircleShape) {
             Icon(
                 modifier = modifier.size(64.dp),
                 imageVector = Icons.Default.PlayCircle,
@@ -55,5 +51,5 @@ fun VideoCard(
 @Preview
 @Composable
 fun VideoCardPreview() {
-    VideoCard(onClickVideo = {}, vidlink = "", title = "Preview", preview = "")
+    VideoCard(onClickVideo = {}, title = "Preview", preview = "")
 }

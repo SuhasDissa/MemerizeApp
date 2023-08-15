@@ -15,29 +15,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.exoplayer.ExoPlayer
-import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.utils.RedditVideoDownloader
 import kotlinx.coroutines.launch
 
 @UnstableApi
-class PlayerViewModel(appContext: Context) : ViewModel() {
-    val player: ExoPlayer = ExoPlayer.Builder(appContext).build()
-
+class PlayerViewModel() : ViewModel() {
     var downloadState: DownloadState by mutableStateOf(DownloadState.NotStarted)
-
-    fun playPause() {
-        if (player.isPlaying) player.pause() else player.play()
-    }
-
-    fun seekTo(to: Long) {
-        player.seekTo(to)
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun downloadVideo(context: Context, url: String) {
@@ -54,14 +40,8 @@ class PlayerViewModel(appContext: Context) : ViewModel() {
             }
         }
     }
+}
 
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val application =
-                    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MemerizeApplication) // ktlint-disable max-line-length
-                PlayerViewModel(application)
-            }
-        }
-    }
+fun Player.playPause() {
+    if (isPlaying) pause() else play()
 }
