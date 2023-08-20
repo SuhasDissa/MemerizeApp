@@ -18,13 +18,13 @@ sealed class Destination(val route: String) {
     object Subreddits : Destination("subreddits")
     object Communities : Destination("communities")
     object About : Destination("about")
-    object PhotoView : Destination("memescreen") {
-        val routeWithArgs = "$route/{url}"
-        val arguments = listOf(navArgument("url") { type = NavType.StringType })
+    object RedditFeed : Destination("reddit_feed") {
+        val routeWithArgs = "$route/{id}"
+        val arguments = listOf(navArgument("id") { type = NavType.IntType })
     }
 
-    object VideoPlayer : Destination("videoplayer") {
-        val routeWithArgs = "$route/{url}"
-        val arguments = listOf(navArgument("url") { type = NavType.StringType })
+    object LemmyFeed : Destination("lemmy_feed") {
+        val routeWithArgs = "$route/{id}"
+        val arguments = listOf(navArgument("id") { type = NavType.IntType })
     }
 }

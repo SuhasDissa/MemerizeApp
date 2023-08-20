@@ -9,20 +9,16 @@ package app.suhasdissa.memerize
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import app.suhasdissa.memerize.backend.viewmodels.LemmyViewModel
-import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
-import app.suhasdissa.memerize.backend.viewmodels.RedditViewModel
 import app.suhasdissa.memerize.ui.screens.home.CommunityScreen
 import app.suhasdissa.memerize.ui.screens.home.HomeScreen
 import app.suhasdissa.memerize.ui.screens.home.SubredditScreen
 import app.suhasdissa.memerize.ui.screens.primary.LemmyMemeScreen
 import app.suhasdissa.memerize.ui.screens.primary.RedditMemeScreen
-import app.suhasdissa.memerize.ui.screens.secondary.PhotoView
-import app.suhasdissa.memerize.ui.screens.secondary.VideoView
+import app.suhasdissa.memerize.ui.screens.secondary.LemmyMemeFeed
+import app.suhasdissa.memerize.ui.screens.secondary.RedditMemeFeed
 import app.suhasdissa.memerize.ui.screens.settings.AboutScreen
 import app.suhasdissa.memerize.ui.screens.settings.SettingsScreen
 
@@ -32,9 +28,6 @@ fun AppNavHost(
     onDrawerOpen: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val redditViewModel: RedditViewModel = viewModel(factory = RedditViewModel.Factory)
-    val lemmyViewModel: LemmyViewModel = viewModel(factory = LemmyViewModel.Factory)
-    val playerViewModel: PlayerViewModel = viewModel(factory = PlayerViewModel.Factory)
     NavHost(
         navController = navController,
         startDestination = Destination.Home.route,
@@ -45,9 +38,7 @@ fun AppNavHost(
                 onNavigate = { destination ->
                     navController.navigateTo(destination.route)
                 },
-                onDrawerOpen,
-                redditViewModel = redditViewModel,
-                lemmyViewModel = lemmyViewModel
+                onDrawerOpen
             )
         }
         composable(route = Destination.Settings.route) {
@@ -71,12 +62,8 @@ fun AppNavHost(
             route = Destination.RedditMemeView.route
         ) {
             RedditMemeScreen(
-                redditViewModel = redditViewModel,
-                onClickMeme = { url ->
-                    navController.navigateTo("${Destination.PhotoView.route}/$url")
-                },
-                onClickVideo = { url ->
-                    navController.navigateTo("${Destination.VideoPlayer.route}/$url")
+                onClickCard = { id ->
+                    navController.navigateTo("${Destination.RedditFeed.route}/$id")
                 }
             )
         }
@@ -84,32 +71,28 @@ fun AppNavHost(
             route = Destination.LemmyMemeView.route
         ) {
             LemmyMemeScreen(
-                lemmyViewModel = lemmyViewModel,
-                onClickMeme = { url ->
-                    navController.navigateTo("${Destination.PhotoView.route}/$url")
-                },
-                onClickVideo = { url ->
-                    navController.navigateTo("${Destination.VideoPlayer.route}/$url")
+                onClickCard = { id ->
+                    navController.navigateTo("${Destination.LemmyFeed.route}/$id")
                 }
             )
         }
         composable(
-            route = Destination.PhotoView.routeWithArgs,
-            arguments = Destination.PhotoView.arguments
+            route = Destination.RedditFeed.routeWithArgs,
+            arguments = Destination.RedditFeed.arguments
         ) {
-            val imgurl = it.arguments?.getString("url")
-            if (imgurl != null) {
-                PhotoView(imgurl)
+            val id = it.arguments?.getInt("id")
+            if (id != null) {
+                RedditMemeFeed(initialPage = id)
             }
         }
 
         composable(
-            route = Destination.VideoPlayer.routeWithArgs,
-            arguments = Destination.VideoPlayer.arguments
+            route = Destination.LemmyFeed.routeWithArgs,
+            arguments = Destination.LemmyFeed.arguments
         ) {
-            val url = it.arguments?.getString("url")
-            if (url != null) {
-                VideoView(url = url, playerViewModel = playerViewModel)
+            val id = it.arguments?.getInt("id")
+            if (id != null) {
+                LemmyMemeFeed(initialPage = id)
             }
         }
     }

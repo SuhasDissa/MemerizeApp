@@ -18,8 +18,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
-import app.suhasdissa.memerize.backend.model.SortTime
-import app.suhasdissa.memerize.backend.model.lemmy
+import app.suhasdissa.memerize.backend.model.Sort
 import app.suhasdissa.memerize.backend.repositories.LemmyMemeRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import kotlinx.coroutines.launch
@@ -31,19 +30,19 @@ class LemmyViewModel(private val lemmyRepository: LemmyMemeRepository) :
 
     var currentCommunity: LemmyCommunity? = null
         private set
-    var currentSortTime: SortTime = SortTime.TODAY
+    var currentSortTime: Sort = Sort.Top.Today
         private set
 
     fun getMemePhotos(
         community: LemmyCommunity? = currentCommunity,
-        time: SortTime = SortTime.TODAY
+        sort: Sort = Sort.Top.Today
     ) {
         currentCommunity = community!!
-        currentSortTime = time
+        currentSortTime = sort
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
-            memeUiState = when (val data = lemmyRepository.getOnlineData(community, time.lemmy)) {
+            memeUiState = when (val data = lemmyRepository.getOnlineData(community, sort)) {
                 null -> {
                     MemeUiState.Error("")
                 }

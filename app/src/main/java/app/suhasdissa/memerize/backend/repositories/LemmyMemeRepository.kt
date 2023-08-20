@@ -13,6 +13,7 @@ import app.suhasdissa.memerize.backend.apis.LemmyApi
 import app.suhasdissa.memerize.backend.database.dao.LemmyMemeDAO
 import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.database.entity.LemmyMeme
+import app.suhasdissa.memerize.backend.model.Sort
 
 interface LemmyMemeRepository : MemeRepository<LemmyMeme, LemmyCommunity>
 class LemmyMemeRepositoryImpl(
@@ -22,10 +23,10 @@ class LemmyMemeRepositoryImpl(
 
     override suspend fun getOnlineData(
         community: LemmyCommunity,
-        time: String
+        sort: Sort
     ): List<LemmyMeme>? {
         return try {
-            val memesList = getNetworkData(community, time)
+            val memesList = getNetworkData(community, sort.lemmySort)
             Thread {
                 insertMemes(memesList)
             }.start()

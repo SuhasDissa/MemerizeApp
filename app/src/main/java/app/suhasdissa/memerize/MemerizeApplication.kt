@@ -33,7 +33,7 @@ class MemerizeApplication : Application(), ImageLoaderFactory {
             .respectCacheHeaders(false)
             .diskCache(
                 DiskCache.Builder()
-                    .directory(cacheDir.resolve("coil"))
+                    .directory(cacheDir.resolve("image_cache"))
                     .maxSizeBytes(
                         preferences.getInt(imageCacheKey, defaultImageCacheSize) * 1024 * 1024L
                     )

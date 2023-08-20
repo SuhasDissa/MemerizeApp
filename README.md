@@ -43,5 +43,6 @@
     alt="Get it on GitHub"
     height="80">](https://github.com/SuhasDissa/MemerizeApp/releases/latest)
 
-## Translations
-[Crowdin Translate](https://crowdin.com/project/memerize)
+## Useful Links
+<a href="https://trello.com/b/CNVfaAYD/memerize-app"><img src="https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white" height="40"></a>
+<a href="https://crowdin.com/project/memerize"><img src="https://img.shields.io/badge/Crowdin_Translate-%232E3340.svg?style=for-the-badge&logo=Crowdin&logoColor=white" height="40"></a>

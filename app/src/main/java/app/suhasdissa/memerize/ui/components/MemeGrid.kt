@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,8 +29,7 @@ import app.suhasdissa.memerize.backend.database.entity.Meme
 @Composable
 fun MemeGrid(
     memes: List<Meme>,
-    onClickMeme: (url: String) -> Unit,
-    onClickVideo: (url: String) -> Unit
+    onClickCard: (id: Int) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -44,11 +43,15 @@ fun MemeGrid(
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(8.dp)
             ) {
-                items(items = memes) { meme ->
+                itemsIndexed(items = memes) { index, meme ->
                     if (meme.isVideo) {
-                        VideoCard(onClickVideo, meme.url, meme.title, meme.preview, Modifier)
+                        VideoCard(onClickVideo = {
+                            onClickCard.invoke(index)
+                        }, meme.title, meme.preview, Modifier)
                     } else {
-                        MemeCard(onClickMeme, meme.url, meme.title)
+                        MemeCard(onClickMeme = {
+                            onClickCard.invoke(index)
+                        }, meme.url, meme.title)
                     }
                 }
             }

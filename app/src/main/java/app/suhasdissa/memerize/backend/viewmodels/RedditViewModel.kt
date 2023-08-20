@@ -19,8 +19,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import app.suhasdissa.memerize.MemerizeApplication
 import app.suhasdissa.memerize.backend.database.entity.RedditCommunity
 import app.suhasdissa.memerize.backend.database.entity.RedditMeme
-import app.suhasdissa.memerize.backend.model.SortTime
-import app.suhasdissa.memerize.backend.model.reddit
+import app.suhasdissa.memerize.backend.model.Sort
 import app.suhasdissa.memerize.backend.repositories.RedditMemeRepository
 import app.suhasdissa.memerize.backend.viewmodels.state.MemeUiState
 import kotlinx.coroutines.async
@@ -35,21 +34,21 @@ class RedditViewModel(private val redditRepository: RedditMemeRepository) :
     var currentSubreddit: RedditCommunity? = null
         private set
 
-    var currentSortTime: SortTime = SortTime.TODAY
+    var currentSortTime: Sort = Sort.Top.Today
         private set
 
     fun getMemePhotos(
         subreddit: RedditCommunity? = currentSubreddit,
-        time: SortTime = SortTime.TODAY
+        sort: Sort = Sort.Top.Today
     ) {
         currentSubreddit = subreddit!!
-        currentSortTime = time
+        currentSortTime = sort
         viewModelScope.launch {
             memeUiState = MemeUiState.Loading
 
             memeUiState = when (
                 val data =
-                    redditRepository.getOnlineData(subreddit, time.reddit)
+                    redditRepository.getOnlineData(subreddit, sort)
             ) {
                 null -> {
                     MemeUiState.Error("")
@@ -76,7 +75,7 @@ class RedditViewModel(private val redditRepository: RedditMemeRepository) :
             currentSubreddit = null
             memeUiState = MemeUiState.Loading
             val results = communities.map {
-                async { redditRepository.getOnlineData(it, SortTime.TODAY.reddit) }
+                async { redditRepository.getOnlineData(it, Sort.Top.Today) }
             }.awaitAll()
             val memeList: List<RedditMeme> = results.filterNotNull().flatten().shuffled()
             memeUiState = if (memeList.isEmpty()) {

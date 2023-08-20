@@ -49,21 +49,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import app.suhasdissa.memerize.R
+import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PhotoViewModel
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import java.lang.Float.max
-import java.net.URLDecoder
-import java.nio.charset.StandardCharsets
 
 @Composable
 fun PhotoView(
-    photo: String,
+    meme: Meme,
     photoViewModel: PhotoViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val photoUrl = remember { URLDecoder.decode(photo, StandardCharsets.UTF_8.toString()) }
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
         var scale by remember { mutableFloatStateOf(1f) }
         var offsetX by remember { mutableFloatStateOf(1f) }
@@ -93,8 +90,7 @@ fun PhotoView(
             contentAlignment = Alignment.Center
         ) {
             AsyncImage(
-                model = ImageRequest.Builder(context = LocalContext.current).data(photoUrl)
-                    .crossfade(true).build(),
+                model = meme.url,
                 contentDescription = stringResource(R.string.meme_photo),
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -124,7 +120,7 @@ fun PhotoView(
             ) {
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    photoViewModel.savePhotoToDisk(photoUrl, context)
+                    photoViewModel.savePhotoToDisk(meme.url, context)
                 }) {
                     Icon(
                         imageVector = when (photoViewModel.downloadState) {
@@ -139,7 +135,7 @@ fun PhotoView(
                 }
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    photoViewModel.shareImage(photoUrl, context)
+                    photoViewModel.shareImage(meme.url, context)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Share,
