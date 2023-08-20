@@ -58,7 +58,7 @@ class RedditMemeRepositoryImpl(
                         false,
                         "",
                         subreddit,
-                        child.Childdata.permalink
+                        child.Childdata.permalink?.let { "https://www.reddit.com$it" }
                     )
                 )
             } else if (url.contains("v.redd.it") || child.Childdata.preview?.redditVideo?.dash_url != null) {
@@ -75,7 +75,7 @@ class RedditMemeRepositoryImpl(
                             true,
                             previewUrl.replace("&amp;", "&"),
                             subreddit,
-                            child.Childdata.permalink
+                            child.Childdata.permalink?.let { "https://www.reddit.com$it" }
                         )
                     )
                 }
