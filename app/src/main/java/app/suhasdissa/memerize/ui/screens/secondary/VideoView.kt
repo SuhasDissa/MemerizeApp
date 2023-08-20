@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 11/23/22, 4:16 PM
-Copyright (c) 2022
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.ui.screens.secondary
 
 import android.annotation.SuppressLint
@@ -76,8 +69,15 @@ fun VideoView(
 
 ) {
     val context = LocalContext.current
+    val view = LocalView.current
     val player = remember(context) { ExoPlayer.Builder(context).build() }
     player.playWhenReady = playWhenReady
+    DisposableEffect(Unit) {
+        view.keepScreenOn = true
+        onDispose {
+            view.keepScreenOn = false
+        }
+    }
     DisposableEffect(Unit) {
         with(player) {
             val mediaItem = MediaItem.Builder().setUri(meme.url).build()
