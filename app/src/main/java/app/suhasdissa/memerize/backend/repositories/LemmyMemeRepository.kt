@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/4/23, 9:06 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.repositories
 
 import android.util.Log
@@ -60,7 +53,8 @@ class LemmyMemeRepositoryImpl(
                         false,
                         url,
                         community.name,
-                        community.instance
+                        community.instance,
+                        post.post?.postLink
                     )
                 )
             }

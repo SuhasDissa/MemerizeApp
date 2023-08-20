@@ -18,21 +18,26 @@ import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.DownloadDone
 import androidx.compose.material.icons.filled.Downloading
 import androidx.compose.material.icons.filled.Error
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.material.icons.filled.RepeatOn
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.VolumeOff
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -44,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -58,9 +64,12 @@ import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.playPause
 import app.suhasdissa.memerize.utils.PlayerState
 import app.suhasdissa.memerize.utils.isPlayingState
+import app.suhasdissa.memerize.utils.openBrowser
 import app.suhasdissa.memerize.utils.positionAndDurationState
 import app.suhasdissa.memerize.utils.shareUrl
 
+@SuppressLint("UnsafeOptInUsageError")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VideoView(
     meme: Meme,
@@ -88,30 +97,92 @@ fun VideoView(
             }
         }
     }
-    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceEvenly) {
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            AndroidView(factory = { context ->
-                PlayerView(context).apply {
-                    this.player = player
-                    useController = false
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            TopAppBar(title = {
+                Text(
+                    text = meme.title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }, actions = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    IconButton(onClick = {
+                        view.playSoundEffect(SoundEffectConstants.CLICK)
+                        playerViewModel.downloadVideo(context, meme.url)
+                    }) {
+                        Icon(
+                            imageVector = when (playerViewModel.downloadState) {
+                                DownloadState.Error -> Icons.Default.Error
+                                DownloadState.Loading -> Icons.Default.Downloading
+                                DownloadState.NotStarted -> Icons.Default.Download
+                                DownloadState.Success -> Icons.Default.DownloadDone
+                            },
+                            contentDescription = stringResource(R.string.download_video)
+                        )
+                    }
                 }
-            }, modifier = Modifier.fillMaxSize())
+                var showDropdown by remember { mutableStateOf(false) }
+                IconButton(onClick = { showDropdown = true }) {
+                    Icon(
+                        imageVector = Icons.Default.MoreVert,
+                        contentDescription = stringResource(
+                            R.string.show_more_options
+                        )
+                    )
+                }
+
+                DropdownMenu(expanded = showDropdown, onDismissRequest = {
+                    showDropdown = false
+                }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.share_video)) },
+                        onClick = {
+                            view.playSoundEffect(SoundEffectConstants.CLICK)
+                            shareUrl(context, meme.url)
+                            showDropdown = false
+                        }
+                    )
+                    meme.postLink?.let {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.open_post)) },
+                            onClick = {
+                                openBrowser(context, it)
+                                showDropdown = false
+                            }
+                        )
+                    }
+                }
+            })
         }
-        PlayerController(player, playerViewModel, meme.url)
+    ) { paddingValues ->
+        Column(
+            Modifier.fillMaxSize().padding(paddingValues),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                AndroidView(factory = { context ->
+                    PlayerView(context).apply {
+                        this.player = player
+                        useController = false
+                    }
+                }, modifier = Modifier.fillMaxSize())
+            }
+            PlayerController(player)
+        }
     }
 }
 
-@SuppressLint("UnsafeOptInUsageError")
 @Composable
 fun PlayerController(
-    player: Player,
-    playerViewModel: PlayerViewModel = viewModel(),
-    decodedUrl: String
+    player: Player
 ) {
     val view = LocalView.current
     with(player) {
@@ -144,31 +215,26 @@ fun PlayerController(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val context = LocalContext.current
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    IconButton(onClick = {
-                        view.playSoundEffect(SoundEffectConstants.CLICK)
-                        playerViewModel.downloadVideo(context, decodedUrl)
-                    }) {
-                        Icon(
-                            imageVector = when (playerViewModel.downloadState) {
-                                DownloadState.Error -> Icons.Default.Error
-                                DownloadState.Loading -> Icons.Default.Downloading
-                                DownloadState.NotStarted -> Icons.Default.Download
-                                DownloadState.Success -> Icons.Default.DownloadDone
-                            },
-                            contentDescription = stringResource(R.string.download_video)
-                        )
-                    }
+                var repeat by remember(repeatMode) {
+                    mutableStateOf(repeatMode == Player.REPEAT_MODE_ONE)
                 }
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    shareUrl(context, decodedUrl)
+                    repeatMode =
+                        if (repeatMode == Player.REPEAT_MODE_OFF) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+                    repeat = (repeatMode == Player.REPEAT_MODE_ONE)
                 }) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = stringResource(R.string.share_video)
-                    )
+                    if (repeat) {
+                        Icon(
+                            Icons.Default.RepeatOn,
+                            contentDescription = stringResource(R.string.turn_off_repeat)
+                        )
+                    } else {
+                        Icon(
+                            Icons.Default.Repeat,
+                            contentDescription = stringResource(R.string.turn_on_repeat)
+                        )
+                    }
                 }
                 ElevatedCard(
                     colors = CardDefaults.elevatedCardColors(
@@ -223,27 +289,6 @@ fun PlayerController(
                         Icon(
                             Icons.Default.VolumeOff,
                             contentDescription = stringResource(R.string.un_mute_sound)
-                        )
-                    }
-                }
-                var repeat by remember(repeatMode) {
-                    mutableStateOf(repeatMode == Player.REPEAT_MODE_ONE)
-                }
-                IconButton(onClick = {
-                    view.playSoundEffect(SoundEffectConstants.CLICK)
-                    repeatMode =
-                        if (repeatMode == Player.REPEAT_MODE_OFF) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
-                    repeat = (repeatMode == Player.REPEAT_MODE_ONE)
-                }) {
-                    if (repeat) {
-                        Icon(
-                            Icons.Default.RepeatOn,
-                            contentDescription = stringResource(R.string.turn_off_repeat)
-                        )
-                    } else {
-                        Icon(
-                            Icons.Default.Repeat,
-                            contentDescription = stringResource(R.string.turn_on_repeat)
                         )
                     }
                 }

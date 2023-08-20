@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/4/23, 9:06 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.repositories
 
 import android.util.Log
@@ -57,7 +50,17 @@ class RedditMemeRepositoryImpl(
             val url = child.Childdata.url
             if (url.matches(imageRegex)) {
                 val id = url.hashCode().toString()
-                memeList.add(RedditMeme(id, url, child.Childdata.title, false, "", subreddit))
+                memeList.add(
+                    RedditMeme(
+                        id,
+                        url,
+                        child.Childdata.title,
+                        false,
+                        "",
+                        subreddit,
+                        child.Childdata.permalink
+                    )
+                )
             } else if (url.contains("v.redd.it") || child.Childdata.preview?.redditVideo?.dash_url != null) {
                 val dashUrl = child.Childdata.secure_media?.reddit_video?.dash_url
                     ?: child.Childdata.preview?.redditVideo?.dash_url
@@ -71,7 +74,8 @@ class RedditMemeRepositoryImpl(
                             child.Childdata.title,
                             true,
                             previewUrl.replace("&amp;", "&"),
-                            subreddit
+                            subreddit,
+                            child.Childdata.permalink
                         )
                     )
                 }

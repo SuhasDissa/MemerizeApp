@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/3/23, 6:44 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.model
 
 import kotlinx.serialization.SerialName
@@ -25,5 +18,6 @@ data class Post(
     @SerialName("id") var id: Int? = null,
     @SerialName("name") var name: String? = null,
     @SerialName("url") var url: String? = null,
-    @SerialName("thumbnail_url") var thumbnailUrl: String? = null
+    @SerialName("thumbnail_url") var thumbnailUrl: String? = null,
+    @SerialName("ap_id") var postLink: String? = null
 )

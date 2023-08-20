@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 7/29/23, 8:14 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.database.entity
 
 import androidx.room.ColumnInfo
@@ -19,5 +12,6 @@ data class LemmyMeme(
     @ColumnInfo(name = "is_video") override val isVideo: Boolean,
     @ColumnInfo(name = "preview", defaultValue = "") override val preview: String,
     @ColumnInfo(name = "community", defaultValue = "") val community: String,
-    @ColumnInfo(name = "instance", defaultValue = "") val instance: String
+    @ColumnInfo(name = "instance", defaultValue = "") val instance: String,
+    @ColumnInfo(name = "post_link", defaultValue = "NULL") override val postLink: String?
 ) : Meme

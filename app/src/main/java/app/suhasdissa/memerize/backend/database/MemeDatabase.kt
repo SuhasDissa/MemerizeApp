@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 11/25/22, 7:42 AM
-Copyright (c) 2022
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.database
 
 import android.content.Context
@@ -24,10 +17,11 @@ import app.suhasdissa.memerize.backend.database.entity.RedditMeme
 
 @Database(
     entities = [RedditMeme::class, RedditCommunity::class, LemmyMeme::class, LemmyCommunity::class],
-    version = 5,
+    version = 6,
     exportSchema = true,
     autoMigrations = [
-        AutoMigration(from = 4, to = 5)
+        AutoMigration(from = 4, to = 5),
+        AutoMigration(from = 5, to = 6)
     ]
 )
 abstract class MemeDatabase : RoomDatabase() {
