@@ -58,4 +58,6 @@
     <string name="sort_new">New</string>
     <string name="top">Top</string>
     <string name="sort_by">Sort By</string>
+    <string name="open_post">Open post</string>
+    <string name="show_more_options">Show more options</string>
 </resources>
