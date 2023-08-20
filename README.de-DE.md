@@ -3,6 +3,7 @@
   <h1 align="center">Memerize</h1>
   <b>Memerize</b> is a handy meme viewer app for Reddit and Lemmy
 </div>
+
 <br>
 
 <div align="center">
@@ -41,7 +42,7 @@
 
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
     alt="Get it on GitHub"
-    height="80">](https://github.com/SuhasDissa/MemerizeApp/releases/latest)
+    height="80" />](https://github.com/SuhasDissa/MemerizeApp/releases/latest)
 
 ## Useful Links
 <a href="https://trello.com/b/CNVfaAYD/memerize-app"><img src="https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white" height="40"></a>
