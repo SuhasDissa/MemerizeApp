@@ -8,7 +8,7 @@ All Rights Reserved
 package app.suhasdissa.memerize.backend.apis
 
 import app.suhasdissa.memerize.backend.model.LemmyAbout
-import app.suhasdissa.memerize.backend.model.LemmyModel
+import app.suhasdissa.memerize.backend.model.LemmyResponse
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -30,7 +30,7 @@ interface LemmyApi {
         @Path("instance") instance: String,
         @Query("community_name") community: String,
         @Query("sort") sort: String
-    ): LemmyModel
+    ): LemmyResponse
 
     @Headers(header)
     @GET("https://{instance}/api/v3/community")

@@ -45,37 +45,38 @@ class RedditMemeRepositoryImpl(
         time: String?
     ): List<RedditMeme> {
         val memeList: ArrayList<RedditMeme> = arrayListOf()
-        val redditData = redditApi.getRedditData(subreddit, sort, time).data.children
+        val redditData =
+            redditApi.getRedditData(subreddit, sort, time).data?.children ?: return emptyList()
         redditData.forEach { child ->
-            val url = child.Childdata.url
-            if (url.matches(imageRegex)) {
+            val url = child.childdata?.url
+            if (url?.matches(imageRegex) == true) {
                 val id = url.hashCode().toString()
                 memeList.add(
                     RedditMeme(
                         id,
                         url,
-                        child.Childdata.title,
+                        child.childdata.title ?: "",
                         false,
                         "",
                         subreddit,
-                        child.Childdata.permalink?.let { "https://www.reddit.com$it" }
+                        child.childdata.permalink?.let { "https://www.reddit.com$it" }
                     )
                 )
-            } else if (url.contains("v.redd.it") || child.Childdata.preview?.redditVideo?.dash_url != null) {
-                val dashUrl = child.Childdata.secure_media?.reddit_video?.dash_url
-                    ?: child.Childdata.preview?.redditVideo?.dash_url
-                val previewUrl = child.Childdata.preview?.images?.get(0)?.source?.url
+            } else if (url?.contains("v.redd.it") == true || child.childdata?.preview?.redditVideo?.dash_url != null) {
+                val dashUrl = child.childdata.secure_media?.reddit_video?.dash_url
+                    ?: child.childdata.preview?.redditVideo?.dash_url
+                val previewUrl = child.childdata.preview?.images?.get(0)?.source?.url
                 if (dashUrl != null && previewUrl != null) {
                     val id = url.hashCode().toString()
                     memeList.add(
                         RedditMeme(
                             id,
                             dashUrl,
-                            child.Childdata.title,
+                            child.childdata.title ?: "",
                             true,
                             previewUrl.replace("&amp;", "&"),
                             subreddit,
-                            child.Childdata.permalink?.let { "https://www.reddit.com$it" }
+                            child.childdata.permalink?.let { "https://www.reddit.com$it" }
                         )
                     )
                 }
