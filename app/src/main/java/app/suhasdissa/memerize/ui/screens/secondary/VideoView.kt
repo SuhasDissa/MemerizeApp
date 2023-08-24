@@ -66,7 +66,6 @@ import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PlayerViewModel
 import app.suhasdissa.memerize.backend.viewmodels.playPause
 import app.suhasdissa.memerize.utils.PlayerState
-import app.suhasdissa.memerize.utils.isPlayingState
 import app.suhasdissa.memerize.utils.openBrowser
 import app.suhasdissa.memerize.utils.positionAndDurationState
 import app.suhasdissa.memerize.utils.shareUrl
@@ -261,7 +260,42 @@ fun PlayerController(
                     ),
                     shape = CircleShape
                 ) {
-                    val playState by isPlayingState()
+                    var playState by remember {
+                        mutableStateOf(
+                            if (isPlaying) {
+                                PlayerState.Play
+                            } else if (playbackState == 2 || playbackState == 1) {
+                                PlayerState.Buffer
+                            } else {
+                                PlayerState.Pause
+                            }
+                        )
+                    }
+
+                    DisposableEffect(this) {
+                        val listener = object : Player.Listener {
+                            override fun onPlaybackStateChanged(playbackState: Int) {
+                                if (playbackState == 2) {
+                                    playState = PlayerState.Buffer
+                                }
+                            }
+
+                            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                                playbackState
+                                playState = if (isPlaying) {
+                                    PlayerState.Play
+                                } else if (playbackState == 2) {
+                                    PlayerState.Buffer
+                                } else {
+                                    PlayerState.Pause
+                                }
+                            }
+                        }
+                        addListener(listener)
+                        onDispose {
+                            removeListener(listener)
+                        }
+                    }
                     IconButton(
                         onClick = {
                             view.playSoundEffect(SoundEffectConstants.CLICK)
