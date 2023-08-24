@@ -45,7 +45,7 @@ fun Player.positionAndDurationState(): State<Pair<Long, Long?>> {
                 if (!isSeeking) {
                     value = currentPosition to duration.let { if (it < 0) null else it }
                 }
-                delay(1000)
+                delay(500)
             }
         }
         if (!isActive) {
