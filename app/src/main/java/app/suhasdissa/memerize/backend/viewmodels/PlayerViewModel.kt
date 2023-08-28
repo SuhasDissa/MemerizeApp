@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/3/23, 11:19 AM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.viewmodels
 
 import android.content.Context
@@ -17,13 +10,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.Player
-import androidx.media3.common.util.UnstableApi
 import app.suhasdissa.memerize.utils.RedditVideoDownloader
 import kotlinx.coroutines.launch
 
-@UnstableApi
 class PlayerViewModel() : ViewModel() {
     var downloadState: DownloadState by mutableStateOf(DownloadState.NotStarted)
+
+    var muted by mutableStateOf(false)
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun downloadVideo(context: Context, url: String) {
