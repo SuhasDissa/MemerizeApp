@@ -137,14 +137,18 @@ fun PhotoView(
                             awaitFirstDown()
                             do {
                                 val event = awaitPointerEvent()
-                                scale *= event.calculateZoom()
-                                scale = max(scale, 1f)
-                                val offset = event.calculatePan()
-
-                                val w = size.width * (scale - 1f) / 2
-                                offsetX = (offsetX + offset.x).coerceIn(-w, w)
-                                val h = size.height * (scale - 1f) / 2
-                                offsetY = (offsetY + offset.y).coerceIn(-h, h)
+                                if (event.changes.size >= 2) {
+                                    scale *= event.calculateZoom()
+                                    scale = max(scale, 1f)
+                                    val offset = event.calculatePan()
+                                    val w = size.width * (scale - 1f) / 2
+                                    offsetX = (offsetX + offset.x).coerceIn(-w, w)
+                                    val h = size.height * (scale - 1f) / 2
+                                    offsetY = (offsetY + offset.y).coerceIn(-h, h)
+                                    event.changes.forEach {
+                                        it.consume()
+                                    }
+                                }
                             } while (event.changes.any { it.pressed })
                         }
                     },
