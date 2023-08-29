@@ -72,7 +72,7 @@ fun PhotoView(
             }, actions = {
                 IconButton(onClick = {
                     view.playSoundEffect(SoundEffectConstants.CLICK)
-                    photoViewModel.savePhotoToDisk(meme.url, context)
+                    photoViewModel.savePhotoToDisk(meme, context)
                 }) {
                     Icon(
                         imageVector = when (photoViewModel.downloadState) {

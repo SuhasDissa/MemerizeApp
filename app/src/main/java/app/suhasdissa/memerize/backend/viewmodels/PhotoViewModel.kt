@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/3/23, 12:11 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.backend.viewmodels
 
 import android.content.Context
@@ -23,17 +16,18 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.suhasdissa.memerize.BuildConfig
+import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.utils.SaveDirectoryKey
 import app.suhasdissa.memerize.utils.preferences
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import java.io.File
-import java.io.FileOutputStream
-import java.util.UUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.util.UUID
 
 class PhotoViewModel : ViewModel() {
 
@@ -52,12 +46,12 @@ class PhotoViewModel : ViewModel() {
         return null
     }
 
-    fun savePhotoToDisk(url: String, context: Context) {
+    fun savePhotoToDisk(meme: Meme, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
                 downloadState = DownloadState.Loading
             }
-            val bitmap = getBitmapFromUrl(url, context)
+            val bitmap = getBitmapFromUrl(meme.url, context)
             val prefDir =
                 context.preferences.getString(SaveDirectoryKey, null)
 
@@ -72,10 +66,21 @@ class PhotoViewModel : ViewModel() {
 
                 else -> DocumentFile.fromTreeUri(context, Uri.parse(prefDir))!!
             }
-            val outputFile = saveDir.createFile("image/jpg", "${UUID.randomUUID()}.jpg")
+            val outputFile =
+                saveDir.createFile(
+                    "image/jpg",
+                    "${meme.title}-${UUID.randomUUID().toString().take(8)}"
+                )
+            if (outputFile == null) {
+                withContext(Dispatchers.Main) {
+                    downloadState = DownloadState.Error
+                }
+                Toast.makeText(context, "Failed to create file", Toast.LENGTH_LONG).show()
+                return@launch
+            }
             if (bitmap != null) {
                 try {
-                    val outputStream = context.contentResolver.openOutputStream(outputFile!!.uri)!!
+                    val outputStream = context.contentResolver.openOutputStream(outputFile.uri)!!
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.flush()
                     outputStream.close()

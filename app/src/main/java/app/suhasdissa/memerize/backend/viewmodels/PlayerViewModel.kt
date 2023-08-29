@@ -10,8 +10,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.Player
+import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.utils.RedditVideoDownloader
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class PlayerViewModel() : ViewModel() {
     var downloadState: DownloadState by mutableStateOf(DownloadState.NotStarted)
@@ -19,11 +21,13 @@ class PlayerViewModel() : ViewModel() {
     var muted by mutableStateOf(false)
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun downloadVideo(context: Context, url: String) {
+    fun downloadVideo(context: Context, meme: Meme) {
+        val fileName = "${meme.title}-${UUID.randomUUID().toString().take(8)}"
         viewModelScope.launch {
             downloadState = DownloadState.Loading
             val downloader = RedditVideoDownloader()
-            val result = downloader.downloadRedditVideo(context.applicationContext, url)
+            val result =
+                downloader.downloadRedditVideo(context.applicationContext, meme.url, fileName)
             downloadState = if (result) {
                 Toast.makeText(context, "Download Finished", Toast.LENGTH_LONG).show()
                 DownloadState.NotStarted

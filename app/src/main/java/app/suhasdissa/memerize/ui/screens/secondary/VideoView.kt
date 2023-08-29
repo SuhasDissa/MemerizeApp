@@ -180,7 +180,7 @@ fun VideoView(
             PlayerController(player, onDownload = {
                 playerViewModel.downloadVideo(
                     context,
-                    meme.url
+                    meme
                 )
             }, playerViewModel)
         }

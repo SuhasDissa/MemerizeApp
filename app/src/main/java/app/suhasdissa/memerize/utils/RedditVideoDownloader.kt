@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 8/7/23, 6:30 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.utils
 
 import android.annotation.SuppressLint
@@ -48,7 +41,11 @@ class RedditVideoDownloader {
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("Recycle")
-    suspend fun downloadRedditVideo(context: Context, url: String): Boolean {
+    suspend fun downloadRedditVideo(
+        context: Context,
+        url: String,
+        outputFileName: String
+    ): Boolean {
         val urlS = getRedditUrls(url) ?: return false
         val redditUrl = Regex("https?://v\\.redd\\.it/\\S+/").find(url)?.value ?: return false
 
@@ -62,7 +59,7 @@ class RedditVideoDownloader {
             val videofilePath = result.getOrNull(0)?.uri?.path ?: return@withContext false
             val audioFIlePath = result.getOrNull(1)?.uri?.path
 
-            val outputFile = getOutputFile(context)
+            val outputFile = getOutputFile(outputFileName, context) ?: return@withContext false
             val pfd = context.contentResolver.openFileDescriptor(outputFile.uri, "w")
             muxVideoAndAudio(videofilePath, audioFIlePath, pfd!!)
         }
@@ -201,7 +198,7 @@ class RedditVideoDownloader {
         return selectedVideo to selectedAudio
     }
 
-    private suspend fun getOutputFile(context: Context): DocumentFile {
+    private suspend fun getOutputFile(fileName: String, context: Context): DocumentFile? {
         return withContext(Dispatchers.IO) {
             val prefDir =
                 context.preferences.getString(SaveDirectoryKey, null)
@@ -218,7 +215,7 @@ class RedditVideoDownloader {
                 else -> DocumentFile.fromTreeUri(context, Uri.parse(prefDir))!!
             }
 
-            saveDir.createFile("video/mp4", "${UUID.randomUUID()}.mp4")!!
+            saveDir.createFile("video/mp4", fileName)
         }
     }
 
