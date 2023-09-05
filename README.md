@@ -1,3 +1,5 @@
+[日本語](README.ja-JP.md)
+
 <div align="center">
   <img width="150" src="/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="App icon">
   <h1 align="center">Memerize</h1>
