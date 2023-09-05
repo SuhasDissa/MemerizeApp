@@ -1,9 +1,9 @@
-[日本語](README.ja-JP.md)
+[English](README.md)
 
 <div align="center">
   <img width="150" src="/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="App icon">
   <h1 align="center">Memerize</h1>
-  <b>Memerize</b> is a handy meme viewer app for Reddit and Lemmy
+  <b>Memerize</b>はRedditとLemmy用の便利なミーム閲覧アプリです
 </div>
 <br>
 
@@ -19,7 +19,7 @@
 ---
 
 <details>
-  <summary>  Screenshots</summary>
+  <summary>  スクリーンショット</summary>
 <p align="center">
   <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="30%" />
   <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="30%" />
@@ -31,20 +31,20 @@
 </p>
 </details>
 
-## Features
-- Material you dynamic theme with dark mode support
-- Add/Remove subreddits and lemmy communities as you like
-- Support catching memes for offline browsing.
-- Sort Top memes by time period (Today, This Week, This Month)
-- Supports sharing memes from the app
-- Allows custom download location
+## 特徴
+- ダークモードをサポートしたMaterial you dynamic theme
+- Subredditsやlemmyコミュニティを自由に追加/削除できます
+- オフライン閲覧のためのミームキャッチをサポート。
+- 人気のミームを期間ごとに並べ替えます（今日、今週、今月）
+- アプリからのミームの共有をサポート
+- ダウンロード場所のカスタマイズが可能
 
-## Installation
+## インストール
 
 [<img src="https://github.com/machiav3lli/oandbackupx/blob/034b226cea5c1b30eb4f6a6f313e4dadcbb0ece4/badge_github.png"
     alt="Get it on GitHub"
     height="80">](https://github.com/SuhasDissa/MemerizeApp/releases/latest)
 
-## Useful Links
+## 役立つリンク
 <a href="https://trello.com/b/CNVfaAYD/memerize-app"><img src="https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white" height="40"></a>
 <a href="https://crowdin.com/project/memerize"><img src="https://img.shields.io/badge/Crowdin_Translate-%232E3340.svg?style=for-the-badge&logo=Crowdin&logoColor=white" height="40"></a>

@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name" translatable="false">Memerize</string>
+    <string name="loading_failed">読み込みに失敗しました</string>
+    <string name="meme_photo">ミーム写真</string>
+    <string name="reddit_today_btn">今日</string>
+    <string name="reddit_week_btn">今週</string>
+    <string name="reddit_month_btn">今月</string>
+    <string name="play_video_hint">動画を再生</string>
+    <string name="settings_title">設定</string>
+    <string name="readme">README</string>
+    <string name="check_repo_and_readme">リポジトリとREADMEを確認してください</string>
+    <string name="latest_release">最新のリリース</string>
+    <string name="current_version">現在のバージョン</string>
+    <string name="github_issue">Github Issue</string>
+    <string name="github_issue_description">バグレポートや機能リクエストを送信</string>
+    <string name="home">ホーム</string>
+    <string name="subreddits">Subreddits</string>
+    <string name="pause">一時停止</string>
+    <string name="play">再生</string>
+    <string name="lemmy_communities">レミーコミュニティ</string>
+    <string name="change_image_cache_size">画像キャッシュサイズの変更</string>
+    <string name="ok">OK</string>
+    <string name="no_memes_here">ここにはミームはありません</string>
+    <string name="add_new_community">新しいコミュニティを追加する</string>
+    <string name="open_navigation_drawer">ナビゲーションドロワーを開く</string>
+    <string name="remove_subreddit">subredditを削除する</string>
+    <string name="add_new_redditcommunity">新しいRedditコミュニティを追加</string>
+    <string name="save">Save</string>
+    <string name="cancel">キャンセル</string>
+    <string name="instance_url">インスタンスURL</string>
+    <string name="community_name">コミュニティ名</string>
+    <string name="failed_to_fetch_community_info">コミュニティ情報の取得に失敗しました</string>
+    <string name="multi_reddit_feed">マルチ Reddit フィード</string>
+    <string name="add_new_subreddit">新しいsubredditを追加する</string>
+    <string name="remove_community">コミュニティを削除する</string>
+    <string name="subreddit_name_from_url">URLからサブレディット名を取得</string>
+    <string name="failed_to_fetch_subreddit_info">subreddit情報の取得に失敗しました</string>
+    <string name="filter_by_time">時間による絞り込み</string>
+    <string name="error_loading_online_memes">オンラインミームの読み込みエラー</string>
+    <string name="show_offline_memes">オフラインでミームを表示</string>
+    <string name="reddit" translatable="false">Reddit</string>
+    <string name="download_photo">写真をダウンロード</string>
+    <string name="share_photo">写真を共有</string>
+    <string name="download_video">動画をダウンロード</string>
+    <string name="share_video">動画を共有</string>
+    <string name="mute_sound">消音</string>
+    <string name="un_mute_sound">消音を解除</string>
+    <string name="turn_off_repeat">リピートをオフにする</string>
+    <string name="turn_on_repeat">リピートをオンにする</string>
+    <string name="about">詳細</string>
+    <string name="settings">設定</string>
+    <string name="download_location">ダウンロード場所</string>
+    <string name="select_meme_download_location">ミームのダウンロード場所を選択してください</string>
+    <string name="image_cache_limit">画像キャッシュの制限</string>
+    <string name="set_image_cache_limit">画像キャッシュの制限を設定する</string>
+    <string name="developer_contact">開発者の連絡先</string>
+    <string name="lemmy" translatable="false">Lemmy</string>
+    <string name="hot">ホット</string>
+    <string name="rising">上昇</string>
+    <string name="sort_new">新しい</string>
+    <string name="top">トップ</string>
+    <string name="sort_by">並べ替え</string>
+    <string name="open_post">オープンポスト</string>
+    <string name="show_more_options">さらにオプションを表示</string>
+</resources>
