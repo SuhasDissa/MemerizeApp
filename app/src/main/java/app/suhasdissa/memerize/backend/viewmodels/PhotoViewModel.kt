@@ -69,13 +69,17 @@ class PhotoViewModel : ViewModel() {
             val outputFile =
                 saveDir.createFile(
                     "image/jpg",
-                    "${meme.title.take(64)}-${UUID.randomUUID().toString().take(8)}"
+                    "${meme.title.take(64)}-${
+                        UUID.randomUUID().toString().take(8)
+                    }.jpg".replace("[\\\\/:*?\"<>|]".toRegex(), "")
                 )
             if (outputFile == null) {
                 withContext(Dispatchers.Main) {
                     downloadState = DownloadState.Error
                 }
-                Toast.makeText(context, "Failed to create file", Toast.LENGTH_LONG).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Failed to create file", Toast.LENGTH_LONG).show()
+                }
                 return@launch
             }
             if (bitmap != null) {

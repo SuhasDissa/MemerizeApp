@@ -22,7 +22,9 @@ class PlayerViewModel() : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun downloadVideo(context: Context, meme: Meme) {
-        val fileName = "${meme.title.take(64)}-${UUID.randomUUID().toString().take(8)}"
+        val fileName = "${meme.title.take(64)}-${
+            UUID.randomUUID().toString().take(8)
+        }".replace("[\\\\/:*?\"<>|]".toRegex(), "")
         viewModelScope.launch {
             downloadState = DownloadState.Loading
             val downloader = RedditVideoDownloader()
