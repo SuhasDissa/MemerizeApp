@@ -12,8 +12,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.media3.common.Player
 import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.utils.RedditVideoDownloader
-import kotlinx.coroutines.launch
 import java.util.UUID
+import kotlinx.coroutines.launch
 
 class PlayerViewModel() : ViewModel() {
     var downloadState: DownloadState by mutableStateOf(DownloadState.NotStarted)
@@ -22,7 +22,7 @@ class PlayerViewModel() : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun downloadVideo(context: Context, meme: Meme) {
-        val fileName = "${meme.title}-${UUID.randomUUID().toString().take(8)}"
+        val fileName = "${meme.title.take(64)}-${UUID.randomUUID().toString().take(8)}"
         viewModelScope.launch {
             downloadState = DownloadState.Loading
             val downloader = RedditVideoDownloader()

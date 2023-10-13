@@ -223,7 +223,7 @@ class RedditVideoDownloader {
         return withContext(Dispatchers.IO) {
             val saveDir = DocumentFile.fromFile(context.cacheDir)
 
-            saveDir.createFile("video/mp4", "${UUID.randomUUID()}.mp4")!!
+            saveDir.createFile("video/mp4", "${UUID.randomUUID()}")!!
         }
     }
 }

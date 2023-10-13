@@ -22,12 +22,12 @@ import app.suhasdissa.memerize.utils.preferences
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class PhotoViewModel : ViewModel() {
 
@@ -69,7 +69,7 @@ class PhotoViewModel : ViewModel() {
             val outputFile =
                 saveDir.createFile(
                     "image/jpg",
-                    "${meme.title}-${UUID.randomUUID().toString().take(8)}"
+                    "${meme.title.take(64)}-${UUID.randomUUID().toString().take(8)}"
                 )
             if (outputFile == null) {
                 withContext(Dispatchers.Main) {
