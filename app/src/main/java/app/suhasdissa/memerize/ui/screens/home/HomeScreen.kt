@@ -1,10 +1,3 @@
-/*******************************************************************************
-Created By Suhas Dissanayake on 7/30/23, 1:20 PM
-Copyright (c) 2023
-https://github.com/SuhasDissa/
-All Rights Reserved
- ******************************************************************************/
-
 package app.suhasdissa.memerize.ui.screens.home
 
 import androidx.activity.ComponentActivity
@@ -96,53 +89,57 @@ fun HomeScreen(
         LazyColumn(
             Modifier.fillMaxSize().padding(horizontal = 8.dp).padding(paddingValues)
         ) {
-            item {
-                Text(
-                    stringResource(R.string.subreddits),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-            items(items = subreddits) {
-                HighlightCard(
-                    onClick = {
-                        if (selectedSubreddits.isNotEmpty()) {
+            if (subreddits.isNotEmpty()) {
+                item {
+                    Text(
+                        stringResource(R.string.subreddits),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+                items(items = subreddits) {
+                    HighlightCard(
+                        onClick = {
+                            if (selectedSubreddits.isNotEmpty()) {
+                                if (selectedSubreddits.contains(it)) {
+                                    selectedSubreddits.remove(it)
+                                } else {
+                                    selectedSubreddits.add(it)
+                                }
+                            } else {
+                                redditViewModel.getMemePhotos(it)
+                                onNavigate(Destination.RedditMemeView)
+                            }
+                        },
+                        name = it.name,
+                        thumbnail_url = it.iconUrl,
+                        onLongClick = {
                             if (selectedSubreddits.contains(it)) {
                                 selectedSubreddits.remove(it)
                             } else {
                                 selectedSubreddits.add(it)
                             }
-                        } else {
-                            redditViewModel.getMemePhotos(it)
-                            onNavigate(Destination.RedditMemeView)
-                        }
-                    },
-                    name = it.name,
-                    thumbnail_url = it.iconUrl,
-                    onLongClick = {
-                        if (selectedSubreddits.contains(it)) {
-                            selectedSubreddits.remove(it)
-                        } else {
-                            selectedSubreddits.add(it)
-                        }
-                    },
-                    highlighted = selectedSubreddits.contains(it)
-                )
+                        },
+                        highlighted = selectedSubreddits.contains(it)
+                    )
+                }
             }
-            item {
-                Text(
-                    stringResource(R.string.lemmy_communities),
-                    style = MaterialTheme.typography.titleLarge
-                )
-            }
-            items(items = communities) {
-                HighlightCard(
-                    onClick = {
-                        lemmyViewModel.getMemePhotos(it)
-                        onNavigate(Destination.LemmyMemeView)
-                    },
-                    name = it.name,
-                    thumbnail_url = it.iconUrl
-                )
+            if (communities.isNotEmpty()) {
+                item {
+                    Text(
+                        stringResource(R.string.lemmy_communities),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+                items(items = communities) {
+                    HighlightCard(
+                        onClick = {
+                            lemmyViewModel.getMemePhotos(it)
+                            onNavigate(Destination.LemmyMemeView)
+                        },
+                        name = it.name,
+                        thumbnail_url = it.iconUrl
+                    )
+                }
             }
         }
     }
