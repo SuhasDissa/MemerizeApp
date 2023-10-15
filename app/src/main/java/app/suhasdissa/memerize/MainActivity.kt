@@ -16,6 +16,9 @@ import app.suhasdissa.memerize.ui.theme.MemerizeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, decorFitsSystemWindows: false)
+        
         setContent {
             MemerizeTheme {
                 MemerizeApp()
