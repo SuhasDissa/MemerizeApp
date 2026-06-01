@@ -42,12 +42,12 @@ object UpdateUtil {
             context.packageManager.getPackageInfo(
                 context.packageName,
                 PackageManager.PackageInfoFlags.of(0)
-            ).versionName.toFloat()
+            ).versionName?.toFloat() ?: 0f
         } else {
             context.packageManager.getPackageInfo(
                 context.packageName,
                 0
-            ).versionName.toFloat()
+            ).versionName?.toFloat() ?: 0f
         }
     }
 

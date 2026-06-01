@@ -13,11 +13,14 @@ import app.suhasdissa.memerize.utils.UpdateUtil
 import app.suhasdissa.memerize.utils.defaultImageCacheSize
 import app.suhasdissa.memerize.utils.imageCacheKey
 import app.suhasdissa.memerize.utils.preferences
-import coil.ImageLoader
-import coil.ImageLoaderFactory
-import coil.disk.DiskCache
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.request.crossfade
+import okio.Path.Companion.toOkioPath
 
-class MemerizeApplication : Application(), ImageLoaderFactory {
+class MemerizeApplication : Application(), SingletonImageLoader.Factory {
     private val database by lazy { MemeDatabase.getDatabase(this) }
     lateinit var container: AppContainer
 
@@ -27,13 +30,12 @@ class MemerizeApplication : Application(), ImageLoaderFactory {
         UpdateUtil.getCurrentVersion(this.applicationContext)
     }
 
-    override fun newImageLoader(): ImageLoader {
-        return ImageLoader.Builder(this)
+    override fun newImageLoader(context: PlatformContext): ImageLoader {
+        return ImageLoader.Builder(context)
             .crossfade(true)
-            .respectCacheHeaders(false)
             .diskCache(
                 DiskCache.Builder()
-                    .directory(cacheDir.resolve("image_cache"))
+                    .directory(cacheDir.resolve("image_cache").toOkioPath())
                     .maxSizeBytes(
                         preferences.getInt(imageCacheKey, defaultImageCacheSize) * 1024 * 1024L
                     )

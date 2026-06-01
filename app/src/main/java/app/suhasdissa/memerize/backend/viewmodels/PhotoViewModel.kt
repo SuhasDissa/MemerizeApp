@@ -11,7 +11,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.toBitmap
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,9 +18,10 @@ import app.suhasdissa.memerize.BuildConfig
 import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.utils.SaveDirectoryKey
 import app.suhasdissa.memerize.utils.preferences
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
+import coil3.ImageLoader
+import coil3.request.ImageRequest
+import coil3.request.SuccessResult
+import coil3.toBitmap
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
@@ -41,7 +41,7 @@ class PhotoViewModel : ViewModel() {
         val result = imageLoader.execute(request)
 
         if (result is SuccessResult) {
-            return result.drawable.toBitmap()
+            return result.image.toBitmap()
         }
         return null
     }

@@ -46,8 +46,9 @@ import app.suhasdissa.memerize.ui.components.LoadingScreen
 import app.suhasdissa.memerize.ui.components.MemeGrid
 import app.suhasdissa.memerize.ui.components.RetryScreen
 import app.suhasdissa.memerize.ui.components.SortBottomSheet
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

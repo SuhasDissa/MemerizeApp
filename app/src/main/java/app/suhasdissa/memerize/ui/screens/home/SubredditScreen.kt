@@ -56,7 +56,7 @@ import app.suhasdissa.memerize.R
 import app.suhasdissa.memerize.backend.viewmodels.RedditCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import app.suhasdissa.memerize.ui.components.SubredditCardCompact
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

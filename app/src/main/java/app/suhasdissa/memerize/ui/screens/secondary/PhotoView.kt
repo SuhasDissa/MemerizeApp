@@ -48,7 +48,7 @@ import app.suhasdissa.memerize.backend.database.entity.Meme
 import app.suhasdissa.memerize.backend.viewmodels.DownloadState
 import app.suhasdissa.memerize.backend.viewmodels.PhotoViewModel
 import app.suhasdissa.memerize.utils.openBrowser
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import java.lang.Float.max
 
 @OptIn(ExperimentalMaterial3Api::class)

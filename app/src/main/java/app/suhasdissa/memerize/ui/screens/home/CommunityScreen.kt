@@ -57,7 +57,7 @@ import app.suhasdissa.memerize.backend.database.entity.LemmyCommunity
 import app.suhasdissa.memerize.backend.viewmodels.LemmyCommunityViewModel
 import app.suhasdissa.memerize.backend.viewmodels.state.AboutCommunityState
 import app.suhasdissa.memerize.ui.components.SubredditCardCompact
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
