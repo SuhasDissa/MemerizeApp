@@ -8,6 +8,7 @@ All Rights Reserved
 package app.suhasdissa.memerize
 
 import android.app.Application
+import app.suhasdissa.memerize.backend.RedditAuth
 import app.suhasdissa.memerize.backend.database.MemeDatabase
 import app.suhasdissa.memerize.utils.UpdateUtil
 import app.suhasdissa.memerize.utils.defaultImageCacheSize
@@ -26,8 +27,9 @@ class MemerizeApplication : Application(), SingletonImageLoader.Factory {
 
     override fun onCreate() {
         super.onCreate()
-        container = DefaultAppContainer(database)
-        UpdateUtil.getCurrentVersion(this.applicationContext)
+        RedditAuth.initialize(applicationContext)
+        container = DefaultAppContainer(database, applicationContext)
+        UpdateUtil.getCurrentVersion(applicationContext)
     }
 
     override fun newImageLoader(context: PlatformContext): ImageLoader {
