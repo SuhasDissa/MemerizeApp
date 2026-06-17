@@ -26,10 +26,11 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = file("../key.jks")
-            storePassword = "lolcat"
-            keyAlias = "key0"
-            keyPassword = "lolcat"
+            val keystorePath = System.getenv("SIGNING_KEYSTORE_PATH") ?: "../key.jks"
+            storeFile = file(keystorePath)
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS") ?: "key0"
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
         }
     }
     buildTypes {
