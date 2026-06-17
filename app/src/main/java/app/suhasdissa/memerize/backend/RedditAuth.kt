@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 private const val REDDIT_COOKIE_KEY = "reddit_session_cookie"
+private const val REDDIT_AUTH_SKIPPED_KEY = "reddit_auth_skipped"
 
 object RedditAuth {
     private var _cookie: String? = null
@@ -16,7 +17,13 @@ object RedditAuth {
 
     fun initialize(context: Context) {
         _cookie = context.preferences.getString(REDDIT_COOKIE_KEY, null)
-        _isAuthenticated.value = _cookie != null
+        val skipped = context.preferences.getBoolean(REDDIT_AUTH_SKIPPED_KEY, false)
+        _isAuthenticated.value = _cookie != null || skipped
+    }
+
+    fun skipAuth(context: Context) {
+        _isAuthenticated.value = true
+        context.preferences.edit { putBoolean(REDDIT_AUTH_SKIPPED_KEY, true) }
     }
 
     fun getCookie(): String? = _cookie

@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.navigation.compose.rememberNavController
 import app.suhasdissa.memerize.AppNavHost
@@ -40,12 +41,16 @@ fun MemerizeApp() {
     when (isAuthenticated) {
         null -> Unit
         false -> {
+            val context = LocalContext.current
             var showWebLogin by remember { mutableStateOf(false) }
             Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface) {
                 if (showWebLogin) {
                     RedditWebLoginScreen(onLoginSuccess = {})
                 } else {
-                    RedditLoginExplanationScreen(onContinue = { showWebLogin = true })
+                    RedditLoginExplanationScreen(
+                        onContinue = { showWebLogin = true },
+                        onSkip = { RedditAuth.skipAuth(context) }
+                    )
                 }
             }
         }

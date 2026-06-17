@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ private const val REDDIT_SCRAPER_POST_URL =
     "https://www.reddit.com/r/modnews/comments/1tq9vxo/protecting_communities_from_scrapers_and_platform/"
 
 @Composable
-fun RedditLoginExplanationScreen(onContinue: () -> Unit) {
+fun RedditLoginExplanationScreen(onContinue: () -> Unit, onSkip: () -> Unit) {
     val uriHandler = LocalUriHandler.current
     Column(
         modifier = Modifier
@@ -69,6 +70,10 @@ fun RedditLoginExplanationScreen(onContinue: () -> Unit) {
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = onContinue) {
             Text("Continue to Login")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        TextButton(onClick = onSkip) {
+            Text("Continue without login")
         }
     }
 }
