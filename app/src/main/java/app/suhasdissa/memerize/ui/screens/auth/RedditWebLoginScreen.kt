@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,7 +22,21 @@ fun RedditWebLoginScreen(onLoginSuccess: () -> Unit) {
     val context = LocalContext.current
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Log in to Reddit") })
+            TopAppBar(
+                title = { Text("Log in to Reddit") },
+                actions = {
+                    TextButton(onClick = {
+                        CookieManager.getInstance().flush()
+                        val cookies = CookieManager.getInstance()
+                            .getCookie("https://www.reddit.com")
+                        if (cookies != null && cookies.contains("reddit_session")) {
+                            RedditAuth.saveCookie(context.applicationContext, cookies)
+                        } else {
+                            RedditAuth.skipAuth(context.applicationContext)
+                        }
+                    }) { Text("Done") }
+                }
+            )
         }
     ) { innerPadding ->
         AndroidView(
@@ -29,19 +44,16 @@ fun RedditWebLoginScreen(onLoginSuccess: () -> Unit) {
                 WebView(ctx).apply {
                     settings.javaScriptEnabled = true
                     settings.domStorageEnabled = true
+                    CookieManager.getInstance().setAcceptCookie(true)
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
                     webViewClient = object : WebViewClient() {
                         override fun onPageFinished(view: WebView, url: String?) {
-                            if (url == null) return
-                            val isLoginPage = url.contains("reddit.com/login") ||
-                                url.contains("reddit.com/register") ||
-                                url.contains("reddit.com/account/register")
-                            if (!isLoginPage) {
-                                val cookies = CookieManager.getInstance()
-                                    .getCookie("https://www.reddit.com")
-                                if (cookies != null && cookies.contains("reddit_session")) {
-                                    RedditAuth.saveCookie(context.applicationContext, cookies)
-                                    onLoginSuccess()
-                                }
+                            CookieManager.getInstance().flush()
+                            val cookies = CookieManager.getInstance()
+                                .getCookie("https://www.reddit.com")
+                            if (cookies != null && cookies.contains("reddit_session")) {
+                                RedditAuth.saveCookie(context.applicationContext, cookies)
+                                onLoginSuccess()
                             }
                         }
                     }
