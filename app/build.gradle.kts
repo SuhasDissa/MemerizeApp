@@ -13,8 +13,8 @@ android {
         applicationId = "app.suhasdissa.memerize"
         minSdk = 24
         targetSdk = 36
-        versionCode = 24
-        versionName = "2.4"
+        versionCode = 25
+        versionName = "2.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,8 +26,8 @@ android {
     }
     signingConfigs {
         create("release") {
-            val keystorePath = System.getenv("SIGNING_KEYSTORE_PATH") ?: "../key.jks"
-            storeFile = file(keystorePath)
+            val keystorePath = System.getenv("SIGNING_KEYSTORE_PATH") ?: "key.jks"
+            storeFile = rootProject.file(keystorePath)
             storePassword = System.getenv("SIGNING_STORE_PASSWORD")
             keyAlias = System.getenv("SIGNING_KEY_ALIAS") ?: "key0"
             keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
